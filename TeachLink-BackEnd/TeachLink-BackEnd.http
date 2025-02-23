@@ -1,0 +1,6 @@
+@TeachLink_BackEnd_HostAddress = http://localhost:5204
+
+GET {{TeachLink_BackEnd_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
