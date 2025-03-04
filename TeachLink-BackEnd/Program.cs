@@ -3,19 +3,18 @@
 builder.Services.AddOpenApi();
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddAuthorization();
-builder.Services.AddSignalR();
+builder.Services.AddSwaggerGen();
 
-var url = " ";
-var key = " ";
-
-if (string.IsNullOrEmpty(url) || string.IsNullOrEmpty(key))
+var supabaseUrl = builder.Configuration["Supabase:SupabaseUrl"];
+var supabaseKey = builder.Configuration["Supabase:SupabaseKey"];
+if (string.IsNullOrEmpty(supabaseUrl) || string.IsNullOrEmpty(supabaseKey))
 {
     throw new InvalidOperationException("Supabase URL или KEY не настроены в конфигурации.");
 }
 
 var supabase = new Supabase.Client(
-    url,
-    key,
+    supabaseUrl,
+    supabaseKey,
     new Supabase.SupabaseOptions { AutoConnectRealtime = true }
 );
 
@@ -26,6 +25,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
