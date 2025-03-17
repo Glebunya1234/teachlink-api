@@ -1,0 +1,18 @@
+﻿public record TeacherTileDTO
+{
+    public required int id { get; init; }
+    public string full_name { get; init; }
+    public string mini_description { get; init; }
+    public SchoolSubjectListDTO school_subjects { get; init; }
+    public ExperienceDTO experience { get; init; }
+    public string educational_institution { get; init; }
+    public bool online { get; init; }
+    public int price { get; init; }
+    public bool show_info { get; init; }
+    public string city { get; init; }
+    public int age { get; init; }
+
+    public required DateTime createdAt { get; init; }
+
+    public required DateTime updatedAt { get; init; }
+}
