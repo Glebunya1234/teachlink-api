@@ -7,7 +7,7 @@ namespace TeachLink_BackEnd.Core.Models
     public abstract class BaseEntityModel : BaseModel
     {
         [PrimaryKey("id")]
-        public int id { get; set; }
+        public Guid id { get; set; }
 
         [PrimaryKey("createdAt")]
         public DateTime createdAt { get; set; }

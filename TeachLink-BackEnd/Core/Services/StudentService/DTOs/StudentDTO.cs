@@ -1,6 +1,6 @@
 ﻿public record StudentDTO
 {
-    public required int id { get; init; }
+    public required Guid id { get; init; }
     public string full_name { get; init; }
     public string city { get; init; }
     public int age { get; init; }

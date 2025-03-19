@@ -1,6 +1,6 @@
 ﻿public record CreateReviewDTO
 {
-    public required int id { get; init; }
+    public required Guid id { get; init; }
 
     public required string reviews_text { get; init; }
 

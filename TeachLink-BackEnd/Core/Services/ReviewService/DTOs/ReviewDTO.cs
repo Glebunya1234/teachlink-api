@@ -1,6 +1,6 @@
 ﻿public record ReviewDTO
 {
-    public required int id { get; init; }
+    public required Guid id { get; init; }
 
     public required IdTeacherDTO id_teachers { get; init; }
 

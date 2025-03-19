@@ -1,6 +1,6 @@
 ﻿public record TeacherTileDTO
 {
-    public required int id { get; init; }
+    public required Guid id { get; init; }
     public string full_name { get; init; }
     public string mini_description { get; init; }
     public SchoolSubjectListDTO school_subjects { get; init; }

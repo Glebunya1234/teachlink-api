@@ -2,7 +2,7 @@
 
 public record FullTeacherTileDTO
 {
-    public required int id { get; init; }
+    public required Guid id { get; init; }
     public string full_name { get; init; }
     public string description { get; init; }
     public string mini_description { get; init; }
