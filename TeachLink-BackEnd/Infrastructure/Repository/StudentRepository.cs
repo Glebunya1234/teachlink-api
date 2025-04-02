@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
-using Supabase;
+using MongoDB.Driver;
 using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
 using TeachLink_BackEnd.Infrastructure.Services;
@@ -13,22 +13,24 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
 
         public async Task Create(StudentsModelMDB student)
         {
-            throw new NotImplementedException();
+            await _collection.InsertOneAsync(student);
         }
 
         public async Task<IEnumerable<StudentsModelMDB>> GetAll(int offset, int limit)
         {
-            throw new NotImplementedException();
+            return await _collection.Find(_ => true).Skip(offset).Limit(limit).ToListAsync();
         }
 
         public async Task<StudentsModelMDB?> GetById(string id)
         {
-            throw new NotImplementedException();
+            return await _collection.Find(s => s.id == id).FirstOrDefaultAsync();
         }
 
         public async Task UpdateById(string id, StudentsModelMDB student)
         {
-            throw new NotImplementedException();
+            var res = await _collection.ReplaceOneAsync(s => s.id == id, student);
+            if (res.ModifiedCount == 0)
+                throw new NotImplementedException();
         }
     }
 }
