@@ -5,7 +5,7 @@ using TeachLink_BackEnd.Infrastructure.Services;
 namespace TeachLink_BackEnd.Infrastructure.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/")]
     public class DegreesController : ControllerBase
     {
         private readonly DegreeService _degreeService;
@@ -15,7 +15,7 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             _degreeService = degreeService;
         }
 
-        [HttpGet("/degrees")]
+        [HttpGet("degrees")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<DegreeDTO>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -26,12 +26,12 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             return Ok(degreeDTO);
         }
 
-        [HttpGet("/degree/{id}")]
+        [HttpGet("degree/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DegreeDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(string id)
         {
             var degreeDTO = await _degreeService.GetById(id);
 

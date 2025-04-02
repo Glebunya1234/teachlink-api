@@ -1,5 +1,6 @@
 ﻿using Microsoft.OpenApi.Models;
 using TeachLink_BackEnd.Core.Repositories;
+using TeachLink_BackEnd.Core.Services.StudentService;
 using TeachLink_BackEnd.Core.Services.TeacherService;
 using TeachLink_BackEnd.Infrastructure;
 using TeachLink_BackEnd.Infrastructure.Services;
@@ -40,8 +41,29 @@ builder.Services.AddSwaggerGen(options =>
         }
     );
 });
+
+builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection(nameof(MongoSettings)));
 builder.Services.AddSingleton<SupabaseClientFactory>();
 builder.Services.AddJwtAuthentication(builder.Configuration);
+
+builder.Services.AddScoped<AnnouncementService>();
+builder.Services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
+
+builder.Services.AddScoped<DegreeService>();
+builder.Services.AddScoped<IDegreeRepository, DegreeRepository>();
+
+builder.Services.AddScoped<ExperienceService>();
+builder.Services.AddScoped<IExperienceRepository, ExperienceRepository>();
+
+builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+
+builder.Services.AddScoped<ReviewsService>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+
+builder.Services.AddScoped<StudentsService>();
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+
 builder.Services.AddScoped<TeachersService>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 

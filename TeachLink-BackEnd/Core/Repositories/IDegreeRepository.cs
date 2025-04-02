@@ -1,11 +1,10 @@
-﻿using TeachLink_BackEnd.Core.Entities;
-using TeachLink_BackEnd.Core.Models;
+﻿using TeachLink_BackEnd.Core.ModelsMDB;
 
 namespace TeachLink_BackEnd.Core.Repositories
 {
     public interface IDegreeRepository
     {
-        public Task<IEnumerable<DegreeModel>> GetAll();
-        public Task<DegreeModel> GetById(int Id);
+        public Task<IEnumerable<DegreeModelMDB>> GetAll();
+        public Task<DegreeModelMDB> GetById(string Id);
     }
 }

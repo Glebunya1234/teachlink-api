@@ -22,12 +22,12 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
             throw new NotImplementedException();
         }
 
-        public async Task<StudentDTO?> GetById(int id)
+        public async Task<StudentDTO?> GetById(string id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task Update(int id, UpdateStudentDTO student)
+        public async Task Update(string id, UpdateStudentDTO student)
         {
             throw new NotImplementedException();
         }

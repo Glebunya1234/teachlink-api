@@ -1,19 +1,17 @@
-﻿using TeachLink_BackEnd.Core.Models;
-
-public record UpdateTeacherDTO
+﻿public record UpdateTeacherDTO
 {
     public string full_name { get; init; }
     public string description { get; init; }
     public string mini_description { get; init; }
-    public SchoolSubjectListDTO school_subjects { get; init; }
-    public ExperienceDTO experience { get; init; }
-    public DegreeDTO degree { get; init; }
+    public IEnumerable<SchoolSubjectDTO>? school_subjects { get; init; }
+    public int experience { get; init; }
+    public int degree { get; init; }
     public string educational_institution { get; init; }
-    public int year_of_end { get; init; }
+    public int year_of_end { get; init; } = 0;
     public string city { get; init; }
-    public int age { get; init; }
+    public int age { get; init; } = 18;
     public string sex { get; init; }
     public bool online { get; init; }
     public bool show_info { get; init; }
-    public int price { get; init; }
+    public int price { get; init; } = 100;
 }

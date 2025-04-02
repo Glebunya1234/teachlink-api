@@ -2,13 +2,13 @@
 
 public record CreateTeacherDTO
 {
-    public required Guid id { get; init; }
+    public required string id { get; init; }
     public string full_name { get; init; }
     public string description { get; init; }
     public string mini_description { get; init; }
-    public SchoolSubjectListDTO school_subjects { get; init; }
-    public ExperienceDTO experience { get; init; }
-    public DegreeDTO degree { get; init; }
+    public IEnumerable<SchoolSubjectDTO> school_subjects { get; init; }
+    public int experience { get; init; }
+    public int degree { get; init; }
     public string educational_institution { get; init; }
     public int year_of_end { get; init; }
     public string city { get; init; }

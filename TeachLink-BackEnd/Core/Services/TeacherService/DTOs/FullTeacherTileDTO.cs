@@ -6,7 +6,7 @@ public record FullTeacherTileDTO
     public string full_name { get; init; }
     public string description { get; init; }
     public string mini_description { get; init; }
-    public SchoolSubjectListDTO school_subjects { get; init; }
+    public IEnumerable<SchoolSubjectDTO> school_subjects { get; init; }
     public ExperienceDTO experience { get; init; }
     public DegreeDTO degree { get; init; }
     public string educational_institution { get; init; }
@@ -18,7 +18,7 @@ public record FullTeacherTileDTO
     public required bool show_info { get; init; }
     public int price { get; init; }
 
-    public required DateTime createdAt { get; init; }
+    //public required DateTime createdAt { get; init; }
 
-    public required DateTime updatedAt { get; init; }
+    //public required DateTime updatedAt { get; init; }
 }

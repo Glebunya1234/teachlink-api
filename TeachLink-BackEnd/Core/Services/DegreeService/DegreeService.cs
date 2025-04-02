@@ -17,7 +17,7 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
             throw new NotImplementedException();
         }
 
-        public async Task<DegreeDTO?> GetById(int id)
+        public async Task<DegreeDTO?> GetById(string id)
         {
             throw new NotImplementedException();
         }

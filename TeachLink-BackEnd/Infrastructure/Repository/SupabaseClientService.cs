@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace TeachLink_BackEnd.Infrastructure.Services
+﻿namespace TeachLink_BackEnd.Infrastructure.Services
 {
     public class SupabaseClientFactory
     {

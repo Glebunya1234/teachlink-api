@@ -1,35 +1,35 @@
-﻿using Supabase;
-using TeachLink_BackEnd.Core.Models;
+﻿using Microsoft.Extensions.Options;
+using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
 using TeachLink_BackEnd.Infrastructure.Services;
 
 namespace TeachLink_BackEnd.Core.Services.TeacherService
 {
-    public class ReviewRepository : IReviewRepository
+    public class ReviewRepository : MongoService<ReviewsModelMDB>, IReviewRepository
     {
-        Client _supabase;
+        public ReviewRepository(IOptions<MongoSettings> options)
+            : base(options, options.Value.ReviewsCollectionName) { }
 
-        public ReviewRepository(SupabaseClientFactory supabaseClientFactory)
-        {
-            _supabase = supabaseClientFactory.CreateClient();
-        }
-
-        public async Task Create(int id_teacher, int id_student, ReviewsModel reviewsModel)
+        public async Task Create(ReviewsModelMDB reviewsModel)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<ReviewsModel>?> GetAll(int id_teacher, int offset, int limit)
+        public async Task<IEnumerable<ReviewsModelMDB>?> GetAll(
+            string id_teacher,
+            int offset,
+            int limit
+        )
         {
             throw new NotImplementedException();
         }
 
-        public async Task<ReviewsModel?> GetById(int id_teacher, int id_student)
+        public async Task<ReviewsModelMDB?> GetById(string id_teacher, string id_student)
         {
             throw new NotImplementedException();
         }
 
-        public async Task Update(int id_teacher, int id_student, ReviewsModel reviewModel)
+        public async Task Update(string id_teacher, string id_student, ReviewsModelMDB reviewModel)
         {
             throw new NotImplementedException();
         }

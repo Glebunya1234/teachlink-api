@@ -1,43 +1,84 @@
-﻿using Supabase;
+﻿using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using TeachLink_BackEnd.Core.Models;
+using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
 using TeachLink_BackEnd.Infrastructure.Services;
 
 namespace TeachLink_BackEnd.Core.Services.TeacherService
 {
-    public class TeacherRepository : ITeacherRepository
+    public class TeacherRepository : MongoService<TeachersModelMDB>, ITeacherRepository
     {
-        Client _supabase;
+        public TeacherRepository(IOptions<MongoSettings> options)
+            : base(options, options.Value.TeachersCollectionName) { }
 
-        public TeacherRepository(SupabaseClientFactory supabaseClientFactory)
+        public async Task Create(TeachersModelMDB teachersModel)
         {
-            _supabase = supabaseClientFactory.CreateClient();
+            //_collection.InsertOne(newTeacher);
+            throw new NotImplementedException();
         }
 
-        public async Task Create(TeachersModel teachersModel)
+        public async Task<TeachersModelMDB?> GetById(string id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<TeachersModel>?> GetAll(int offset, int limit)
+        public async Task UpdateById(string id, TeachersModelMDB teachersModel)
         {
             throw new NotImplementedException();
-            //var result = await _supabase.From<TeachersModel>().Get();
-
-            //return result.Models;
         }
 
-        public async Task<TeachersModel?> GetById(int id)
+        public async Task<IEnumerable<TeachersModelMDB>> GetAll(
+            int offset = 0,
+            int limit = 20,
+            SortByEnumMDB? sortBy = null,
+            string? subject = null,
+            bool? isOnline = null,
+            string? city = null,
+            int? minPrice = null,
+            int? maxPrice = null
+        )
         {
-            throw new NotImplementedException();
-            //var result = await _supabase.From<TeachersModel>().Where(x => x.id == id).Get();
+            var filterBuilder = Builders<TeachersModelMDB>.Filter;
+            var filter = filterBuilder.Empty;
 
-            //return result.Model;
-        }
+            if (!string.IsNullOrEmpty(subject))
+            {
+                filter &= filterBuilder.ElemMatch(
+                    t => t.school_subjects,
+                    s => s.Subject == subject
+                );
+            }
+            if (isOnline.HasValue)
+            {
+                filter &= filterBuilder.Eq(t => t.online, isOnline.Value);
+            }
+            if (!string.IsNullOrEmpty(city))
+            {
+                filter &= filterBuilder.Eq(t => t.city, city);
+            }
+            if (minPrice.HasValue)
+            {
+                filter &= filterBuilder.Gte(t => t.price, minPrice.Value);
+            }
+            if (maxPrice.HasValue)
+            {
+                filter &= filterBuilder.Lte(t => t.price, maxPrice.Value);
+            }
 
-        public async Task UpdateById(int id, TeachersModel teachersModel)
-        {
-            throw new NotImplementedException();
+            var sortDefinition = sortBy switch
+            {
+                SortByEnumMDB.PriceAsc => Builders<TeachersModelMDB>.Sort.Ascending(t => t.price),
+                SortByEnumMDB.PriceDesc => Builders<TeachersModelMDB>.Sort.Descending(t => t.price),
+                _ => Builders<TeachersModelMDB>.Sort.Ascending(t => t.full_name),
+            };
+
+            return await _collection
+                .Find(filter)
+                .Sort(sortDefinition)
+                .Skip(offset)
+                .Limit(limit)
+                .ToListAsync();
         }
     }
 }

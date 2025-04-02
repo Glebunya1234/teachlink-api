@@ -1,18 +1,29 @@
 ﻿using Supabase.Postgrest.Attributes;
 using Supabase.Postgrest.Models;
-using TeachLink_BackEnd.Core.Entities;
 
 namespace TeachLink_BackEnd.Core.Models
 {
     public abstract class BaseEntityModel : BaseModel
     {
         [PrimaryKey("id")]
-        public Guid id { get; set; }
+        public string id { get; set; } = Guid.NewGuid().ToString();
 
-        [PrimaryKey("createdAt")]
+        [Column("createdAt")]
         public DateTime createdAt { get; set; }
 
-        [PrimaryKey("updatedAt")]
+        [Column("updatedAt")]
+        public DateTime updatedAt { get; set; }
+    }
+
+    public abstract class BaseEntityInt : BaseModel
+    {
+        [PrimaryKey("id")]
+        public int id { get; set; }
+
+        [Column("createdAt")]
+        public DateTime createdAt { get; set; }
+
+        [Column("updatedAt")]
         public DateTime updatedAt { get; set; }
     }
 }

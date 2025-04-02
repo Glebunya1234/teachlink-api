@@ -6,7 +6,7 @@ using TeachLink_BackEnd.Infrastructure.Services;
 namespace TeachLink_BackEnd.Infrastructure.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/")]
     public class StudentsController : ControllerBase
     {
         private readonly StudentsService _studentsService;
@@ -16,7 +16,7 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             _studentsService = studentsService;
         }
 
-        [HttpGet("/students")]
+        [HttpGet("students")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<StudentDTO>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -27,19 +27,19 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             return Ok(studentListResponseDTO);
         }
 
-        [HttpGet("/student/{id}")]
+        [HttpGet("students/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StudentDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(string id)
         {
             var studentDTO = await _studentsService.GetById(id);
 
             return Ok(studentDTO);
         }
 
-        [HttpPost("/students")]
+        [HttpPost("students")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateTeacherDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -50,13 +50,13 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             return Ok();
         }
 
-        [HttpPatch("/students/{id}")]
+        [HttpPatch("students/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateStudentDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Update(
-            int id,
+            string id,
             [FromBody] UpdateStudentDTO updateStudentDTO
         )
         {

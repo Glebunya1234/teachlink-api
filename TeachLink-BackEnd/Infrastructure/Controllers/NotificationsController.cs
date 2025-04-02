@@ -1,0 +1,71 @@
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using TeachLink_BackEnd.Core.Services.StudentService;
+
+namespace TeachLink_BackEnd.Infrastructure.Controllers
+{
+    [ApiController]
+    [Route("api/")]
+    public class NotificationsController : ControllerBase
+    {
+        private readonly NotificationService _notificationService;
+
+        public NotificationsController(NotificationService notificationService)
+        {
+            _notificationService = notificationService;
+        }
+
+        [HttpGet("notifications")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<NotificationDTO>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetAll(string id_entity, bool for_teacher)
+        {
+            //var token = HttpContext
+            //    .Request.Headers["Authorization"]
+            //    .ToString()
+            //    .Replace("Bearer ", "");
+
+            //if (string.IsNullOrEmpty(token))
+            //{
+            //    return Unauthorized("Authorization token is missing.");
+            //}
+
+            var notificationDTO = await _notificationService.GetAll(
+                "token",
+                id_entity,
+                for_teacher
+            );
+            return Ok(notificationDTO);
+        }
+
+        [HttpPost("notifications")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateNotificationDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Create(
+            [FromBody] CreateNotificationDTO createNotificationDTO
+        )
+        {
+            await _notificationService.Create(createNotificationDTO);
+            return Created();
+        }
+
+        [HttpPatch("notifications/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateReviewDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Update(
+            string id,
+            [FromBody] UpdateNotificationDTO updateNotificationDTO
+        )
+        {
+            await _notificationService.Update("token", id, updateNotificationDTO);
+            return Ok();
+        }
+    }
+}

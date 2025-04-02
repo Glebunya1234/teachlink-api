@@ -1,25 +1,22 @@
-﻿using Supabase;
-using TeachLink_BackEnd.Core.Models;
+﻿using Microsoft.Extensions.Options;
+using Supabase;
+using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
 using TeachLink_BackEnd.Infrastructure.Services;
 
 namespace TeachLink_BackEnd.Core.Services.TeacherService
 {
-    public class DegreeRepository : IDegreeRepository
+    public class DegreeRepository : MongoService<DegreeModelMDB>, IDegreeRepository
     {
-        Client _supabase;
+        public DegreeRepository(IOptions<MongoSettings> options)
+            : base(options, options.Value.DegreesCollectionName) { }
 
-        public DegreeRepository(SupabaseClientFactory supabaseClientFactory)
-        {
-            _supabase = supabaseClientFactory.CreateClient();
-        }
-
-        public async Task<IEnumerable<DegreeModel>?> GetAll()
+        public async Task<IEnumerable<DegreeModelMDB>?> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<DegreeModel?> GetById(int id)
+        public async Task<DegreeModelMDB?> GetById(string id)
         {
             throw new NotImplementedException();
         }

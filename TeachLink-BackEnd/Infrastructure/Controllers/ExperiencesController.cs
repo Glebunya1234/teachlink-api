@@ -5,7 +5,7 @@ using TeachLink_BackEnd.Infrastructure.Services;
 namespace TeachLink_BackEnd.Infrastructure.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/")]
     public class ExperiencesController : ControllerBase
     {
         private readonly ExperienceService _experienceService;
@@ -15,7 +15,7 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             _experienceService = experienceService;
         }
 
-        [HttpGet("/experiences")]
+        [HttpGet("experiences")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ExperienceDTO>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -26,12 +26,12 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             return Ok(experienceDTO);
         }
 
-        [HttpGet("/experience/{id}")]
+        [HttpGet("experiences/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ExperienceDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(string id)
         {
             var experienceDTO = await _experienceService.GetById(id);
 

@@ -1,41 +1,34 @@
-﻿using Supabase;
-using TeachLink_BackEnd.Core.Models;
+﻿using Microsoft.Extensions.Options;
+using Supabase;
+using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
 using TeachLink_BackEnd.Infrastructure.Services;
 
 namespace TeachLink_BackEnd.Core.Services.TeacherService
 {
-    public class StudentRepository : IStudentRepository
+    public class StudentRepository : MongoService<StudentsModelMDB>, IStudentRepository
     {
-        private readonly Client _supabase;
+        public StudentRepository(IOptions<MongoSettings> options)
+            : base(options, options.Value.StudentsCollectionName) { }
 
-        public StudentRepository(SupabaseClientFactory supabaseClientFactory)
+        public async Task Create(StudentsModelMDB student)
         {
-            _supabase = supabaseClientFactory.CreateClient();
+            throw new NotImplementedException();
         }
 
-        public async Task Create(StudentsModel student)
+        public async Task<IEnumerable<StudentsModelMDB>> GetAll(int offset, int limit)
         {
-            await _supabase.From<StudentsModel>().Insert(student);
+            throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<StudentsModel>> GetAll(int offset, int limit)
+        public async Task<StudentsModelMDB?> GetById(string id)
         {
-            var result = await _supabase.From<StudentsModel>().Get();
-
-            return result.Models;
+            throw new NotImplementedException();
         }
 
-        public async Task<StudentsModel?> GetById(int id)
+        public async Task UpdateById(string id, StudentsModelMDB student)
         {
-            var result = await _supabase.From<StudentsModel>().Where(x => x.id == id).Get();
-
-            return result.Model;
-        }
-
-        public async Task UpdateById(StudentsModel student)
-        {
-            await _supabase.From<StudentsModel>().Update(student);
+            throw new NotImplementedException();
         }
     }
 }

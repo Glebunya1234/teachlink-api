@@ -12,22 +12,22 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
             _reviewRepository = reviewRepository;
         }
 
-        public async Task Create(int id_teacher, int id_student, CreateReviewDTO createReview)
+        public async Task Create(CreateReviewDTO createReview)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<ReviewDTO>> GetAll(int id_teacher, int offset, int limit)
+        public async Task<IEnumerable<ReviewDTO>> GetAll(string id_teacher, int offset, int limit)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<ReviewDTO?> GetById(int id_teacher, int id_student)
+        public async Task<ReviewDTO?> GetById(string id_teacher, string id_student)
         {
             throw new NotImplementedException();
         }
 
-        public async Task Update(int id_teacher, int id_student, UpdateReviewDTO reviewModel)
+        public async Task Update(string id_teacher, string id_student, UpdateReviewDTO review)
         {
             throw new NotImplementedException();
         }
