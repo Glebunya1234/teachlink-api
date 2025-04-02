@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
+using MongoDB.Driver;
+using TeachLink_BackEnd.Core.Models;
 using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
 using TeachLink_BackEnd.Infrastructure.Services;
@@ -12,7 +14,7 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
 
         public async Task Create(ReviewsModelMDB reviewsModel)
         {
-            throw new NotImplementedException();
+            await _collection.InsertOneAsync(reviewsModel);
         }
 
         public async Task<IEnumerable<ReviewsModelMDB>?> GetAll(
@@ -21,17 +23,28 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
             int limit
         )
         {
-            throw new NotImplementedException();
+            return await _collection
+                .Find(n => n.id_teacher == id_teacher)
+                .Skip(offset)
+                .Limit(limit)
+                .ToListAsync();
         }
 
         public async Task<ReviewsModelMDB?> GetById(string id_teacher, string id_student)
         {
-            throw new NotImplementedException();
+            return await _collection
+                .Find(r => r.id_teacher == id_teacher && r.id_student == id_student)
+                .FirstOrDefaultAsync();
         }
 
         public async Task Update(string id_teacher, string id_student, ReviewsModelMDB reviewModel)
         {
-            throw new NotImplementedException();
+            var res = await _collection.ReplaceOneAsync(
+                r => r.id_teacher == id_teacher && r.id_student == id_student,
+                reviewModel
+            );
+            if (res.ModifiedCount == 0)
+                throw new NotImplementedException();
         }
     }
 }
