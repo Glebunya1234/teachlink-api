@@ -16,7 +16,7 @@ namespace TeachLink_BackEnd.Core.Repositories
             int? maxPrice
         );
 
-        public Task<TeachersModelMDB> GetById(string id);
+        public Task<TeachersModelMDB?> GetById(string id);
         public Task UpdateById(string id, TeachersModelMDB teacher);
     }
 }
