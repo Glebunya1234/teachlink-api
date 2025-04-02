@@ -1,8 +1,6 @@
-﻿using System.Dynamic;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using TeachLink_BackEnd.Core.Models;
 using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
 using TeachLink_BackEnd.Infrastructure.Services;
@@ -16,8 +14,7 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
 
         public async Task Create(TeachersModelMDB teachersModel)
         {
-            //_collection.InsertOne(newTeacher);
-            throw new NotImplementedException();
+            _collection.InsertOne(teachersModel);
         }
 
         public async Task<TeachersModelMDB?> GetById(string id)
