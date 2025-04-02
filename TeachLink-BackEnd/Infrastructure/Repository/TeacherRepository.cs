@@ -14,7 +14,7 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
 
         public async Task Create(TeachersModelMDB teachersModel)
         {
-            _collection.InsertOne(teachersModel);
+            await _collection.InsertOneAsync(teachersModel);
         }
 
         public async Task<TeachersModelMDB?> GetById(string id)
