@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Collections.Generic;
+using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using Supabase;
 using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
@@ -15,35 +17,29 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
 
         public async Task Create(AnnouncementsModelMDB announcementsModel)
         {
-            throw new NotImplementedException();
+            await _collection.InsertOneAsync(announcementsModel);
         }
 
-        public async Task<IEnumerable<AnnouncementsModelMDB>> GetAll(
-            string id_student,
-            int offset,
-            int limit
-        )
+        public async Task<IEnumerable<AnnouncementsModelMDB>> GetAll(int offset, int limit)
         {
-            throw new NotImplementedException();
+            return await _collection.Find(_ => true).Skip(offset).Limit(limit).ToListAsync();
         }
 
-        public async Task<AnnouncementsModelMDB?> GetById(string id, string id_student)
+        public async Task<IEnumerable<AnnouncementsModelMDB?>> GetById(string id_student)
         {
-            throw new NotImplementedException();
+            return await _collection.Find(a => a.id_student == id_student).ToListAsync();
         }
 
-        public async Task Update(
-            string id,
-            string id_student,
-            AnnouncementsModelMDB announcementsModel
-        )
+        public async Task Update(string id, AnnouncementsModelMDB announcementsModel)
         {
-            throw new NotImplementedException();
+            var res = await _collection.ReplaceOneAsync(a => a.id == id, announcementsModel);
+            if (res.ModifiedCount == 0)
+                throw new NotImplementedException();
         }
 
-        public async Task Delete(string id_student)
+        public async Task Delete(string id)
         {
-            throw new NotImplementedException();
+            await _collection.DeleteOneAsync(a => a.id == id);
         }
     }
 }
