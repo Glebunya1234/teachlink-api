@@ -1,18 +1,70 @@
-﻿using MongoDB.Bson;
+﻿using System.ComponentModel.DataAnnotations;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace TeachLink_BackEnd.Core.ModelsMDB
 {
     public class AnnouncementsModelMDB : BaseModelMDB
     {
+        private string _id_student = null!;
+        private string _mini_description = null!;
+        private string _description = null!;
+        private IEnumerable<SchoolSubjectsModelMDB> _school_subjects = null!;
+
         [BsonRequired]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string id_student { get; set; }
+        [Required]
+        public string id_student
+        {
+            get => _id_student;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("id_student cannot be empty.");
+                }
+                _id_student = value;
+            }
+        }
+        public IEnumerable<SchoolSubjectsModelMDB> school_subjects
+        {
+            get => _school_subjects;
+            set
+            {
+                if (value == null || !value.Any())
+                {
+                    throw new ArgumentException("There must be at least one school subject.");
+                }
+                _school_subjects = value;
+            }
+        }
 
-        public string mini_description { get; set; } = string.Empty;
+        public string mini_description
+        {
+            get => _mini_description;
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                    throw new ArgumentException("mini_description cannot be empty.");
+                if (value.Length > 200 && value.Length < 20)
+                    throw new ArgumentException("mini_description must be between 20 to 200.");
+                _mini_description = value;
+            }
+        }
 
-        public IEnumerable<SchoolSubjectsModelMDB> school_subjects { get; set; }
-
-        public string description { get; set; } = string.Empty;
+        public string description
+        {
+            get => _description;
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                    throw new ArgumentException("description cannot be empty.");
+                if (value.Length > 500)
+                    throw new ArgumentException(
+                        "description cannot be longer than 500 characters."
+                    );
+                _description = value;
+            }
+        }
     }
 }
