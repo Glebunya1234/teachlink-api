@@ -59,10 +59,8 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             {
                 if (string.IsNullOrEmpty(value))
                     throw new ArgumentException("description cannot be empty.");
-                if (value.Length > 500)
-                    throw new ArgumentException(
-                        "description cannot be longer than 500 characters."
-                    );
+                if (value.Length > 500 && value.Length < 100)
+                    throw new ArgumentException("description must be between 100 to 500.");
                 _description = value;
             }
         }
