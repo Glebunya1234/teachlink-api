@@ -2,6 +2,11 @@
 {
     public class DegreeModelMDB : BaseModelMDB
     {
-        public string degree_name { get; set; } = string.Empty;
+        private string _degree_name = string.Empty;
+
+        public string degree_name
+        {
+            get => _degree_name;
+        }
     }
 }
