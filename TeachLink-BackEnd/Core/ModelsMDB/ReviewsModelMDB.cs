@@ -6,7 +6,7 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
 {
     public class ReviewsModelMDB : BaseModelMDB
     {
-        private string _reviewsText = string.Empty;
+        private string _reviewsText = null!;
 
         private int _rating { get; set; } = 5;
 
