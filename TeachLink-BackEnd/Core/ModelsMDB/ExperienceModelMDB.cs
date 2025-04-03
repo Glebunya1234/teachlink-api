@@ -2,6 +2,10 @@
 {
     public class ExperienceModelMDB : BaseModelMDB
     {
-        public string experience_name { get; set; } = string.Empty;
+        private string _experience_name = string.Empty;
+        public string experience_name
+        {
+            get => _experience_name;
+        }
     }
 }
