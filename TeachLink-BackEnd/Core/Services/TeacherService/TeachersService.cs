@@ -1,5 +1,4 @@
-﻿using TeachLink_BackEnd.Core.Models;
-using TeachLink_BackEnd.Core.ModelsMDB;
+﻿using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
 
 namespace TeachLink_BackEnd.Infrastructure.Services
@@ -35,8 +34,8 @@ namespace TeachLink_BackEnd.Infrastructure.Services
                     minPrice,
                     maxPrice
                 ) ?? new List<TeachersModelMDB>();
-
-            return TeacherMappers.MapFromTeachersModelToTeacherTileDTOList(teachers);
+            throw new NotImplementedException();
+            //return TeacherMappers.MapFromTeachersModelToTeacherTileDTOList(teachers);
         }
 
         public async Task<TeacherTileDTO?> GetById(string id)
@@ -46,7 +45,8 @@ namespace TeachLink_BackEnd.Infrastructure.Services
             if (teacher is null)
                 return null;
 
-            return TeacherMappers.MapFromTeachersModelToTeacherTileDTO(teacher);
+            throw new NotImplementedException();
+            //return TeacherMappers.MapFromTeachersModelToTeacherTileDTO(teacher);
         }
 
         public async Task Create(CreateTeacherDTO createteacherDto)
