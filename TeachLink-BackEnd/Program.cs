@@ -49,6 +49,7 @@ builder.Services.AddSingleton<SupabaseClientFactory>();
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
 builder.Services.AddScoped<IBaseMapper<DegreeModelMDB, DegreeDTO>, GetDegreeMappers>();
+builder.Services.AddScoped<IBaseMapper<ExperienceModelMDB, ExperienceDTO>, GetExperienceMappers>();
 
 builder.Services.AddScoped<AnnouncementService>();
 builder.Services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
