@@ -9,7 +9,7 @@ namespace TeachLink_BackEnd.Infrastructure.Services
             new StudentsModelMDB
             {
                 full_name = dto.full_name,
-                age = dto.age,
+                age = (int)dto.age,
                 city = dto.city,
                 sex = dto.sex,
             };
