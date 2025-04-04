@@ -1,0 +1,22 @@
+﻿using TeachLink_BackEnd.Core.Mappers;
+using TeachLink_BackEnd.Core.ModelsMDB;
+
+namespace TeachLink_BackEnd.Infrastructure.Services
+{
+    public class CreateStudentMappers : BaseMapper<StudentsModelMDB, CreateStudentDTO>
+    {
+        public override StudentsModelMDB ToModel(CreateStudentDTO dto) =>
+            new StudentsModelMDB
+            {
+                full_name = dto.full_name,
+                age = dto.age,
+                city = dto.city,
+                sex = dto.sex,
+            };
+
+        public override CreateStudentDTO ToDto(StudentsModelMDB model)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
