@@ -2,9 +2,9 @@
 
 public record CreateAnnouncementDTO
 {
-    public required Guid id { get; init; }
+    public required string id { get; init; }
 
-    public Guid id_student { get; init; }
+    public string id_student { get; init; }
 
     public string mini_description { get; init; }
 

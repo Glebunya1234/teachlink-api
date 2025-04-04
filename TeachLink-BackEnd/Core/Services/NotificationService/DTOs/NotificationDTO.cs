@@ -2,9 +2,9 @@
 {
     public required string id { get; init; }
 
-    public IdTeacherDTO id_teacher { get; set; }
+    public string id_teacher { get; set; }
 
-    public IdStudentDTO id_student { get; set; }
+    public string id_student { get; set; }
 
     public bool is_read { get; set; }
 

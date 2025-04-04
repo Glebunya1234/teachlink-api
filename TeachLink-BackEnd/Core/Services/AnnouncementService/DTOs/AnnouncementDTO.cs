@@ -1,8 +1,8 @@
 ﻿public record AnnouncementDTO
 {
-    public required Guid id { get; init; }
+    public required string id { get; init; }
 
-    public required IdStudentDTO id_students { get; init; }
+    public required string id_students { get; init; }
 
     public required string mini_description { get; init; }
 
