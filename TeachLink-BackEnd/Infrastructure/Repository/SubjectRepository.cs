@@ -9,7 +9,7 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
     public class SubjectRepository : MongoService<SubjectsModelMDB>, ISubjectRepository
     {
         public SubjectRepository(IOptions<MongoSettings> options)
-            : base(options, options.Value.SubjectCollectionName) { }
+            : base(options, options.Value.SubjectsCollectionName) { }
 
         public async Task<IEnumerable<SubjectsModelMDB>?> GetAll()
         {

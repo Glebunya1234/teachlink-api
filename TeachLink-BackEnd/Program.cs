@@ -1,4 +1,6 @@
 ﻿using Microsoft.OpenApi.Models;
+using TeachLink_BackEnd.Core.Mappers;
+using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
 using TeachLink_BackEnd.Core.Services.StudentService;
 using TeachLink_BackEnd.Core.Services.TeacherService;
@@ -45,6 +47,8 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection(nameof(MongoSettings)));
 builder.Services.AddSingleton<SupabaseClientFactory>();
 builder.Services.AddJwtAuthentication(builder.Configuration);
+
+builder.Services.AddScoped<IBaseMapper<DegreeModelMDB, DegreeDTO>, GetDegreeMappers>();
 
 builder.Services.AddScoped<AnnouncementService>();
 builder.Services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
