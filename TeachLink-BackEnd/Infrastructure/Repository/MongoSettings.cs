@@ -19,5 +19,7 @@
         public string NotificationsCollectionName { get; set; } = null!;
 
         public string AnnouncementsCollectionName { get; set; } = null!;
+
+        public string SubjectsCollectionName { get; set; } = null!;
     }
 }
