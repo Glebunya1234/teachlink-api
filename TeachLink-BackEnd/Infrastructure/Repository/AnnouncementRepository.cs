@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using Supabase;
 using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
 using TeachLink_BackEnd.Infrastructure.Services;
@@ -28,6 +26,11 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
         public async Task<IEnumerable<AnnouncementsModelMDB?>> GetListById(string id_student)
         {
             return await _collection.Find(a => a.id_student == id_student).ToListAsync();
+        }
+
+        public async Task<AnnouncementsModelMDB?> GetById(string id)
+        {
+            return await _collection.Find(a => a.id == id).FirstOrDefaultAsync();
         }
 
         public async Task Update(string id, AnnouncementsModelMDB announcementsModel)
