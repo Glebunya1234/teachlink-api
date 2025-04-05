@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TeachLink_BackEnd.Core.Services.StudentService;
-using TeachLink_BackEnd.Infrastructure.Services;
 
 namespace TeachLink_BackEnd.Infrastructure.Controllers
 {
@@ -20,9 +19,21 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAll(string id_student, int offset, int limit)
+        public async Task<IActionResult> GetAll(int offset, int limit)
         {
-            var announcementDTO = await _announcementService.GetAll(id_student, offset, limit);
+            var announcementDTO = await _announcementService.GetAll(offset, limit);
+            return Ok(announcementDTO);
+        }
+
+        [HttpGet("announcements/list/student/{id_student}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AnnouncementDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetListById(string id_student)
+        {
+            var announcementDTO = await _announcementService.GetListById(id_student);
+
             return Ok(announcementDTO);
         }
 
@@ -31,9 +42,9 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetById(string id, string id_student)
+        public async Task<IActionResult> GetById(string id)
         {
-            var announcementDTO = await _announcementService.GetById(id, id_student);
+            var announcementDTO = await _announcementService.GetById(id);
 
             return Ok(announcementDTO);
         }
