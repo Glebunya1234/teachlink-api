@@ -57,6 +57,11 @@ builder.Services.AddScoped<IBaseMapper<DegreeModelMDB, DegreeDTO>, GetDegreeMapp
 
 builder.Services.AddScoped<IBaseMapper<ExperienceModelMDB, ExperienceDTO>, GetExperienceMappers>();
 
+builder.Services.AddScoped<IBaseMapper<ReviewsModelMDB, CreateReviewDTO>, CreateReviewMappers>();
+builder.Services.AddScoped<IBaseMapper<ReviewsModelMDB, ReviewDTO>, GetReviewMappers>();
+
+builder.Services.AddScoped<IBaseMapper<StudentsModelMDB, StudentDTO>, GetStudentMappers>();
+
 builder.Services.AddScoped<IBaseMapper<StudentsModelMDB, CreateStudentDTO>, CreateStudentMappers>();
 builder.Services.AddScoped<IBaseMapper<StudentsModelMDB, StudentDTO>, GetStudentMappers>();
 builder.Services.AddScoped<IBaseMapper<StudentsModelMDB, UpdateStudentDTO>, UpdateStudentMappers>();
