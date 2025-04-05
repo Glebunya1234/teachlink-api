@@ -46,7 +46,7 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             {
                 if (string.IsNullOrEmpty(value))
                     throw new ArgumentException("mini_description cannot be empty.");
-                if (value.Length > 200 && value.Length < 20)
+                if (value.Length > 200 || value.Length < 20)
                     throw new ArgumentException("mini_description must be between 20 to 200.");
                 _mini_description = value;
             }
@@ -59,7 +59,7 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             {
                 if (string.IsNullOrEmpty(value))
                     throw new ArgumentException("description cannot be empty.");
-                if (value.Length > 500 && value.Length < 100)
+                if (value.Length > 500 || value.Length < 100)
                     throw new ArgumentException("description must be between 100 to 500.");
                 _description = value;
             }
