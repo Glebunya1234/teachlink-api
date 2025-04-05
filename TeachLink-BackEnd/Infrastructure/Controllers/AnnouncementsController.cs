@@ -69,11 +69,10 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Update(
             string id,
-            string id_student,
             [FromBody] UpdateAnnouncementDTO updateAnnouncementDTO
         )
         {
-            await _announcementService.Update(id, id_student, updateAnnouncementDTO);
+            await _announcementService.Update(id, updateAnnouncementDTO);
             return Ok();
         }
 

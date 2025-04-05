@@ -1,6 +1,9 @@
-﻿using TeachLink_BackEnd.Core.Mappers;
+﻿using Newtonsoft.Json.Linq;
+using TeachLink_BackEnd.Core.Helpers;
+using TeachLink_BackEnd.Core.Mappers;
 using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
+using TeachLink_BackEnd.Core.Services.TeacherService;
 
 namespace TeachLink_BackEnd.Core.Services.StudentService
 {
@@ -39,13 +42,15 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
             return _getMapper.ToDto(result);
         }
 
-        public async Task Update(
-            string id,
-            string id_student,
-            UpdateAnnouncementDTO updateAnnouncementDTO
-        )
+        public async Task Update(string id, UpdateAnnouncementDTO updateAnnouncementDTO)
         {
-            throw new NotImplementedException();
+            var oldmodel = await _announcementRepository.GetById(id);
+            UpdateHelper.ApplyPatch(updateAnnouncementDTO, oldmodel, "school_subjects");
+            if (updateAnnouncementDTO.school_subjects != null)
+                oldmodel.school_subjects = updateAnnouncementDTO
+                    .school_subjects.Select(s => new SchoolSubjectsModelMDB { Subject = s.Subject })
+                    .ToList();
+            await _announcementRepository.Update(id, oldmodel);
         }
 
         public async Task Delete(string id)
