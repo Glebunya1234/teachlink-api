@@ -1,5 +1,4 @@
 ﻿using TeachLink_BackEnd.Core.Mappers;
-using TeachLink_BackEnd.Core.Models;
 using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
 
@@ -32,6 +31,12 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         {
             var result = await _announcementRepository.GetListById(id_student);
             return _getMapper.ToDtoList(result);
+        }
+
+        public async Task<AnnouncementDTO?> GetById(string id)
+        {
+            var result = await _announcementRepository.GetById(id);
+            return _getMapper.ToDto(result);
         }
 
         public async Task Update(
