@@ -1,7 +1,7 @@
-﻿using TeachLink_BackEnd.Core.Mappers;
+﻿using TeachLink_BackEnd.Core.Mappers.BaseMappers;
 using TeachLink_BackEnd.Core.ModelsMDB;
 
-namespace TeachLink_BackEnd.Infrastructure.Services
+namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
 {
     public class UpdateStudentMappers : BaseMapper<StudentsModelMDB, UpdateStudentDTO>
     {

@@ -1,5 +1,10 @@
 ﻿using Microsoft.OpenApi.Models;
-using TeachLink_BackEnd.Core.Mappers;
+using TeachLink_BackEnd.Core.Mappers.AnnouncementMappers;
+using TeachLink_BackEnd.Core.Mappers.BaseMappers;
+using TeachLink_BackEnd.Core.Mappers.DegreeMappers;
+using TeachLink_BackEnd.Core.Mappers.ExperienceMappers;
+using TeachLink_BackEnd.Core.Mappers.NotificationMappers;
+using TeachLink_BackEnd.Core.Mappers.StudentMappers;
 using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
 using TeachLink_BackEnd.Core.Services.StudentService;

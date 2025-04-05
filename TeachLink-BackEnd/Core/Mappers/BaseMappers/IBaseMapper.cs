@@ -1,4 +1,4 @@
-﻿namespace TeachLink_BackEnd.Core.Mappers
+﻿namespace TeachLink_BackEnd.Core.Mappers.BaseMappers
 {
     public interface IBaseMapper<TModel, TDto>
     {

@@ -1,4 +1,4 @@
-﻿namespace TeachLink_BackEnd.Core.Mappers
+﻿namespace TeachLink_BackEnd.Core.Mappers.BaseMappers
 {
     public abstract class BaseMapper<TModel, TDto> : IBaseMapper<TModel, TDto>
     {
