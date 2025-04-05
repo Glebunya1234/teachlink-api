@@ -6,7 +6,7 @@ public record CreateAnnouncementDTO
 
     public required string mini_description { get; init; }
 
-    public IEnumerable<SchoolSubjectsModelMDB> school_subjects { get; init; }
+    public IEnumerable<SchoolSubjectDTO> school_subjects { get; init; }
 
     public required string description { get; init; }
 }
