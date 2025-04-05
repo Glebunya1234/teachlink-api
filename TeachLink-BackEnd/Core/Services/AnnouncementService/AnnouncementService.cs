@@ -1,16 +1,20 @@
-﻿using TeachLink_BackEnd.Core.Models;
+﻿using TeachLink_BackEnd.Core.Mappers;
+using TeachLink_BackEnd.Core.Models;
+using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
 
 namespace TeachLink_BackEnd.Core.Services.StudentService
 {
-    public class AnnouncementService
+    public class AnnouncementService(
+        IAnnouncementRepository announcementRepository,
+        IBaseMapper<AnnouncementsModelMDB, CreateAnnouncementDTO> createMapper,
+        IBaseMapper<AnnouncementsModelMDB, AnnouncementDTO> getMapper
+    )
     {
-        private readonly IAnnouncementRepository _announcementRepository;
-
-        public AnnouncementService(IAnnouncementRepository announcementRepository)
-        {
-            _announcementRepository = announcementRepository;
-        }
+        private readonly IAnnouncementRepository _announcementRepository = announcementRepository;
+        private readonly IBaseMapper<AnnouncementsModelMDB, CreateAnnouncementDTO> _createMapper =
+            createMapper;
+        private readonly IBaseMapper<AnnouncementsModelMDB, AnnouncementDTO> _getMapper = getMapper;
 
         public async Task Create(CreateAnnouncementDTO createAnnouncementDTO)
         {
