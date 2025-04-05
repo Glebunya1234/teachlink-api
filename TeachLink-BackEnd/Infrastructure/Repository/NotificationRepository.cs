@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using TeachLink_BackEnd.Core.Models;
 using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
 using TeachLink_BackEnd.Infrastructure.Services;
@@ -31,6 +30,11 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
                     && (n.id_teacher == id_entity || n.id_student == id_entity)
                 )
                 .ToListAsync();
+        }
+
+        public async Task<NotificationsModelMDB?> GetById(string token, string id)
+        {
+            return await _collection.Find(s => s.id == id).FirstOrDefaultAsync();
         }
 
         public async Task Update(string token, string id, NotificationsModelMDB notificationsModel)

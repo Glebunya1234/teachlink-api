@@ -2,13 +2,13 @@
 {
     public required string id { get; init; }
 
-    public string id_teacher { get; set; }
+    public required string id_teacher { get; init; }
 
-    public string id_student { get; set; }
+    public required string id_student { get; init; }
 
-    public bool is_read { get; set; }
+    public required bool is_read { get; init; }
 
-    public bool for_teacher { get; set; }
+    public required bool for_teacher { get; init; }
     public required DateTime createdAt { get; init; }
 
     public required DateTime updatedAt { get; init; }
