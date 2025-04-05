@@ -15,7 +15,7 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             _reviewsService = reviewsService;
         }
 
-        [HttpGet("reviews")]
+        [HttpGet("reviews/{id_teacher}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ReviewDTO>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -26,7 +26,7 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             return Ok(reviewListResponseDTO);
         }
 
-        [HttpGet("reviews/{id}")]
+        [HttpGet("reviews/{id_teacher}/{id_student}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ReviewDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -49,7 +49,7 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             return Created();
         }
 
-        [HttpPatch("reviews/{id}")]
+        [HttpPatch("reviews/{id_teacher}/{id_student}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateReviewDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
