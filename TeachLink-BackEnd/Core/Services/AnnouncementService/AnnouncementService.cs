@@ -18,21 +18,20 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
 
         public async Task Create(CreateAnnouncementDTO createAnnouncementDTO)
         {
-            throw new NotImplementedException();
+            var announcementModel = _createMapper.ToModel(createAnnouncementDTO);
+            await _announcementRepository.Create(announcementModel);
         }
 
-        public async Task<IEnumerable<AnnouncementDTO>> GetAll(
-            string id_student,
-            int offset,
-            int limit
-        )
+        public async Task<IEnumerable<AnnouncementDTO>> GetAll(int offset, int limit)
         {
-            throw new NotImplementedException();
+            var result = await _announcementRepository.GetAll(offset, limit);
+            return _getMapper.ToDtoList(result);
         }
 
-        public Task<AnnouncementDTO?> GetById(string id, string id_student)
+        public async Task<IEnumerable<AnnouncementDTO?>> GetListById(string id_student)
         {
-            throw new NotImplementedException();
+            var result = await _announcementRepository.GetListById(id_student);
+            return _getMapper.ToDtoList(result);
         }
 
         public async Task Update(
@@ -44,9 +43,9 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
             throw new NotImplementedException();
         }
 
-        public Task Delete(string id)
+        public async Task Delete(string id)
         {
-            throw new NotImplementedException();
+            await _announcementRepository.Delete(id);
         }
     }
 }

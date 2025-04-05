@@ -25,7 +25,7 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
             return await _collection.Find(_ => true).Skip(offset).Limit(limit).ToListAsync();
         }
 
-        public async Task<IEnumerable<AnnouncementsModelMDB?>> GetById(string id_student)
+        public async Task<IEnumerable<AnnouncementsModelMDB?>> GetListById(string id_student)
         {
             return await _collection.Find(a => a.id_student == id_student).ToListAsync();
         }
