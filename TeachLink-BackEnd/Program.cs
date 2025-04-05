@@ -69,6 +69,15 @@ builder.Services.AddScoped<
     UpdatNotificationMappers
 >();
 
+builder.Services.AddScoped<
+    IBaseMapper<AnnouncementsModelMDB, CreateAnnouncementDTO>,
+    CreateAnnouncementMappers
+>();
+builder.Services.AddScoped<
+    IBaseMapper<AnnouncementsModelMDB, AnnouncementDTO>,
+    GetAnnouncementMappers
+>();
+
 builder.Services.AddScoped<AnnouncementService>();
 builder.Services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
 
