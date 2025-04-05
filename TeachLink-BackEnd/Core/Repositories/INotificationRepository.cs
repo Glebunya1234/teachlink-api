@@ -10,7 +10,7 @@ namespace TeachLink_BackEnd.Core.Repositories
             string id_entity,
             bool for_teacher
         );
-
+        public Task<NotificationsModelMDB> GetById(string token, string id);
         public Task Update(string token, string id, NotificationsModelMDB notificationsModel);
     }
 }

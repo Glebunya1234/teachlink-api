@@ -41,6 +41,27 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             return Ok(notificationDTO);
         }
 
+        [HttpGet("notifications/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NotificationDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetById(string id)
+        {
+            //var token = HttpContext
+            //    .Request.Headers["Authorization"]
+            //    .ToString()
+            //    .Replace("Bearer ", "");
+
+            //if (string.IsNullOrEmpty(token))
+            //{
+            //    return Unauthorized("Authorization token is missing.");
+            //}
+
+            var notificationDTO = await _notificationService.GetById("token", id);
+            return Ok(notificationDTO);
+        }
+
         [HttpPost("notifications")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateNotificationDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

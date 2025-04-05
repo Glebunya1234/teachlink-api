@@ -56,6 +56,19 @@ builder.Services.AddScoped<IBaseMapper<StudentsModelMDB, CreateStudentDTO>, Crea
 builder.Services.AddScoped<IBaseMapper<StudentsModelMDB, StudentDTO>, GetStudentMappers>();
 builder.Services.AddScoped<IBaseMapper<StudentsModelMDB, UpdateStudentDTO>, UpdateStudentMappers>();
 
+builder.Services.AddScoped<
+    IBaseMapper<NotificationsModelMDB, CreateNotificationDTO>,
+    CreateNotificationMappers
+>();
+builder.Services.AddScoped<
+    IBaseMapper<NotificationsModelMDB, NotificationDTO>,
+    GetNotificationMappers
+>();
+builder.Services.AddScoped<
+    IBaseMapper<NotificationsModelMDB, UpdateNotificationDTO>,
+    UpdatNotificationMappers
+>();
+
 builder.Services.AddScoped<AnnouncementService>();
 builder.Services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
 
