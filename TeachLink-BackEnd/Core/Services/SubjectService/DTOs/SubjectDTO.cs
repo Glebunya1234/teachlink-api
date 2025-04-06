@@ -2,6 +2,6 @@
 {
     public string id { get; init; }
     public string subject { get; init; }
-    public string createdAt { get; init; }
-    public string updatedAt { get; init; }
+    public DateTime createdAt { get; init; }
+    public DateTime updatedAt { get; init; }
 }
