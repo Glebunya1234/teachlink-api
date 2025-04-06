@@ -11,7 +11,7 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
         public ExperienceRepository(IOptions<MongoSettings> options)
             : base(options, options.Value.ExperiencesCollectionName) { }
 
-        public async Task<IEnumerable<ExperienceModelMDB>?> GetAll()
+        public async Task<IEnumerable<ExperienceModelMDB>> GetAll()
         {
             return await _collection.Find(_ => true).ToListAsync();
         }
@@ -19,6 +19,11 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
         public async Task<ExperienceModelMDB?> GetById(string id)
         {
             return await _collection.Find(doc => doc.id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<ExperienceModelMDB>> GetAll(IEnumerable<string> ids)
+        {
+            return await _collection.Find(exp => ids.Contains(exp.id)).ToListAsync();
         }
     }
 }

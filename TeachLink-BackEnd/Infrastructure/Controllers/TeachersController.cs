@@ -45,7 +45,7 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
         }
 
         [HttpGet("teachers/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TeacherTileDTO))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FullTeacherTileDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
