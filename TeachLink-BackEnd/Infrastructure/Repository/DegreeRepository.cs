@@ -12,7 +12,7 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
         public DegreeRepository(IOptions<MongoSettings> options)
             : base(options, options.Value.DegreesCollectionName) { }
 
-        public async Task<IEnumerable<DegreeModelMDB>?> GetAll()
+        public async Task<IEnumerable<DegreeModelMDB>> GetAll()
         {
             return await _collection.Find(_ => true).ToListAsync();
         }
@@ -20,6 +20,11 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
         public async Task<DegreeModelMDB?> GetById(string id)
         {
             return await _collection.Find(doc => doc.id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<DegreeModelMDB>> GetAll(IEnumerable<string> ids)
+        {
+            return await _collection.Find(degree => ids.Contains(degree.id)).ToListAsync();
         }
     }
 }

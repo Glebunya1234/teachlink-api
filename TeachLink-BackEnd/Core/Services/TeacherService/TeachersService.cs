@@ -6,16 +6,19 @@ using TeachLink_BackEnd.Core.Repositories;
 namespace TeachLink_BackEnd.Infrastructure.Services
 {
     public class TeachersService(
-        ITeacherRepository _teacherRepository,
-        IBaseMapper<TeachersModelMDB, CreateTeacherDTO> teacherRepository,
+        ITeacherRepository teacherRepository,
+        IDegreeRepository degreeRepository,
+        IExperienceRepository experienceRepository,
+        IBaseMapper<TeachersModelMDB, CreateTeacherDTO> createMapper,
         IBaseMapper<TeachersModelMDB, TeacherTileDTO> getMapper,
         IBaseMapper<TeachersModelMDB, FullTeacherTileDTO> getFullMapper
     )
     {
-        private readonly ITeacherRepository _teacherRepository = _teacherRepository;
-
+        private readonly ITeacherRepository _teacherRepository = teacherRepository;
+        private readonly IDegreeRepository _degreeRepository = degreeRepository;
+        private readonly IExperienceRepository _experienceRepository = experienceRepository;
         private readonly IBaseMapper<TeachersModelMDB, CreateTeacherDTO> _createMapper =
-            teacherRepository;
+            createMapper;
         private readonly IBaseMapper<TeachersModelMDB, TeacherTileDTO> _getMapper = getMapper;
         private readonly IBaseMapper<TeachersModelMDB, FullTeacherTileDTO> _getFullMapper =
             getFullMapper;
@@ -43,13 +46,48 @@ namespace TeachLink_BackEnd.Infrastructure.Services
                     maxPrice
                 ) ?? new List<TeachersModelMDB>();
 
+            var degreeIds = teachers
+                .Where(t => !string.IsNullOrEmpty(t.degree))
+                .Select(t => t.degree)
+                .Distinct()
+                .ToList();
+            var expIds = teachers
+                .Where(t => !string.IsNullOrEmpty(t.experience))
+                .Select(t => t.experience)
+                .Distinct()
+                .ToList();
+
+            var degrees = await _degreeRepository.GetAll(degreeIds);
+            var experiences = await _experienceRepository.GetAll(expIds);
+            foreach (var teacher in teachers)
+            {
+                var degree = degrees.FirstOrDefault(d => d.id == teacher.degree);
+                var exp = experiences.FirstOrDefault(e => e.id == teacher.experience);
+                if (degree != null)
+                {
+                    teacher.degree = degree.degree_name;
+                }
+                if (exp != null)
+                {
+                    teacher.experience = exp.experience_name;
+                }
+            }
+
             return _getMapper.ToDtoList(teachers);
         }
 
         public async Task<FullTeacherTileDTO?> GetById(string id)
         {
             var teacher = await _teacherRepository.GetById(id);
+            var degree = await _degreeRepository.GetById(teacher.degree);
+            var experience = await _experienceRepository.GetById(teacher.experience);
+            if (degree == null)
+                return null;
+            if (experience == null)
+                return null;
 
+            teacher.degree = degree.degree_name;
+            teacher.experience = experience.experience_name;
             return _getFullMapper.ToDto(teacher);
         }
 

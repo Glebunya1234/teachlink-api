@@ -6,5 +6,6 @@ namespace TeachLink_BackEnd.Core.Repositories
     {
         public Task<IEnumerable<DegreeModelMDB>> GetAll();
         public Task<DegreeModelMDB> GetById(string Id);
+        public Task<IEnumerable<DegreeModelMDB>> GetAll(IEnumerable<string> ids);
     }
 }
