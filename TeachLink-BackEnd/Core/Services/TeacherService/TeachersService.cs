@@ -1,16 +1,24 @@
-﻿using TeachLink_BackEnd.Core.ModelsMDB;
+﻿using TeachLink_BackEnd.Core.Helpers;
+using TeachLink_BackEnd.Core.Mappers.BaseMappers;
+using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
 
 namespace TeachLink_BackEnd.Infrastructure.Services
 {
-    public class TeachersService
+    public class TeachersService(
+        ITeacherRepository _teacherRepository,
+        IBaseMapper<TeachersModelMDB, CreateTeacherDTO> teacherRepository,
+        IBaseMapper<TeachersModelMDB, TeacherTileDTO> getMapper,
+        IBaseMapper<TeachersModelMDB, FullTeacherTileDTO> getFullMapper
+    )
     {
-        private readonly ITeacherRepository _teacherRepository;
+        private readonly ITeacherRepository _teacherRepository = _teacherRepository;
 
-        public TeachersService(ITeacherRepository teacherRepository)
-        {
-            _teacherRepository = teacherRepository;
-        }
+        private readonly IBaseMapper<TeachersModelMDB, CreateTeacherDTO> _createMapper =
+            teacherRepository;
+        private readonly IBaseMapper<TeachersModelMDB, TeacherTileDTO> _getMapper = getMapper;
+        private readonly IBaseMapper<TeachersModelMDB, FullTeacherTileDTO> _getFullMapper =
+            getFullMapper;
 
         public async Task<IEnumerable<TeacherTileDTO>> GetAll(
             int offset = 0,
@@ -34,37 +42,35 @@ namespace TeachLink_BackEnd.Infrastructure.Services
                     minPrice,
                     maxPrice
                 ) ?? new List<TeachersModelMDB>();
-            throw new NotImplementedException();
-            //return TeacherMappers.MapFromTeachersModelToTeacherTileDTOList(teachers);
+
+            return _getMapper.ToDtoList(teachers);
         }
 
-        public async Task<TeacherTileDTO?> GetById(string id)
+        public async Task<FullTeacherTileDTO?> GetById(string id)
         {
             var teacher = await _teacherRepository.GetById(id);
 
-            if (teacher is null)
-                return null;
-
-            throw new NotImplementedException();
-            //return TeacherMappers.MapFromTeachersModelToTeacherTileDTO(teacher);
+            return _getFullMapper.ToDto(teacher);
         }
 
         public async Task Create(CreateTeacherDTO createteacherDto)
         {
-            //var teacherModel = TeacherMappers.MapFromCreateTeacherDTOToTeachersModel(
-            //    createteacherDto
-            //);
-            await _teacherRepository.Create(new TeachersModelMDB { });
-            //throw new NotImplementedException();
+            var model = _createMapper.ToModel(createteacherDto);
+            await _teacherRepository.Create(model);
         }
 
         public async Task Update(string id, UpdateTeacherDTO updatteacherDto)
         {
-            //var teacherModel = TeacherMappers.MapFromUpdateTeacherDTOToTeacherCreateUpdateModel(
-            //    updatteacherDto
-            //);
-            //await _teacherRepository.UpdateById(id, teacherModel);
-            throw new NotImplementedException();
+            var oldmodel = await _teacherRepository.GetById(id);
+            UpdateHelper.ApplyPatch(
+                updatteacherDto,
+                oldmodel,
+                nameof(updatteacherDto.school_subjects)
+            );
+
+            if (updatteacherDto.school_subjects != null)
+                UpdateHelper.ApplyPatch(updatteacherDto.school_subjects, oldmodel.school_subjects);
+            await _teacherRepository.UpdateById(id, oldmodel);
         }
     }
 }
