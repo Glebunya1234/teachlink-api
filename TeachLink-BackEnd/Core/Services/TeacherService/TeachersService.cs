@@ -69,7 +69,10 @@ namespace TeachLink_BackEnd.Infrastructure.Services
             );
 
             if (updatteacherDto.school_subjects != null)
-                UpdateHelper.ApplyPatch(updatteacherDto.school_subjects, oldmodel.school_subjects);
+                oldmodel.school_subjects = updatteacherDto
+                    .school_subjects.Select(s => new SchoolSubjectsModelMDB { Subject = s.Subject })
+                    .ToList();
+
             await _teacherRepository.UpdateById(id, oldmodel);
         }
     }
