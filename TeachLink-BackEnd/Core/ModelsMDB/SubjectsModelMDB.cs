@@ -3,7 +3,7 @@
     public class SubjectsModelMDB : BaseModelMDB
     {
         private string _subject = null!;
-        public string Subject
+        public string subject
         {
             get => _subject;
             set
