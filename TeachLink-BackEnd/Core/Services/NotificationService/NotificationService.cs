@@ -7,11 +7,15 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
 {
     public class NotificationService(
         INotificationRepository notificationRepository,
+        ITeacherRepository teacherRepository,
+        IStudentRepository studentRepository,
         IBaseMapper<NotificationsModelMDB, CreateNotificationDTO> createMapper,
         IBaseMapper<NotificationsModelMDB, NotificationDTO> getMapper
     )
     {
         private readonly INotificationRepository _notificationRepository = notificationRepository;
+        private readonly ITeacherRepository _teacherRepository = teacherRepository;
+        private readonly IStudentRepository _studentRepository = studentRepository;
         private readonly IBaseMapper<NotificationsModelMDB, CreateNotificationDTO> _createMapper =
             createMapper;
         private readonly IBaseMapper<NotificationsModelMDB, NotificationDTO> _getMapper = getMapper;
@@ -28,13 +32,45 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
             bool for_teacher
         )
         {
-            var result = await _notificationRepository.GetAll(token, id_entity, for_teacher);
-            return _getMapper.ToDtoList(result);
+            var results = await _notificationRepository.GetAll(token, id_entity, for_teacher);
+            if (results == null || !results.Any())
+                return new List<NotificationDTO>();
+
+            var dtoList = _getMapper.ToDtoList(results).ToList();
+
+            var teacherIds = results
+                .Where(n => !string.IsNullOrEmpty(n.id_teacher))
+                .Select(n => n.id_teacher)
+                .Distinct()
+                .ToList();
+
+            var studentIds = results
+                .Where(n => !string.IsNullOrEmpty(n.id_student))
+                .Select(n => n.id_student)
+                .Distinct()
+                .ToList();
+
+            var teachers = await _teacherRepository.GetByIdList(teacherIds);
+            var students = await _studentRepository.GetByIdList(studentIds);
+
+            var teacherDict = teachers.ToDictionary(t => t.id, t => t);
+            var studentDict = students.ToDictionary(s => s.id, s => s);
+
+            // Вызов хелпера для обогащения DTO
+            var enrichedDtos = NotificationHelper.EnrichNotifications(
+                dtoList,
+                results,
+                teacherDict,
+                studentDict
+            );
+
+            return enrichedDtos;
         }
 
         public async Task<NotificationDTO> GetById(string token, string id)
         {
             var result = await _notificationRepository.GetById(token, id);
+
             return _getMapper.ToDto(result);
         }
 
