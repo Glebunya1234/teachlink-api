@@ -2,6 +2,7 @@
 using TeachLink_BackEnd.Core.Mappers.BaseMappers;
 using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
+using TeachLink_BackEnd.Infrastructure.GlobalHendelrs;
 
 namespace TeachLink_BackEnd.Infrastructure.Services
 {
@@ -34,17 +35,18 @@ namespace TeachLink_BackEnd.Infrastructure.Services
             int? maxPrice = null
         )
         {
-            var teachers =
-                await _teacherRepository.GetAll(
-                    offset,
-                    limit,
-                    sortBy,
-                    subjects,
-                    isOnline,
-                    city,
-                    minPrice,
-                    maxPrice
-                ) ?? new List<TeachersModelMDB>();
+            var teachers = await _teacherRepository.GetAll(
+                offset,
+                limit,
+                sortBy,
+                subjects,
+                isOnline,
+                city,
+                minPrice,
+                maxPrice
+            );
+            if (teachers.Count() != 0)
+                throw new NotFoundException("Teachers were not found");
 
             var degreeIds = teachers
                 .Where(t => !string.IsNullOrEmpty(t.degree))
@@ -58,7 +60,13 @@ namespace TeachLink_BackEnd.Infrastructure.Services
                 .ToList();
 
             var degrees = await _degreeRepository.GetAll(degreeIds);
+            if (degrees.Count() != degreeIds.Count())
+                throw new NotFoundException("Degrees were not found");
+
             var experiences = await _experienceRepository.GetAll(expIds);
+            if (experiences.Count() != expIds.Count())
+                throw new NotFoundException("Experiences were not found");
+
             foreach (var teacher in teachers)
             {
                 var degree = degrees.FirstOrDefault(d => d.id == teacher.degree);
@@ -78,13 +86,17 @@ namespace TeachLink_BackEnd.Infrastructure.Services
 
         public async Task<FullTeacherTileDTO?> GetById(string id)
         {
-            var teacher = await _teacherRepository.GetById(id);
-            var degree = await _degreeRepository.GetById(teacher.degree);
-            var experience = await _experienceRepository.GetById(teacher.experience);
-            if (degree == null)
-                return null;
-            if (experience == null)
-                return null;
+            var teacher =
+                await _teacherRepository.GetById(id)
+                ?? throw new NotFoundException($"\"Teacher\" with id {id} was not found");
+
+            var degree =
+                await _degreeRepository.GetById(teacher.degree)
+                ?? throw new NotFoundException("\"Degree\" was not found");
+
+            var experience =
+                await _experienceRepository.GetById(teacher.experience)
+                ?? throw new NotFoundException("\"Experience\" was not found");
 
             teacher.degree = degree.degree_name;
             teacher.experience = experience.experience_name;
@@ -99,7 +111,9 @@ namespace TeachLink_BackEnd.Infrastructure.Services
 
         public async Task Update(string id, UpdateTeacherDTO updatteacherDto)
         {
-            var oldmodel = await _teacherRepository.GetById(id);
+            var oldmodel =
+                await _teacherRepository.GetById(id)
+                ?? throw new NotFoundException($"\"Teacher\" with id {id} was not found");
             UpdateHelper.ApplyPatch(
                 updatteacherDto,
                 oldmodel,
