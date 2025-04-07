@@ -7,6 +7,7 @@ namespace TeachLink_BackEnd.Core.Repositories
         public Task Create(StudentsModelMDB student);
         public Task<IEnumerable<StudentsModelMDB>> GetAll(int offset, int limit);
         public Task<StudentsModelMDB?> GetById(string id);
+        public Task<IEnumerable<StudentsModelMDB>> GetByIdList(IEnumerable<string> ids);
         public Task UpdateById(string id, StudentsModelMDB student);
     }
 }

@@ -17,6 +17,7 @@ namespace TeachLink_BackEnd.Core.Repositories
         );
 
         public Task<TeachersModelMDB?> GetById(string id);
+        public Task<IEnumerable<TeachersModelMDB>> GetByIdList(IEnumerable<string> ids);
         public Task UpdateById(string id, TeachersModelMDB teacher);
     }
 }

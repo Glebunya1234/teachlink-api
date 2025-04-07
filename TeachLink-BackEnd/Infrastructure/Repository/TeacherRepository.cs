@@ -81,5 +81,10 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
                 .Limit(limit)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<TeachersModelMDB>> GetByIdList(IEnumerable<string> ids)
+        {
+            return await _collection.Find(teach => ids.Contains(teach.id)).ToListAsync();
+        }
     }
 }

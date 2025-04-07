@@ -9,8 +9,8 @@ namespace TeachLink_BackEnd.Infrastructure.Services
             new NotificationsModelMDB
             {
                 id = dto.id,
-                id_teacher = dto.id_teacher,
-                id_student = dto.id_student,
+                id_teacher = dto.id_teacher.id,
+                id_student = dto.id_student.id,
                 for_teacher = dto.for_teacher,
                 is_read = dto.is_read,
                 createdAt = dto.createdAt,
@@ -21,8 +21,8 @@ namespace TeachLink_BackEnd.Infrastructure.Services
             new NotificationDTO
             {
                 id = model.id,
-                id_teacher = model.id_teacher,
-                id_student = model.id_student,
+                id_teacher = null!,
+                id_student = null!,
                 for_teacher = model.for_teacher,
                 is_read = model.is_read,
                 createdAt = model.createdAt,
