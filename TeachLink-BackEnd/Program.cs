@@ -10,6 +10,7 @@ using TeachLink_BackEnd.Core.Repositories;
 using TeachLink_BackEnd.Core.Services.StudentService;
 using TeachLink_BackEnd.Core.Services.TeacherService;
 using TeachLink_BackEnd.Infrastructure;
+using TeachLink_BackEnd.Infrastructure.GlobalHendelrs;
 using TeachLink_BackEnd.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -119,6 +120,7 @@ builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<TeachersService>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 
+builder.Services.AddExceptionHandler<HandlerGlobalExeptions>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
