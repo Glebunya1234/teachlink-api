@@ -2,6 +2,7 @@
 using TeachLink_BackEnd.Core.Mappers.BaseMappers;
 using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
+using TeachLink_BackEnd.Infrastructure.GlobalHendelrs;
 
 namespace TeachLink_BackEnd.Core.Services.StudentService
 {
@@ -21,12 +22,20 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         public async Task Create(CreateAnnouncementDTO createAnnouncementDTO)
         {
             var announcementModel = _createMapper.ToModel(createAnnouncementDTO);
+            var student =
+                await _studentRepository.GetById(createAnnouncementDTO.id_student)
+                ?? throw new NotFoundException(
+                    $"\"Student\" with id {createAnnouncementDTO.id_student} was not found"
+                );
             await _announcementRepository.Create(announcementModel);
         }
 
         public async Task<IEnumerable<AnnouncementDTO>> GetAll(int offset, int limit)
         {
             var result = await _announcementRepository.GetAll(offset, limit);
+            if (result.Count() == 0)
+                throw new NotFoundException("Announcements were not found");
+
             var dtoList = _getMapper.ToDtoList(result).ToList();
 
             var studentIds = result
@@ -34,7 +43,11 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
                 .Select(n => n.id_student)
                 .Distinct()
                 .ToList();
+
             var students = await _studentRepository.GetByIdList(studentIds);
+            if (students.Count() == 0)
+                throw new NotFoundException("Students were not found");
+
             var studentDict = students.ToDictionary(s => s.id, s => s);
             var enrichedDtos = AnnouncementHelper.EnrichNotifications(dtoList, result, studentDict);
 
@@ -44,9 +57,14 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         public async Task<IEnumerable<AnnouncementDTO?>> GetListById(string id_student)
         {
             var result = await _announcementRepository.GetListById(id_student);
+            if (result.Count() == 0)
+                throw new NotFoundException($"\"Announcement\" with id {id_student} was not found");
+
             var dtoList = _getMapper.ToDtoList(result).ToList();
 
-            var students = await _studentRepository.GetById(id_student);
+            var students =
+                await _studentRepository.GetById(id_student)
+                ?? throw new NotFoundException($"\"Student\" with id {id_student} was not found");
 
             var enrichedDtos = AnnouncementHelper.EnrichNotifications(dtoList, result, students);
             return enrichedDtos;
@@ -54,10 +72,16 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
 
         public async Task<AnnouncementDTO?> GetById(string id)
         {
-            var result = await _announcementRepository.GetById(id);
+            var result =
+                await _announcementRepository.GetById(id)
+                ?? throw new NotFoundException($"\"Announcement\" with id {id} was not found");
             var dto = _getMapper.ToDto(result);
 
-            var students = await _studentRepository.GetById(result.id_student);
+            var students =
+                await _studentRepository.GetById(result.id_student)
+                ?? throw new NotFoundException(
+                    $"\"Student\" with id {result.id_student} was not found"
+                );
 
             var enrichedDto = AnnouncementHelper.EnrichNotification(dto, result, students);
             return enrichedDto;
@@ -65,7 +89,10 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
 
         public async Task Update(string id, UpdateAnnouncementDTO updateAnnouncementDTO)
         {
-            var oldmodel = await _announcementRepository.GetById(id);
+            var oldmodel =
+                await _announcementRepository.GetById(id)
+                ?? throw new NotFoundException($"\"Announcement\" with id {id} was not found");
+
             UpdateHelper.ApplyPatch(updateAnnouncementDTO, oldmodel, "school_subjects");
             if (updateAnnouncementDTO.school_subjects != null)
                 oldmodel.school_subjects = updateAnnouncementDTO
