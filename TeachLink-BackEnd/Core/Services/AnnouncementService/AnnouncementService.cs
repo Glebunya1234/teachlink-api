@@ -1,19 +1,19 @@
-﻿using Newtonsoft.Json.Linq;
-using TeachLink_BackEnd.Core.Helpers;
+﻿using TeachLink_BackEnd.Core.Helpers;
 using TeachLink_BackEnd.Core.Mappers.BaseMappers;
 using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
-using TeachLink_BackEnd.Core.Services.TeacherService;
 
 namespace TeachLink_BackEnd.Core.Services.StudentService
 {
     public class AnnouncementService(
         IAnnouncementRepository announcementRepository,
+        IStudentRepository studentRepository,
         IBaseMapper<AnnouncementsModelMDB, CreateAnnouncementDTO> createMapper,
         IBaseMapper<AnnouncementsModelMDB, AnnouncementDTO> getMapper
     )
     {
         private readonly IAnnouncementRepository _announcementRepository = announcementRepository;
+        private readonly IStudentRepository _studentRepository = studentRepository;
         private readonly IBaseMapper<AnnouncementsModelMDB, CreateAnnouncementDTO> _createMapper =
             createMapper;
         private readonly IBaseMapper<AnnouncementsModelMDB, AnnouncementDTO> _getMapper = getMapper;
@@ -27,19 +27,40 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         public async Task<IEnumerable<AnnouncementDTO>> GetAll(int offset, int limit)
         {
             var result = await _announcementRepository.GetAll(offset, limit);
-            return _getMapper.ToDtoList(result);
+            var dtoList = _getMapper.ToDtoList(result).ToList();
+
+            var studentIds = result
+                .Where(n => !string.IsNullOrEmpty(n.id_student))
+                .Select(n => n.id_student)
+                .Distinct()
+                .ToList();
+            var students = await _studentRepository.GetByIdList(studentIds);
+            var studentDict = students.ToDictionary(s => s.id, s => s);
+            var enrichedDtos = AnnouncementHelper.EnrichNotifications(dtoList, result, studentDict);
+
+            return enrichedDtos;
         }
 
         public async Task<IEnumerable<AnnouncementDTO?>> GetListById(string id_student)
         {
             var result = await _announcementRepository.GetListById(id_student);
-            return _getMapper.ToDtoList(result);
+            var dtoList = _getMapper.ToDtoList(result).ToList();
+
+            var students = await _studentRepository.GetById(id_student);
+
+            var enrichedDtos = AnnouncementHelper.EnrichNotifications(dtoList, result, students);
+            return enrichedDtos;
         }
 
         public async Task<AnnouncementDTO?> GetById(string id)
         {
             var result = await _announcementRepository.GetById(id);
-            return _getMapper.ToDto(result);
+            var dto = _getMapper.ToDto(result);
+
+            var students = await _studentRepository.GetById(result.id_student);
+
+            var enrichedDto = AnnouncementHelper.EnrichNotification(dto, result, students);
+            return enrichedDto;
         }
 
         public async Task Update(string id, UpdateAnnouncementDTO updateAnnouncementDTO)

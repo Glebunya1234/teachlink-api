@@ -2,7 +2,7 @@
 {
     public required string id { get; init; }
 
-    public required string id_students { get; init; }
+    public required StudentDTO id_students { get; init; }
 
     public required string mini_description { get; init; }
 

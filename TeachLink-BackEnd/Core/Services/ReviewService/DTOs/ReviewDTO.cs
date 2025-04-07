@@ -2,9 +2,9 @@
 {
     public required string id { get; init; }
 
-    public required string id_teachers { get; init; }
+    public required TeacherTileDTO id_teachers { get; init; }
 
-    public required string id_students { get; init; }
+    public required StudentDTO id_students { get; init; }
 
     public required string reviews_text { get; init; }
 

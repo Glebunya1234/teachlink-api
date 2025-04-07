@@ -9,8 +9,8 @@ namespace TeachLink_BackEnd.Core.Mappers.AnnouncementMappers
             new ReviewsModelMDB
             {
                 id = dto.id,
-                id_teacher = dto.id_teachers,
-                id_student = dto.id_students,
+                id_teacher = dto.id_teachers.id,
+                id_student = dto.id_students.id,
                 school_subjects = dto
                     .school_subjects.Select(s => new SchoolSubjectsModelMDB { Subject = s.Subject })
                     .ToList(),
@@ -24,9 +24,9 @@ namespace TeachLink_BackEnd.Core.Mappers.AnnouncementMappers
             new ReviewDTO
             {
                 id = model.id,
-                id_teachers = model.id_teacher,
+                id_teachers = null!,
+                id_students = null!,
                 reviews_text = model.reviews_text,
-                id_students = model.id_student,
                 rating = model.rating,
                 school_subjects = model
                     .school_subjects.Select(s => new SchoolSubjectDTO { Subject = s.Subject })

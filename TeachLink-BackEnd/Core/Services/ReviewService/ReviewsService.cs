@@ -7,11 +7,15 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
 {
     public class ReviewsService(
         IReviewRepository reviewRepository,
+        ITeacherRepository teacherRepository,
+        IStudentRepository studentRepository,
         IBaseMapper<ReviewsModelMDB, CreateReviewDTO> createMapper,
         IBaseMapper<ReviewsModelMDB, ReviewDTO> getMapper
     )
     {
         private readonly IReviewRepository _reviewRepository = reviewRepository;
+        private readonly IStudentRepository _studentRepository = studentRepository;
+        private readonly ITeacherRepository _teacherRepository = teacherRepository;
         private readonly IBaseMapper<ReviewsModelMDB, CreateReviewDTO> _createMapper = createMapper;
         private readonly IBaseMapper<ReviewsModelMDB, ReviewDTO> _getMapper = getMapper;
 
@@ -24,13 +28,41 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         public async Task<IEnumerable<ReviewDTO>> GetAll(string id_teacher, int offset, int limit)
         {
             var result = await _reviewRepository.GetAll(id_teacher, offset, limit);
-            return _getMapper.ToDtoList(result);
+            var dtoList = _getMapper.ToDtoList(result);
+
+            var studentIds = result
+                .Where(n => !string.IsNullOrEmpty(n.id_student))
+                .Select(n => n.id_student)
+                .Distinct()
+                .ToList();
+
+            var teachersModel = await _teacherRepository.GetById(id_teacher);
+            var studentsModel = await _studentRepository.GetByIdList(studentIds);
+            var studentDict = studentsModel.ToDictionary(s => s.id, s => s);
+            var enrichedDtos = ReviewHelper.EnrichNotifications(
+                dtoList,
+                result,
+                teachersModel,
+                studentDict
+            );
+            return enrichedDtos;
         }
 
         public async Task<ReviewDTO?> GetById(string id_teacher, string id_student)
         {
             var result = await _reviewRepository.GetById(id_teacher, id_student);
-            return _getMapper.ToDto(result);
+            var dtoList = _getMapper.ToDto(result);
+
+            var teachersModel = await _teacherRepository.GetById(id_teacher);
+            var studentsModel = await _studentRepository.GetById(id_student);
+
+            var enrichedDto = ReviewHelper.EnrichNotification(
+                dtoList,
+                result,
+                teachersModel,
+                studentsModel
+            );
+            return enrichedDto;
         }
 
         public async Task Update(string id_teacher, string id_student, UpdateReviewDTO review)
