@@ -56,7 +56,6 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
             var teacherDict = teachers.ToDictionary(t => t.id, t => t);
             var studentDict = students.ToDictionary(s => s.id, s => s);
 
-            // Вызов хелпера для обогащения DTO
             var enrichedDtos = NotificationHelper.EnrichNotifications(
                 dtoList,
                 results,
@@ -71,7 +70,19 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         {
             var result = await _notificationRepository.GetById(token, id);
 
-            return _getMapper.ToDto(result);
+            var dto = _getMapper.ToDto(result);
+
+            var teachers = await _teacherRepository.GetById(result.id_teacher);
+            var students = await _studentRepository.GetById(result.id_student);
+
+            var enrichedDto = NotificationHelper.EnrichNotification(
+                dto,
+                result,
+                teachers,
+                students
+            );
+
+            return enrichedDto;
         }
 
         public async Task Update(
