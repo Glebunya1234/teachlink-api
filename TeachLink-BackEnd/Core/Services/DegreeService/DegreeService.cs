@@ -16,7 +16,7 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         public async Task<IEnumerable<DegreeDTO>> GetAll()
         {
             var degrees = await _degreeRepository.GetAll();
-            if (degrees.Count() != 0)
+            if (degrees.Count() == 0)
                 throw new NotFoundException($"\"Degree\" were not found");
             return _degreeMappers.ToDtoList(degrees);
         }
