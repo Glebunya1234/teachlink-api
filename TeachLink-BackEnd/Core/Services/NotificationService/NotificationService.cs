@@ -2,6 +2,7 @@
 using TeachLink_BackEnd.Core.Mappers.BaseMappers;
 using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
+using TeachLink_BackEnd.Infrastructure.GlobalHendelrs;
 
 namespace TeachLink_BackEnd.Core.Services.StudentService
 {
@@ -23,6 +24,16 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         public async Task Create(CreateNotificationDTO createNotificationDTO)
         {
             var notificationModel = _createMapper.ToModel(createNotificationDTO);
+            var teacher =
+                await _teacherRepository.GetById(createNotificationDTO.id_teacher)
+                ?? throw new NotFoundException(
+                    $"\"Teacher\" with id {createNotificationDTO.id_teacher} was not found"
+                );
+            var student =
+                await _studentRepository.GetById(createNotificationDTO.id_student)
+                ?? throw new NotFoundException(
+                    $"\"Student\" with id {createNotificationDTO.id_student} was not found"
+                );
             await _notificationRepository.Create(notificationModel);
         }
 
@@ -33,8 +44,8 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         )
         {
             var results = await _notificationRepository.GetAll(token, id_entity, for_teacher);
-            if (results == null || !results.Any())
-                return new List<NotificationDTO>();
+            if (results.Count() == 0)
+                throw new NotFoundException("Notifications were not found");
 
             var dtoList = _getMapper.ToDtoList(results).ToList();
 
@@ -51,7 +62,12 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
                 .ToList();
 
             var teachers = await _teacherRepository.GetByIdList(teacherIds);
+            if (teachers.Count() != teacherIds.Count())
+                throw new NotFoundException("Some teachers were not found");
+
             var students = await _studentRepository.GetByIdList(studentIds);
+            if (students.Count() != studentIds.Count())
+                throw new NotFoundException("Some students were not found");
 
             var teacherDict = teachers.ToDictionary(t => t.id, t => t);
             var studentDict = students.ToDictionary(s => s.id, s => s);
@@ -68,12 +84,22 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
 
         public async Task<NotificationDTO> GetById(string token, string id)
         {
-            var result = await _notificationRepository.GetById(token, id);
+            var result =
+                await _notificationRepository.GetById(token, id)
+                ?? throw new NotFoundException($"\"Notification\" with id {id} was not found");
 
             var dto = _getMapper.ToDto(result);
 
-            var teachers = await _teacherRepository.GetById(result.id_teacher);
-            var students = await _studentRepository.GetById(result.id_student);
+            var teachers =
+                await _teacherRepository.GetById(result.id_teacher)
+                ?? throw new NotFoundException(
+                    $"\"Teacher\" with id {result.id_teacher} was not found"
+                );
+            var students =
+                await _studentRepository.GetById(result.id_student)
+                ?? throw new NotFoundException(
+                    $"\"Student\" with id {result.id_student} was not found"
+                );
 
             var enrichedDto = NotificationHelper.EnrichNotification(
                 dto,
@@ -91,7 +117,9 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
             UpdateNotificationDTO updateNotificationDTO
         )
         {
-            var oldmodel = await _notificationRepository.GetById(token, id);
+            var oldmodel =
+                await _notificationRepository.GetById(token, id)
+                ?? throw new NotFoundException($"\"Notification\" with id {id} was not found");
             UpdateHelper.ApplyPatch(updateNotificationDTO, oldmodel);
             await _notificationRepository.Update(token, id, oldmodel);
         }
