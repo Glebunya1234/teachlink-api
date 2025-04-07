@@ -1,6 +1,7 @@
 ﻿using TeachLink_BackEnd.Core.Mappers.BaseMappers;
 using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
+using TeachLink_BackEnd.Infrastructure.GlobalHendelrs;
 
 namespace TeachLink_BackEnd.Core.Services.StudentService
 {
@@ -15,12 +16,16 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         public async Task<IEnumerable<SubjectDTO>> GetAll()
         {
             var model = await _subjectRepository.GetAll();
+            if (model.Count() == 0)
+                throw new NotFoundException($"\"Subject\" were not found");
             return _mapper.ToDtoList(model);
         }
 
         public async Task<SubjectDTO?> GetById(string id)
         {
-            var model = await _subjectRepository.GetById(id);
+            var model =
+                await _subjectRepository.GetById(id)
+                ?? throw new NotFoundException($"\"Subject\" with id {id} was not found");
             return _mapper.ToDto(model);
         }
     }
