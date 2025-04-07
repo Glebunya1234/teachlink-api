@@ -45,7 +45,7 @@ namespace TeachLink_BackEnd.Infrastructure.Services
                 minPrice,
                 maxPrice
             );
-            if (teachers.Count() != 0)
+            if (teachers.Count() == 0)
                 throw new NotFoundException("Teachers were not found");
 
             var degreeIds = teachers
