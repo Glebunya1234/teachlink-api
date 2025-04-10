@@ -1,6 +1,4 @@
-﻿using TeachLink_BackEnd.Core.Models;
-
-public record CreateTeacherDTO
+﻿public record CreateTeacherDTO
 {
     public string? full_name { get; init; }
     public string? description { get; init; }
