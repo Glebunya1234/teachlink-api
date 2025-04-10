@@ -37,15 +37,9 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
             await _notificationRepository.Create(notificationModel);
         }
 
-        public async Task<IEnumerable<NotificationDTO>> GetAll(
-            string token,
-            string id_entity,
-            bool for_teacher
-        )
+        public async Task<IEnumerable<NotificationDTO>> GetAll(string id_entity, bool for_teacher)
         {
-            var results = await _notificationRepository.GetAll(token, id_entity, for_teacher);
-            if (results.Count() == 0)
-                throw new NotFoundException("Notifications were not found");
+            var results = await _notificationRepository.GetAll(id_entity, for_teacher);
 
             var dtoList = _getMapper.ToDtoList(results).ToList();
 
@@ -62,12 +56,7 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
                 .ToList();
 
             var teachers = await _teacherRepository.GetByIdList(teacherIds);
-            if (teachers.Count() != teacherIds.Count())
-                throw new NotFoundException("Some teachers were not found");
-
             var students = await _studentRepository.GetByIdList(studentIds);
-            if (students.Count() != studentIds.Count())
-                throw new NotFoundException("Some students were not found");
 
             var teacherDict = teachers.ToDictionary(t => t.id, t => t);
             var studentDict = students.ToDictionary(s => s.id, s => s);
@@ -82,10 +71,10 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
             return enrichedDtos;
         }
 
-        public async Task<NotificationDTO> GetById(string token, string id)
+        public async Task<NotificationDTO> GetById(string id)
         {
             var result =
-                await _notificationRepository.GetById(token, id)
+                await _notificationRepository.GetById(id)
                 ?? throw new NotFoundException($"\"Notification\" with id {id} was not found");
 
             var dto = _getMapper.ToDto(result);
@@ -111,17 +100,13 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
             return enrichedDto;
         }
 
-        public async Task Update(
-            string token,
-            string id,
-            UpdateNotificationDTO updateNotificationDTO
-        )
+        public async Task Update(string id, UpdateNotificationDTO updateNotificationDTO)
         {
             var oldmodel =
-                await _notificationRepository.GetById(token, id)
+                await _notificationRepository.GetById(id)
                 ?? throw new NotFoundException($"\"Notification\" with id {id} was not found");
             UpdateHelper.ApplyPatch(updateNotificationDTO, oldmodel);
-            await _notificationRepository.Update(token, id, oldmodel);
+            await _notificationRepository.Update(id, oldmodel);
         }
     }
 }

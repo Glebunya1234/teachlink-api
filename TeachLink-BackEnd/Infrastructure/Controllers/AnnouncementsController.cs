@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TeachLink_BackEnd.Core.Services.StudentService;
 
 namespace TeachLink_BackEnd.Infrastructure.Controllers
@@ -25,6 +26,7 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             return Ok(announcementDTO);
         }
 
+        [Authorize]
         [HttpGet("announcements/list/student/{id_student}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AnnouncementDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -49,6 +51,7 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             return Ok(announcementDTO);
         }
 
+        [Authorize]
         [HttpPost("announcements")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(AnnouncementDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -62,6 +65,7 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             return Created();
         }
 
+        [Authorize]
         [HttpPatch("announcements/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateAnnouncementDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -76,6 +80,7 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpDelete("announcements/{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

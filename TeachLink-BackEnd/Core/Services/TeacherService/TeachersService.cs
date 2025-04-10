@@ -45,8 +45,6 @@ namespace TeachLink_BackEnd.Infrastructure.Services
                 minPrice,
                 maxPrice
             );
-            if (teachers.Count() == 0)
-                throw new NotFoundException("Teachers were not found");
 
             var degreeIds = teachers
                 .Where(t => !string.IsNullOrEmpty(t.degree))
@@ -60,12 +58,8 @@ namespace TeachLink_BackEnd.Infrastructure.Services
                 .ToList();
 
             var degrees = await _degreeRepository.GetAll(degreeIds);
-            if (degrees.Count() != degreeIds.Count())
-                throw new NotFoundException("Degrees were not found");
 
             var experiences = await _experienceRepository.GetAll(expIds);
-            if (experiences.Count() != expIds.Count())
-                throw new NotFoundException("Experiences were not found");
 
             foreach (var teacher in teachers)
             {

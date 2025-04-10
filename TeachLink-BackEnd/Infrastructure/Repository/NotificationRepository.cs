@@ -19,7 +19,6 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
         }
 
         public async Task<IEnumerable<NotificationsModelMDB>> GetAll(
-            string token,
             string id_entity,
             bool for_teacher
         )
@@ -32,12 +31,12 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
                 .ToListAsync();
         }
 
-        public async Task<NotificationsModelMDB?> GetById(string token, string id)
+        public async Task<NotificationsModelMDB?> GetById(string id)
         {
             return await _collection.Find(s => s.id == id).FirstOrDefaultAsync();
         }
 
-        public async Task Update(string token, string id, NotificationsModelMDB notificationsModel)
+        public async Task Update(string id, NotificationsModelMDB notificationsModel)
         {
             var res = await _collection.ReplaceOneAsync(n => n.id == id, notificationsModel);
             if (res.ModifiedCount == 0)

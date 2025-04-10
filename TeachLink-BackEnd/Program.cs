@@ -52,6 +52,7 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection(nameof(MongoSettings)));
 builder.Services.AddSingleton<SupabaseClientFactory>();
+
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
 builder.Services.AddScoped<IBaseMapper<DegreeModelMDB, DegreeDTO>, GetDegreeMappers>();

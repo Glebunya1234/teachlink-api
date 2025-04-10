@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Infrastructure.Services;
 
@@ -57,6 +57,7 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             return Ok(teacherTileDto);
         }
 
+        [Authorize]
         [HttpPost("teachers")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateTeacherDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -68,6 +69,7 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpPatch("teachers/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateTeacherDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

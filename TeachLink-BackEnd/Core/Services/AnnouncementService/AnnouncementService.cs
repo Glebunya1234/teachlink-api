@@ -33,8 +33,6 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         public async Task<IEnumerable<AnnouncementDTO>> GetAll(int offset, int limit)
         {
             var result = await _announcementRepository.GetAll(offset, limit);
-            if (result.Count() == 0)
-                throw new NotFoundException("Announcements were not found");
 
             var dtoList = _getMapper.ToDtoList(result).ToList();
 
@@ -45,8 +43,6 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
                 .ToList();
 
             var students = await _studentRepository.GetByIdList(studentIds);
-            if (students.Count() == 0)
-                throw new NotFoundException("Students were not found");
 
             var studentDict = students.ToDictionary(s => s.id, s => s);
             var enrichedDtos = AnnouncementHelper.EnrichNotifications(dtoList, result, studentDict);
@@ -57,14 +53,10 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         public async Task<IEnumerable<AnnouncementDTO?>> GetListById(string id_student)
         {
             var result = await _announcementRepository.GetListById(id_student);
-            if (result.Count() == 0)
-                throw new NotFoundException($"\"Announcement\" with id {id_student} was not found");
 
             var dtoList = _getMapper.ToDtoList(result).ToList();
 
-            var students =
-                await _studentRepository.GetById(id_student)
-                ?? throw new NotFoundException($"\"Student\" with id {id_student} was not found");
+            var students = await _studentRepository.GetById(id_student);
 
             var enrichedDtos = AnnouncementHelper.EnrichNotifications(dtoList, result, students);
             return enrichedDtos;

@@ -39,8 +39,6 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         public async Task<IEnumerable<ReviewDTO>> GetAll(string id_teacher, int offset, int limit)
         {
             var result = await _reviewRepository.GetAll(id_teacher, offset, limit);
-            if (result.Count() == 0)
-                throw new NotFoundException("Reviews were not found");
 
             var dtoList = _getMapper.ToDtoList(result);
 
@@ -50,13 +48,9 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
                 .Distinct()
                 .ToList();
 
-            var teachersModel =
-                await _teacherRepository.GetById(id_teacher)
-                ?? throw new NotFoundException($"\"Teacher\" with id {id_teacher} was not found");
+            var teachersModel = await _teacherRepository.GetById(id_teacher);
 
             var studentsModel = await _studentRepository.GetByIdList(studentIds);
-            if (studentsModel.Count() == 0 || studentsModel.Count() != studentIds.Count())
-                throw new NotFoundException("Students were not found");
 
             var studentDict = studentsModel.ToDictionary(s => s.id, s => s);
             var enrichedDtos = ReviewHelper.EnrichNotifications(

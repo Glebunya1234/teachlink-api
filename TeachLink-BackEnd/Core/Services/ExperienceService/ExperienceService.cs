@@ -16,8 +16,6 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         public async Task<IEnumerable<ExperienceDTO>> GetAll()
         {
             var experience = await _experienceRepository.GetAll();
-            if (experience.Count() == 0)
-                throw new NotFoundException("Experience was not found");
 
             return _mapper.ToDtoList(experience);
         }

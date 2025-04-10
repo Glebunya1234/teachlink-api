@@ -26,8 +26,7 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         public async Task<IEnumerable<StudentDTO>> GetAll(int offset, int limit)
         {
             var students = await _studentRepository.GetAll(offset, limit);
-            if (students.Count() == 0)
-                throw new NotFoundException("Students was not found");
+
             return _getMapper.ToDtoList(students);
         }
 

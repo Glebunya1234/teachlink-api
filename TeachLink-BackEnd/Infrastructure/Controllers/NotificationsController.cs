@@ -1,10 +1,11 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TeachLink_BackEnd.Core.Helpers;
 using TeachLink_BackEnd.Core.Services.StudentService;
 
 namespace TeachLink_BackEnd.Infrastructure.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/")]
     public class NotificationsController : ControllerBase
@@ -23,21 +24,9 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAll(string id_entity, bool for_teacher)
         {
-            //var token = HttpContext
-            //    .Request.Headers["Authorization"]
-            //    .ToString()
-            //    .Replace("Bearer ", "");
+            CheckAuthHelper.GetTokenFromHeader(HttpContext.Request);
 
-            //if (string.IsNullOrEmpty(token))
-            //{
-            //    return Unauthorized("Authorization token is missing.");
-            //}
-
-            var notificationDTO = await _notificationService.GetAll(
-                "token",
-                id_entity,
-                for_teacher
-            );
+            var notificationDTO = await _notificationService.GetAll(id_entity, for_teacher);
             return Ok(notificationDTO);
         }
 
@@ -48,17 +37,9 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetById(string id)
         {
-            //var token = HttpContext
-            //    .Request.Headers["Authorization"]
-            //    .ToString()
-            //    .Replace("Bearer ", "");
+            CheckAuthHelper.GetTokenFromHeader(HttpContext.Request);
 
-            //if (string.IsNullOrEmpty(token))
-            //{
-            //    return Unauthorized("Authorization token is missing.");
-            //}
-
-            var notificationDTO = await _notificationService.GetById("token", id);
+            var notificationDTO = await _notificationService.GetById(id);
             return Ok(notificationDTO);
         }
 
@@ -71,6 +52,8 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             [FromBody] CreateNotificationDTO createNotificationDTO
         )
         {
+            CheckAuthHelper.GetTokenFromHeader(HttpContext.Request);
+
             await _notificationService.Create(createNotificationDTO);
             return Created();
         }
@@ -85,7 +68,9 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             [FromBody] UpdateNotificationDTO updateNotificationDTO
         )
         {
-            await _notificationService.Update("token", id, updateNotificationDTO);
+            CheckAuthHelper.GetTokenFromHeader(HttpContext.Request);
+
+            await _notificationService.Update(id, updateNotificationDTO);
             return Ok();
         }
     }

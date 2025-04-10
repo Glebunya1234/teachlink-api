@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TeachLink_BackEnd.Core.Services.StudentService;
-using TeachLink_BackEnd.Infrastructure.Services;
 
 namespace TeachLink_BackEnd.Infrastructure.Controllers
 {
@@ -38,6 +38,7 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             return Ok(reviewDTO);
         }
 
+        [Authorize]
         [HttpPost("reviews")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateReviewDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -49,6 +50,7 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             return Created();
         }
 
+        [Authorize]
         [HttpPatch("reviews/{id_teacher}/{id_student}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateReviewDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

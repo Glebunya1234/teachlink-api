@@ -16,8 +16,7 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         public async Task<IEnumerable<SubjectDTO>> GetAll()
         {
             var model = await _subjectRepository.GetAll();
-            if (model.Count() == 0)
-                throw new NotFoundException($"\"Subject\" were not found");
+
             return _mapper.ToDtoList(model);
         }
 
