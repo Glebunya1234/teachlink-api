@@ -71,6 +71,12 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
             {
                 SortByEnumMDB.PriceAsc => Builders<TeachersModelMDB>.Sort.Ascending(t => t.price),
                 SortByEnumMDB.PriceDesc => Builders<TeachersModelMDB>.Sort.Descending(t => t.price),
+                SortByEnumMDB.Rating => Builders<TeachersModelMDB>.Sort.Descending(t =>
+                    t.average_rating
+                ),
+                SortByEnumMDB.Reviews => Builders<TeachersModelMDB>.Sort.Descending(t =>
+                    t.review_count
+                ),
                 _ => Builders<TeachersModelMDB>.Sort.Ascending(t => t.full_name),
             };
 

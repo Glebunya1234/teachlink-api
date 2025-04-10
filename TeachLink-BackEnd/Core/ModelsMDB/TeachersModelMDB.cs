@@ -14,6 +14,8 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
         private int _age = 18;
         private int _price = 100;
 
+        public decimal average_rating { get; set; } = 0.0m;
+        public int review_count { get; set; } = 0;
         public string full_name
         {
             get => _fullName;

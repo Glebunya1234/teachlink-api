@@ -22,6 +22,8 @@ namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
                 city = dto.city,
                 age = dto.age,
                 sex = dto.sex,
+                average_rating = dto.average_rating,
+                review_count = dto.review_count,
                 year_of_end = dto.year_of_end,
                 online = dto.online,
                 show_info = dto.show_info,
@@ -51,6 +53,8 @@ namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
                 online = model.online,
                 show_info = model.show_info,
                 price = model.price,
+                average_rating = model.average_rating,
+                review_count = model.review_count,
                 createdAt = model.createdAt,
                 updatedAt = model.updatedAt,
             };
