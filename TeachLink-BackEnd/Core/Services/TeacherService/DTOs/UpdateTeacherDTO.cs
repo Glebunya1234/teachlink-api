@@ -13,5 +13,7 @@
     public string? sex { get; init; }
     public bool? online { get; init; }
     public bool? show_info { get; init; }
+    public int? review_count { get; init; }
+    public decimal? average_rating { get; init; }
     public int? price { get; init; }
 }

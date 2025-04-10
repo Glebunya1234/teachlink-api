@@ -51,18 +51,14 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
         }
 
         [Authorize]
-        [HttpPatch("reviews/{id_teacher}/{id_student}")]
+        [HttpPatch("reviews/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateReviewDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Update(
-            string id_teacher,
-            string id_student,
-            [FromBody] UpdateReviewDTO updateReview
-        )
+        public async Task<IActionResult> Update(string id, [FromBody] UpdateReviewDTO updateReview)
         {
-            await _reviewsService.Update(id_teacher, id_student, updateReview);
+            await _reviewsService.Update(id, updateReview);
             return Ok();
         }
     }

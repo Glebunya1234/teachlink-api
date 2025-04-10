@@ -34,6 +34,17 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
                     $"\"Student\" with id {createReview.id_student} was not found"
                 );
             await _reviewRepository.Create(reviewModel);
+
+            var reviews = await _reviewRepository.GetAllByTeacherId(createReview.id_teacher);
+            var newReviewCount = reviews.Count();
+            decimal newAverageRating = (decimal)reviews.Average(r => r.rating);
+
+            var teachersModel = await _teacherRepository.GetById(createReview.id_teacher);
+
+            teachersModel.review_count = reviews.Count();
+            teachersModel.average_rating = (decimal)reviews.Average(r => r.rating);
+
+            await _teacherRepository.UpdateById(createReview.id_teacher, teachersModel);
         }
 
         public async Task<IEnumerable<ReviewDTO>> GetAll(string id_teacher, int offset, int limit)
@@ -88,19 +99,26 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
             return enrichedDto;
         }
 
-        public async Task Update(string id_teacher, string id_student, UpdateReviewDTO review)
+        public async Task Update(string id, UpdateReviewDTO review)
         {
             var oldmodel =
-                await _reviewRepository.GetById(id_teacher, id_student)
-                ?? throw new NotFoundException(
-                    $"\"Review\" with id {id_teacher} and {id_student} was not found"
-                );
+                await _reviewRepository.GetById(id)
+                ?? throw new NotFoundException($"\"Review\" with id {id} was not found");
             UpdateHelper.ApplyPatch(review, oldmodel, "school_subjects");
             if (review.school_subjects != null)
                 oldmodel.school_subjects = review
                     .school_subjects.Select(s => new SchoolSubjectsModelMDB { Subject = s.Subject })
                     .ToList();
-            await _reviewRepository.Update(id_teacher, id_student, oldmodel);
+            await _reviewRepository.Update(id, oldmodel);
+
+            var reviews = await _reviewRepository.GetAllByTeacherId(oldmodel.id_teacher);
+
+            var teachersModel = await _teacherRepository.GetById(oldmodel.id_teacher);
+
+            teachersModel.review_count = reviews.Count();
+            teachersModel.average_rating = (decimal)reviews.Average(r => r.rating);
+
+            await _teacherRepository.UpdateById(oldmodel.id_teacher, teachersModel);
         }
     }
 }

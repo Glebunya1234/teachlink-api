@@ -122,6 +122,7 @@ builder.Services.AddScoped<TeachersService>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 
 builder.Services.AddExceptionHandler<HandlerGlobalExeptions>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
