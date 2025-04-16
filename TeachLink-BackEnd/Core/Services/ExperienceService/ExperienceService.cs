@@ -24,7 +24,7 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         {
             var experience =
                 await _experienceRepository.GetById(id)
-                ?? throw new NotFoundException($"\"Experience\" with id {id} was not found");
+                ?? throw new NotFoundException($"Experience with id {id} was not found");
             return _mapper.ToDto(experience);
         }
     }

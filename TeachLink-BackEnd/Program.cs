@@ -54,6 +54,7 @@ builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection(nameo
 
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
+
 builder.Services.AddScoped<IBaseMapper<DegreeModelMDB, DegreeDTO>, GetDegreeMappers>();
 
 builder.Services.AddScoped<IBaseMapper<ExperienceModelMDB, ExperienceDTO>, GetExperienceMappers>();
@@ -130,7 +131,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseExceptionHandler(_ => { });
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

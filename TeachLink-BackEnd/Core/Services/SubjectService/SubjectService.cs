@@ -24,7 +24,7 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         {
             var model =
                 await _subjectRepository.GetById(id)
-                ?? throw new NotFoundException($"\"Subject\" with id {id} was not found");
+                ?? throw new NotFoundException($"Subject with id {id} was not found");
             return _mapper.ToDto(model);
         }
     }

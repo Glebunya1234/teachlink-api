@@ -82,15 +82,15 @@ namespace TeachLink_BackEnd.Infrastructure.Services
         {
             var teacher =
                 await _teacherRepository.GetById(id)
-                ?? throw new NotFoundException($"\"Teacher\" with id {id} was not found");
+                ?? throw new NotFoundException($"Teacher with id {id} was not found");
 
             var degree =
                 await _degreeRepository.GetById(teacher.degree)
-                ?? throw new NotFoundException("\"Degree\" was not found");
+                ?? throw new NotFoundException("Degree was not found");
 
             var experience =
                 await _experienceRepository.GetById(teacher.experience)
-                ?? throw new NotFoundException("\"Experience\" was not found");
+                ?? throw new NotFoundException("Experience was not found");
 
             teacher.degree = degree.degree_name;
             teacher.experience = experience.experience_name;
@@ -107,7 +107,7 @@ namespace TeachLink_BackEnd.Infrastructure.Services
         {
             var oldmodel =
                 await _teacherRepository.GetById(id)
-                ?? throw new NotFoundException($"\"Teacher\" with id {id} was not found");
+                ?? throw new NotFoundException($"Teacher with id {id} was not found");
             UpdateHelper.ApplyPatch(
                 updatteacherDto,
                 oldmodel,

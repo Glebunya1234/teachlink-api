@@ -27,12 +27,12 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
             var teacher =
                 await _teacherRepository.GetById(createNotificationDTO.id_teacher)
                 ?? throw new NotFoundException(
-                    $"\"Teacher\" with id {createNotificationDTO.id_teacher} was not found"
+                    $"Teacher with id {createNotificationDTO.id_teacher} was not found"
                 );
             var student =
                 await _studentRepository.GetById(createNotificationDTO.id_student)
                 ?? throw new NotFoundException(
-                    $"\"Student\" with id {createNotificationDTO.id_student} was not found"
+                    $"Student with id {createNotificationDTO.id_student} was not found"
                 );
             await _notificationRepository.Create(notificationModel);
         }
@@ -75,19 +75,19 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         {
             var result =
                 await _notificationRepository.GetById(id)
-                ?? throw new NotFoundException($"\"Notification\" with id {id} was not found");
+                ?? throw new NotFoundException($"Notification with id {id} was not found");
 
             var dto = _getMapper.ToDto(result);
 
             var teachers =
                 await _teacherRepository.GetById(result.id_teacher)
                 ?? throw new NotFoundException(
-                    $"\"Teacher\" with id {result.id_teacher} was not found"
+                    $"Teacher with id {result.id_teacher} was not found"
                 );
             var students =
                 await _studentRepository.GetById(result.id_student)
                 ?? throw new NotFoundException(
-                    $"\"Student\" with id {result.id_student} was not found"
+                    $"Student with id {result.id_student} was not found"
                 );
 
             var enrichedDto = NotificationHelper.EnrichNotification(
@@ -104,7 +104,7 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         {
             var oldmodel =
                 await _notificationRepository.GetById(id)
-                ?? throw new NotFoundException($"\"Notification\" with id {id} was not found");
+                ?? throw new NotFoundException($"Notification with id {id} was not found");
             UpdateHelper.ApplyPatch(updateNotificationDTO, oldmodel);
             await _notificationRepository.Update(id, oldmodel);
         }

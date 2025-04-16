@@ -26,12 +26,12 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
             var teacher =
                 await _teacherRepository.GetById(createReview.id_teacher)
                 ?? throw new NotFoundException(
-                    $"\"Teacher\" with id {createReview.id_teacher} was not found"
+                    $"Teacher with id {createReview.id_teacher} was not found"
                 );
             var student =
                 await _studentRepository.GetById(createReview.id_student)
                 ?? throw new NotFoundException(
-                    $"\"Student\" with id {createReview.id_student} was not found"
+                    $"Student with id {createReview.id_student} was not found"
                 );
             await _reviewRepository.Create(reviewModel);
 
@@ -84,11 +84,11 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
 
             var teachersModel =
                 await _teacherRepository.GetById(id_teacher)
-                ?? throw new NotFoundException($"\"Teacher\" with id {id_teacher} was not found");
+                ?? throw new NotFoundException($"Teacher with id {id_teacher} was not found");
 
             var studentsModel =
                 await _studentRepository.GetById(id_student)
-                ?? throw new NotFoundException($"\"Student\" with id {id_student} was not found");
+                ?? throw new NotFoundException($"Student with id {id_student} was not found");
 
             var enrichedDto = ReviewHelper.EnrichNotification(
                 dtoList,
@@ -103,7 +103,7 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         {
             var oldmodel =
                 await _reviewRepository.GetById(id)
-                ?? throw new NotFoundException($"\"Review\" with id {id} was not found");
+                ?? throw new NotFoundException($"Review with id {id} was not found");
             UpdateHelper.ApplyPatch(review, oldmodel, "school_subjects");
             if (review.school_subjects != null)
                 oldmodel.school_subjects = review

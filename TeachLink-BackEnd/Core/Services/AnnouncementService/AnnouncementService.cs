@@ -25,7 +25,7 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
             var student =
                 await _studentRepository.GetById(createAnnouncementDTO.id_student)
                 ?? throw new NotFoundException(
-                    $"\"Student\" with id {createAnnouncementDTO.id_student} was not found"
+                    $"Student with id {createAnnouncementDTO.id_student} was not found"
                 );
             await _announcementRepository.Create(announcementModel);
         }
@@ -66,13 +66,13 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         {
             var result =
                 await _announcementRepository.GetById(id)
-                ?? throw new NotFoundException($"\"Announcement\" with id {id} was not found");
+                ?? throw new NotFoundException($"Announcement with id {id} was not found");
             var dto = _getMapper.ToDto(result);
 
             var students =
                 await _studentRepository.GetById(result.id_student)
                 ?? throw new NotFoundException(
-                    $"\"Student\" with id {result.id_student} was not found"
+                    $"Student with id {result.id_student} was not found"
                 );
 
             var enrichedDto = AnnouncementHelper.EnrichNotification(dto, result, students);
@@ -83,7 +83,7 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         {
             var oldmodel =
                 await _announcementRepository.GetById(id)
-                ?? throw new NotFoundException($"\"Announcement\" with id {id} was not found");
+                ?? throw new NotFoundException($"Announcement with id {id} was not found");
 
             UpdateHelper.ApplyPatch(updateAnnouncementDTO, oldmodel, "school_subjects");
             if (updateAnnouncementDTO.school_subjects != null)
