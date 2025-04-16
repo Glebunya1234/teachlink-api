@@ -32,6 +32,7 @@ namespace TeachLink_BackEnd.Infrastructure.GlobalHendelrs
         {
             return exception switch
             {
+                BadRequestException => (HttpStatusCode.BadRequest, exception.Message),
                 NotFoundException => (HttpStatusCode.NotFound, exception.Message),
                 _ => (
                     HttpStatusCode.InternalServerError,
