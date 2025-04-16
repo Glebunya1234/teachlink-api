@@ -1,6 +1,7 @@
 ﻿using TeachLink_BackEnd.Core.ModelsMDB;
+using TeachLink_BackEnd.Infrastructure.GlobalHendelrs;
 
-namespace TeachLink_UnitTests
+namespace TeachLink_UnitTests.Tests
 {
     [TestClass]
     public class ReviewsModelMDBTests
@@ -19,7 +20,7 @@ namespace TeachLink_UnitTests
             }
             else
             {
-                Assert.ThrowsException<ArgumentException>(() => model.id_teacher = value);
+                Assert.ThrowsException<BadRequestException>(() => model.id_teacher = value);
             }
         }
 
@@ -37,7 +38,7 @@ namespace TeachLink_UnitTests
             }
             else
             {
-                Assert.ThrowsException<ArgumentException>(() => model.id_student = value);
+                Assert.ThrowsException<BadRequestException>(() => model.id_student = value);
             }
         }
 
@@ -56,7 +57,7 @@ namespace TeachLink_UnitTests
             }
             else
             {
-                Assert.ThrowsException<ArgumentOutOfRangeException>(() => model.rating = rating);
+                Assert.ThrowsException<BadRequestException>(() => model.rating = rating);
             }
         }
 
@@ -81,7 +82,7 @@ namespace TeachLink_UnitTests
             }
             else
             {
-                Assert.ThrowsException<ArgumentException>(() => model.reviews_text = text);
+                Assert.ThrowsException<BadRequestException>(() => model.reviews_text = text);
             }
         }
     }

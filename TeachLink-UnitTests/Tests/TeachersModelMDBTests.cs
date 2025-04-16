@@ -1,11 +1,12 @@
 ﻿using TeachLink_BackEnd.Core.ModelsMDB;
+using TeachLink_BackEnd.Infrastructure.GlobalHendelrs;
 
-namespace TeachLink_UnitTests
+namespace TeachLink_UnitTests.Tests
 {
     [TestClass]
     public sealed class TeachersModelMDBTests
     {
-        
+
 
         [TestMethod]
         [DataRow("Иван Иванов", true)]
@@ -23,7 +24,7 @@ namespace TeachLink_UnitTests
             }
             else
             {
-                Assert.ThrowsException<ArgumentException>(() => teacher.full_name = name);
+                Assert.ThrowsException<BadRequestException>(() => teacher.full_name = name);
             }
         }
 
@@ -40,12 +41,12 @@ namespace TeachLink_UnitTests
             }
             else
             {
-                Assert.ThrowsException<ArgumentException>(() => teacher.mini_description = value);
+                Assert.ThrowsException<BadRequestException>(() => teacher.mini_description = value);
             }
         }
 
         [TestMethod]
-        [DynamicData(nameof(GetDescriptionData), DynamicDataSourceType.Method)] 
+        [DynamicData(nameof(GetDescriptionData), DynamicDataSourceType.Method)]
         public void Test_Description_Validation(string value, bool isValid)
         {
             var teacher = new TeachersModelMDB();
@@ -57,7 +58,7 @@ namespace TeachLink_UnitTests
             }
             else
             {
-                Assert.ThrowsException<ArgumentException>(() => teacher.description = value);
+                Assert.ThrowsException<BadRequestException>(() => teacher.description = value);
             }
         }
 
@@ -76,7 +77,7 @@ namespace TeachLink_UnitTests
             }
             else
             {
-                Assert.ThrowsException<ArgumentException>(() => teacher.year_of_end = year);
+                Assert.ThrowsException<BadRequestException>(() => teacher.year_of_end = year);
             }
         }
 
@@ -95,7 +96,7 @@ namespace TeachLink_UnitTests
             }
             else
             {
-                Assert.ThrowsException<ArgumentException>(() => teacher.age = age);
+                Assert.ThrowsException<BadRequestException>(() => teacher.age = age);
             }
         }
 
@@ -114,7 +115,7 @@ namespace TeachLink_UnitTests
             }
             else
             {
-                Assert.ThrowsException<ArgumentException>(() => teacher.price = price);
+                Assert.ThrowsException<BadRequestException>(() => teacher.price = price);
             }
         }
         public static IEnumerable<object[]> GetMiniDescriptionData() => new List<object[]>

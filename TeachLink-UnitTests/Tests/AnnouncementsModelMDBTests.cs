@@ -1,6 +1,7 @@
 ﻿using TeachLink_BackEnd.Core.ModelsMDB;
+using TeachLink_BackEnd.Infrastructure.GlobalHendelrs;
 
-namespace TeachLink_UnitTests
+namespace TeachLink_UnitTests.Tests
 {
     [TestClass]
     public class AnnouncementsModelMDBTests
@@ -20,7 +21,7 @@ namespace TeachLink_UnitTests
             }
             else
             {
-                Assert.ThrowsException<ArgumentException>(() => model.id_student = idStudent);
+                Assert.ThrowsException<BadRequestException>(() => model.id_student = idStudent);
             }
         }
 
@@ -39,7 +40,7 @@ namespace TeachLink_UnitTests
             }
             else
             {
-                Assert.ThrowsException<ArgumentException>(() => model.mini_description = desc);
+                Assert.ThrowsException<BadRequestException>(() => model.mini_description = desc);
             }
         }
 
@@ -56,7 +57,7 @@ namespace TeachLink_UnitTests
             }
             else
             {
-                Assert.ThrowsException<ArgumentException>(() => model.description = desc);
+                Assert.ThrowsException<BadRequestException>(() => model.description = desc);
             }
         }
 
@@ -69,7 +70,7 @@ namespace TeachLink_UnitTests
             yield return new object[] { "", false };
         }
 
-        
+
     }
 }
 
