@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using TeachLink_BackEnd.Infrastructure.GlobalHendelrs;
 
 namespace TeachLink_BackEnd.Core.ModelsMDB
 {
@@ -22,9 +23,9 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentException("Full name must contain at least 1 character.");
+                    throw new BadRequestException("Full name must contain at least 1 character.");
                 if (!Regex.IsMatch(value, @"^[a-zA-Zа-яА-Я\s]+$"))
-                    throw new ArgumentException("Full name must contain only letters and spaces.");
+                    throw new BadRequestException("Full name must contain only letters and spaces.");
 
                 _fullName = value;
             }
@@ -36,7 +37,7 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             set
             {
                 if (value.Length > 100)
-                    throw new ArgumentException("Mini description must be 100 characters or less.");
+                    throw new BadRequestException("Mini description must be 100 characters or less.");
                 _miniDescription = value;
             }
         }
@@ -47,7 +48,7 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             set
             {
                 if (value.Length > 500)
-                    throw new ArgumentException("Description must be 500 characters or less.");
+                    throw new BadRequestException("Description must be 500 characters or less.");
                 _description = value;
             }
         }
@@ -71,7 +72,7 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             set
             {
                 if (value < 1900 || value > DateTime.Now.Year)
-                    throw new ArgumentException(
+                    throw new BadRequestException(
                         "Year of end must be greater than 1900 and less than or equal to the current year."
                     );
                 _yearOfEnd = value;
@@ -86,7 +87,7 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             set
             {
                 if (value <= 18)
-                    throw new ArgumentException("Age must be greater than 18.");
+                    throw new BadRequestException("Age must be greater than 18.");
                 _age = value;
             }
         }
@@ -103,7 +104,7 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             set
             {
                 if (value < 100)
-                    throw new ArgumentException("Price must be greater than 100.");
+                    throw new BadRequestException("Price must be greater than 100.");
                 _price = value;
             }
         }

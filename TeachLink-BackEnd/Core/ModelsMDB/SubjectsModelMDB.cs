@@ -1,4 +1,6 @@
-﻿namespace TeachLink_BackEnd.Core.ModelsMDB
+﻿using TeachLink_BackEnd.Infrastructure.GlobalHendelrs;
+
+namespace TeachLink_BackEnd.Core.ModelsMDB
 {
     public class SubjectsModelMDB : BaseModelMDB
     {
@@ -10,7 +12,7 @@
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    throw new ArgumentException("Subject cannot be empty.");
+                    throw new BadRequestException("Subject cannot be empty.");
                 }
                 _subject = value;
             }

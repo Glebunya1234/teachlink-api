@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using TeachLink_BackEnd.Infrastructure.GlobalHendelrs;
 
 namespace TeachLink_BackEnd.Core.ModelsMDB
 {
@@ -20,7 +21,7 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    throw new ArgumentException("id_teacher cannot be empty.");
+                    throw new BadRequestException("id_teacher cannot be empty.");
                 }
                 _id_teacher = value;
             }
@@ -36,7 +37,7 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    throw new ArgumentException("id_student cannot be empty.");
+                    throw new BadRequestException("id_student cannot be empty.");
                 }
                 _id_student = value;
             }

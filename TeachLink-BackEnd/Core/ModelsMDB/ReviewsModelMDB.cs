@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using TeachLink_BackEnd.Infrastructure.GlobalHendelrs;
 
 namespace TeachLink_BackEnd.Core.ModelsMDB
 {
@@ -24,7 +25,7 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    throw new ArgumentException("id_teacher cannot be empty.");
+                    throw new BadRequestException("id_teacher cannot be empty.");
                 }
                 _idTeacher = value;
             }
@@ -40,7 +41,7 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    throw new ArgumentException("id_student cannot be empty.");
+                    throw new BadRequestException("id_student cannot be empty.");
                 }
                 _idStudent = value;
             }
@@ -56,11 +57,11 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    throw new ArgumentException("reviews_text cannot be empty.");
+                    throw new BadRequestException("reviews_text cannot be empty.");
                 }
                 if (value.Length > 100)
                 {
-                    throw new ArgumentException(
+                    throw new BadRequestException(
                         "reviews_text cannot be longer than 100 characters."
                     );
                 }
@@ -75,10 +76,7 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             {
                 if (value < 1 || value > 5)
                 {
-                    throw new ArgumentOutOfRangeException(
-                        nameof(value),
-                        "rating must be between 1 and 5."
-                    );
+                    throw new BadRequestException("rating must be between 1 and 5.");
                 }
                 _rating = value;
             }

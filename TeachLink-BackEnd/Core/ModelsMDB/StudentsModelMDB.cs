@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using TeachLink_BackEnd.Infrastructure.GlobalHendelrs;
 
 namespace TeachLink_BackEnd.Core.ModelsMDB
 {
@@ -13,9 +14,9 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentException("Full name must contain at least 1 character.");
+                    throw new BadRequestException("Full name must contain at least 1 character.");
                 if (!Regex.IsMatch(value, @"^[a-zA-Zа-яА-Я\s]+$"))
-                    throw new ArgumentException("Full name must contain only letters and spaces.");
+                    throw new BadRequestException("Full name must contain only letters and spaces.");
 
                 _fullName = value;
             }
@@ -28,7 +29,7 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             set
             {
                 if (value < 0)
-                    throw new ArgumentException("Age must be greater than 0.");
+                    throw new BadRequestException("Age must be greater than 0.");
                 _age = value;
             }
         }
