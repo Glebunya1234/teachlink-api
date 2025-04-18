@@ -43,6 +43,8 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
             var filterBuilder = Builders<TeachersModelMDB>.Filter;
             var filter = filterBuilder.Empty;
 
+            filter &= filterBuilder.Eq(t => t.show_info, true);
+
             if (!string.IsNullOrEmpty(subject))
             {
                 filter &= filterBuilder.ElemMatch(
@@ -67,6 +69,7 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
                 filter &= filterBuilder.Lte(t => t.price, maxPrice.Value);
             }
 
+           
             var sortDefinition = sortBy switch
             {
                 SortByEnumMDB.PriceAsc => Builders<TeachersModelMDB>.Sort.Ascending(t => t.price),

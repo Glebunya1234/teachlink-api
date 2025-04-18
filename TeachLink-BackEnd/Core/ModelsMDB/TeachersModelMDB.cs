@@ -9,13 +9,13 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
     public class TeachersModelMDB : BaseModelMDB
     {
         private string _fullName = null!;
-        private string _miniDescription = null!;
-        private string _description = null!;
+        private string? _miniDescription ;
+        private string? _description ;
         private int _yearOfEnd = 1900;
         private int _age = 18;
         private int _price = 100;
 
-        public decimal average_rating { get; set; } = 0.0m;
+        public decimal average_rating { get; set; } = 0;
         public int review_count { get; set; } = 0;
         public string full_name
         {
@@ -31,23 +31,24 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             }
         }
 
-        public string mini_description
+        public string? mini_description
         {
             get => _miniDescription;
             set
             {
-                if (value.Length > 100)
+                
+                if (!string.IsNullOrWhiteSpace(value) && value.Length > 100)
                     throw new BadRequestException("Mini description must be 100 characters or less.");
                 _miniDescription = value;
             }
         }
 
-        public string description
+        public string? description
         {
             get => _description;
             set
             {
-                if (value.Length > 500)
+                if (!string.IsNullOrWhiteSpace(value) && value.Length > 500)
                     throw new BadRequestException("Description must be 500 characters or less.");
                 _description = value;
             }
@@ -64,7 +65,7 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
         [BsonRepresentation(BsonType.ObjectId)]
         public string degree { get; set; } = "67ebffb24c69077e26568dd0";
 
-        public string educational_institution { get; set; } = null!;
+        public string? educational_institution { get; set; }
 
         public int year_of_end
         {
@@ -79,20 +80,20 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             }
         }
 
-        public string city { get; set; } = null!;
+        public string? city { get; set; }
 
         public int age
         {
             get => _age;
             set
             {
-                if (value <= 18)
+                if (value < 18)
                     throw new BadRequestException("Age must be greater than 18.");
                 _age = value;
             }
         }
 
-        public string sex { get; set; } = null!;
+        public string? sex { get; set; } 
 
         public bool online { get; set; } = false;
 
@@ -103,6 +104,7 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             get => _price;
             set
             {
+              
                 if (value < 100)
                     throw new BadRequestException("Price must be greater than 100.");
                 _price = value;

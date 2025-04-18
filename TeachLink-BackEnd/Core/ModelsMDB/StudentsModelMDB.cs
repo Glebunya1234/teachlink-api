@@ -21,7 +21,7 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
                 _fullName = value;
             }
         }
-        public string city { get; set; } = null!;
+        public string? city { get; set; }
 
         public int age
         {
@@ -33,6 +33,6 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
                 _age = value;
             }
         }
-        public string sex { get; set; } = null!;
+        public string? sex { get; set; } 
     }
 }

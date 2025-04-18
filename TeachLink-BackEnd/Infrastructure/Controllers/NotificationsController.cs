@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using TeachLink_BackEnd.Core.Helpers;
 using TeachLink_BackEnd.Core.Services.StudentService;
 
@@ -22,7 +23,7 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAll(string id_entity, bool for_teacher)
+        public async Task<IActionResult> GetAll([Required] string id_entity, [Required] bool for_teacher)
         {
             CheckAuthHelper.GetTokenFromHeader(HttpContext.Request);
 
