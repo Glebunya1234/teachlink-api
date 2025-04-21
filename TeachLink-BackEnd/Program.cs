@@ -121,6 +121,8 @@ builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<TeachersService>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 
+builder.Services.AddScoped<AuthService>();
+
 builder.Services.AddExceptionHandler<HandlerGlobalExeptions>();
 
 var app = builder.Build();
@@ -132,7 +134,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseExceptionHandler(_ => { });
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
