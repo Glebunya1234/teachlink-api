@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using TeachLink_BackEnd.Core.Services.StudentService;
 
 namespace TeachLink_BackEnd.Infrastructure.Controllers
@@ -26,14 +27,14 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             return Ok(studentListResponseDTO);
         }
 
-        [HttpGet("students/{id}")]
+        [HttpGet("students/{uid}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StudentDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetById(string id)
+        public async Task<IActionResult> GetById(string uid)
         {
-            var studentDTO = await _studentsService.GetById(id);
+            var studentDTO = await _studentsService.GetById(uid);
 
             return Ok(studentDTO);
         }
@@ -46,22 +47,24 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Create([FromBody] CreateStudentDTO createStudentDTO)
         {
+
+
             await _studentsService.Create(createStudentDTO);
             return Ok();
         }
 
         [Authorize]
-        [HttpPatch("students/{id}")]
+        [HttpPatch("students/{uid}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateStudentDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Update(
-            string id,
+            string uid,
             [FromBody] UpdateStudentDTO updateStudentDTO
         )
         {
-            await _studentsService.Update(id, updateStudentDTO);
+            await _studentsService.Update(uid, updateStudentDTO);
             return Ok(updateStudentDTO);
         }
     }

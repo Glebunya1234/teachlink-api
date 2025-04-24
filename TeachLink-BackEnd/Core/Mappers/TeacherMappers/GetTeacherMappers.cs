@@ -9,6 +9,7 @@ namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
             new TeachersModelMDB
             {
                 id = dto.id,
+                uid = dto.uid,
                 full_name = dto.full_name,
                 mini_description = dto.mini_description,
                 school_subjects = dto.school_subjects.Select(s => new SchoolSubjectsModelMDB
@@ -34,6 +35,7 @@ namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
             new TeacherTileDTO
             {
                 id = model.id,
+                uid = model.uid,
                 full_name = model.full_name,
                 mini_description = model.mini_description,
                 school_subjects = model.school_subjects.Select(s => new SchoolSubjectDTO

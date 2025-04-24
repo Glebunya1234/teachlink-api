@@ -16,10 +16,10 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         private readonly ITeacherRepository _teacherRepository = teacherRepository;
         private readonly IStudentRepository _studentRepository = studentRepository;
 
-        public async Task<AuthDTO> GetById(string id)
+        public async Task<AuthDTO> GetById(string uid)
         {
-            var isTeacher = await _teacherRepository.GetById(id) != null;
-            var isStudent = await _studentRepository.GetById(id) != null;
+            var isTeacher = await _teacherRepository.GetById(uid) != null;
+            var isStudent = await _studentRepository.GetById(uid) != null;
 
             return new AuthDTO { isTeacher = isTeacher, isStudent = isStudent };
 

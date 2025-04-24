@@ -17,14 +17,14 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
             await _collection.InsertOneAsync(teachersModel);
         }
 
-        public async Task<TeachersModelMDB?> GetById(string id)
+        public async Task<TeachersModelMDB?> GetById(string uid)
         {
-            return await _collection.Find(doc => doc.id == id).FirstOrDefaultAsync();
+            return await _collection.Find(doc => doc.uid == uid).FirstOrDefaultAsync();
         }
 
         public async Task UpdateById(string id, TeachersModelMDB teachersModels)
         {
-            var res = await _collection.ReplaceOneAsync(t => t.id == id, teachersModels);
+            var res = await _collection.ReplaceOneAsync(t => t.uid == id, teachersModels);
             if (res.ModifiedCount == 0)
                 throw new NotImplementedException();
         }
@@ -93,7 +93,7 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
 
         public async Task<IEnumerable<TeachersModelMDB>> GetByIdList(IEnumerable<string> ids)
         {
-            return await _collection.Find(teach => ids.Contains(teach.id)).ToListAsync();
+            return await _collection.Find(teach => ids.Contains(teach.uid)).ToListAsync();
         }
     }
 }

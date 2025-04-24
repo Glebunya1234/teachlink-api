@@ -8,6 +8,7 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
 {
     public class TeachersModelMDB : BaseModelMDB
     {
+        public string uid { get; set; } = null!;
         private string _fullName = null!;
         private string? _miniDescription ;
         private string? _description ;

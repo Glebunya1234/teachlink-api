@@ -45,14 +45,14 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             return Ok(teacherListResponseDTO);
         }
 
-        [HttpGet("teachers/{id}")]
+        [HttpGet("teachers/{uid}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FullTeacherTileDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetById(string id)
+        public async Task<IActionResult> GetById(string uid)
         {
-            var teacherTileDto = await _teachersService.GetById(id);
+            var teacherTileDto = await _teachersService.GetById(uid);
 
             return Ok(teacherTileDto);
         }
@@ -70,14 +70,14 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
         }
 
         [Authorize]
-        [HttpPatch("teachers/{id}")]
+        [HttpPatch("teachers/{uid}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateTeacherDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Update(string id, [FromBody] UpdateTeacherDTO teacherDto)
+        public async Task<IActionResult> Update(string uid, [FromBody] UpdateTeacherDTO teacherDto)
         {
-            await _teachersService.Update(id, teacherDto);
+            await _teachersService.Update(uid, teacherDto);
             return Ok(teacherDto);
         }
     }

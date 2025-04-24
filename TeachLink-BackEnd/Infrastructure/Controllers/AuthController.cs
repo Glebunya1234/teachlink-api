@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using TeachLink_BackEnd.Core.Helpers;
 using TeachLink_BackEnd.Core.Services.StudentService;
 
@@ -20,14 +21,16 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
 
         
 
-        [HttpGet("IsChekedRole/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NotificationDTO))]
+        [HttpGet("IsChekedRole/{uid}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthDTO))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetById(string id)
+        public async Task<IActionResult> GetById(string uid)
         {
+           
             
+ 
 
-            var DTO = await _authService.GetById(id);
+            var DTO = await _authService.GetById(uid);
             return Ok(DTO);
         }
                

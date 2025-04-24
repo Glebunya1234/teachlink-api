@@ -21,6 +21,7 @@ namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
             new StudentDTO
             {
                 id = model.id,
+                uid = model.uid,
                 full_name = model.full_name,
                 age = model.age,
                 city = model.city,

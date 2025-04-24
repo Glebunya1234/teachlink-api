@@ -49,7 +49,13 @@ builder.Services.AddSwaggerGen(options =>
         }
     );
 });
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+        policy.AllowAnyOrigin()    // Разрешает доступ с любого домена
+              .AllowAnyMethod()    // Разрешает все HTTP-методы
+              .AllowAnyHeader());  // Разрешает все заголовки
+});
 builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection(nameof(MongoSettings)));
 
 builder.Services.AddJwtAuthentication(builder.Configuration);
@@ -135,7 +141,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseExceptionHandler(_ => { });
 //app.UseHttpsRedirection();
-
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 

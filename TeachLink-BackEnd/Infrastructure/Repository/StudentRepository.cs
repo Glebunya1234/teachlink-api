@@ -23,17 +23,17 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
 
         public async Task<IEnumerable<StudentsModelMDB>> GetByIdList(IEnumerable<string> ids)
         {
-            return await _collection.Find(stud => ids.Contains(stud.id)).ToListAsync();
+            return await _collection.Find(stud => ids.Contains(stud.uid)).ToListAsync();
         }
 
-        public async Task<StudentsModelMDB?> GetById(string id)
+        public async Task<StudentsModelMDB?> GetById(string uid)
         {
-            return await _collection.Find(s => s.id == id).FirstOrDefaultAsync();
+            return await _collection.Find(s => s.uid == uid).FirstOrDefaultAsync();
         }
 
         public async Task UpdateById(string id, StudentsModelMDB student)
         {
-            var res = await _collection.ReplaceOneAsync(s => s.id == id, student);
+            var res = await _collection.ReplaceOneAsync(s => s.uid == id, student);
             if (res.ModifiedCount == 0)
                 throw new NotImplementedException();
         }

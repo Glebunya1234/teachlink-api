@@ -26,6 +26,7 @@ namespace TeachLink_BackEnd.Core.Helpers
                             ? new TeacherTileDTO
                             {
                                 id = teacher.id,
+                                uid = teacher.uid,
                                 createdAt = teacher.createdAt,
                                 updatedAt = teacher.updatedAt,
                                 age = teacher.age,
@@ -52,6 +53,7 @@ namespace TeachLink_BackEnd.Core.Helpers
                             ? new StudentDTO
                             {
                                 id = student.id,
+                                uid = student.uid,
                                 full_name = student.full_name,
                                 city = student.city,
                                 age = student.age,
@@ -78,6 +80,7 @@ namespace TeachLink_BackEnd.Core.Helpers
                         ? new TeacherTileDTO
                         {
                             id = teacher.id,
+                            uid = teacher.uid,
                             createdAt = teacher.createdAt,
                             updatedAt = teacher.updatedAt,
                             age = teacher.age,
@@ -104,6 +107,7 @@ namespace TeachLink_BackEnd.Core.Helpers
                         ? new StudentDTO
                         {
                             id = student.id,
+                            uid = student.uid,
                             full_name = student.full_name,
                             city = student.city,
                             age = student.age,
