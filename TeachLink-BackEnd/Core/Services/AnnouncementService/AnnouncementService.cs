@@ -44,19 +44,19 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
 
             var students = await _studentRepository.GetByIdList(studentIds);
 
-            var studentDict = students.ToDictionary(s => s.id, s => s);
+            var studentDict = students.ToDictionary(s => s.uid, s => s);
             var enrichedDtos = AnnouncementHelper.EnrichNotifications(dtoList, result, studentDict);
 
             return enrichedDtos;
         }
 
-        public async Task<IEnumerable<AnnouncementDTO?>> GetListById(string id_student)
+        public async Task<IEnumerable<AnnouncementDTO?>> GetListById(string uid)
         {
-            var result = await _announcementRepository.GetListById(id_student);
+            var result = await _announcementRepository.GetListById(uid);
 
             var dtoList = _getMapper.ToDtoList(result).ToList();
 
-            var students = await _studentRepository.GetById(id_student);
+            var students = await _studentRepository.GetById(uid);
 
             var enrichedDtos = AnnouncementHelper.EnrichNotifications(dtoList, result, students);
             return enrichedDtos;

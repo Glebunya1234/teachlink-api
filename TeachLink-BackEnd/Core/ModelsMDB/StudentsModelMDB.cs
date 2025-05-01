@@ -17,7 +17,9 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
                 if (string.IsNullOrWhiteSpace(value))
                     throw new BadRequestException("Full name must contain at least 1 character.");
                 if (!Regex.IsMatch(value, @"^[a-zA-Zа-яА-Я\s]+$"))
-                    throw new BadRequestException("Full name must contain only letters and spaces.");
+                    throw new BadRequestException(
+                        "Full name must contain only letters and spaces."
+                    );
 
                 _fullName = value;
             }
@@ -34,6 +36,7 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
                 _age = value;
             }
         }
-        public string? sex { get; set; } 
+        public string? sex { get; set; }
+        public string? phone_number { get; set; }
     }
 }

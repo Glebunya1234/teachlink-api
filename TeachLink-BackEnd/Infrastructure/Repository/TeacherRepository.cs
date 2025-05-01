@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Reactive.Subjects;
+using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using TeachLink_BackEnd.Core.ModelsMDB;
@@ -47,10 +48,18 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
 
             if (!string.IsNullOrEmpty(subject))
             {
-                filter &= filterBuilder.ElemMatch(
-                    t => t.school_subjects,
-                    s => s.Subject == subject
-                );
+                var subjectsArray = subject
+                    .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(s => s.Trim())
+                    .ToList();
+
+                if (subjectsArray.Any())
+                {
+                    filter &= filterBuilder.All(
+                        t => t.school_subjects.Select(s => s.Subject),
+                        subjectsArray
+                    );
+                }
             }
             if (isOnline.HasValue)
             {
@@ -69,7 +78,6 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
                 filter &= filterBuilder.Lte(t => t.price, maxPrice.Value);
             }
 
-           
             var sortDefinition = sortBy switch
             {
                 SortByEnumMDB.PriceAsc => Builders<TeachersModelMDB>.Sort.Ascending(t => t.price),
@@ -80,7 +88,7 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
                 SortByEnumMDB.Reviews => Builders<TeachersModelMDB>.Sort.Descending(t =>
                     t.review_count
                 ),
-                _ => Builders<TeachersModelMDB>.Sort.Ascending(t => t.full_name),
+                _ => Builders<TeachersModelMDB>.Sort.Descending(t => t.average_rating),
             };
 
             return await _collection
@@ -94,6 +102,58 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
         public async Task<IEnumerable<TeachersModelMDB>> GetByIdList(IEnumerable<string> ids)
         {
             return await _collection.Find(teach => ids.Contains(teach.uid)).ToListAsync();
+        }
+
+        public async Task<int> CountAsync(
+            string? subject = null,
+            bool? isOnline = null,
+            string? city = null,
+            int? minPrice = null,
+            int? maxPrice = null
+        )
+        {
+            var filterBuilder = Builders<TeachersModelMDB>.Filter;
+            var filter = filterBuilder.Empty;
+
+            filter &= filterBuilder.Eq(t => t.show_info, true);
+
+            if (!string.IsNullOrEmpty(subject))
+            {
+                var subjectsArray = subject
+                    .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(s => s.Trim())
+                    .ToList();
+
+                if (subjectsArray.Any())
+                {
+                    filter &= filterBuilder.All(
+                        t => t.school_subjects.Select(s => s.Subject),
+                        subjectsArray
+                    );
+                }
+            }
+
+            if (isOnline.HasValue)
+            {
+                filter &= filterBuilder.Eq(t => t.online, isOnline.Value);
+            }
+
+            if (!string.IsNullOrEmpty(city))
+            {
+                filter &= filterBuilder.Eq(t => t.city, city);
+            }
+
+            if (minPrice.HasValue)
+            {
+                filter &= filterBuilder.Gte(t => t.price, minPrice.Value);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                filter &= filterBuilder.Lte(t => t.price, maxPrice.Value);
+            }
+
+            return (int)await _collection.CountDocumentsAsync(filter);
         }
     }
 }

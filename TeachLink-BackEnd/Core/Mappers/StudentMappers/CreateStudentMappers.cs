@@ -9,6 +9,7 @@ namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
             new StudentsModelMDB
             {
                 full_name = dto.full_name,
+                uid = dto.uid
               
             };
 

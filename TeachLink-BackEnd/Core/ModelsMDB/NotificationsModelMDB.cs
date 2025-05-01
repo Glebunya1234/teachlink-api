@@ -11,8 +11,6 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
 
         private string _id_student = null!;
 
-        [BsonRequired]
-        [BsonRepresentation(BsonType.ObjectId)]
         [Required]
         public string id_teacher
         {
@@ -27,8 +25,6 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             }
         }
 
-        [BsonRequired]
-        [BsonRepresentation(BsonType.ObjectId)]
         [Required]
         public string id_student
         {

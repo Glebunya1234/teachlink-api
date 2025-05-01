@@ -20,6 +20,7 @@ builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddAuthorization();
 builder.Services.AddSwaggerGen(options =>
 {
+    options.SchemaFilter<SwaggerSchemaFilter>();
     options.AddSecurityDefinition(
         "Bearer",
         new OpenApiSecurityScheme
@@ -131,6 +132,7 @@ builder.Services.AddScoped<AuthService>();
 
 builder.Services.AddExceptionHandler<HandlerGlobalExeptions>();
 
+ 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

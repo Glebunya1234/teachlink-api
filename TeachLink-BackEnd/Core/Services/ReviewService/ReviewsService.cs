@@ -63,7 +63,7 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
 
             var studentsModel = await _studentRepository.GetByIdList(studentIds);
 
-            var studentDict = studentsModel.ToDictionary(s => s.id, s => s);
+            var studentDict = studentsModel.ToDictionary(s => s.uid, s => s);
             var enrichedDtos = ReviewHelper.EnrichNotifications(
                 dtoList,
                 result,

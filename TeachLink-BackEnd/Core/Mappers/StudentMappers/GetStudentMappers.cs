@@ -13,6 +13,7 @@ namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
                 age = dto.age,
                 city = dto.city,
                 sex = dto.sex,
+                phone_number = dto.phone_number,
                 createdAt = dto.createdAt,
                 updatedAt = dto.updatedAt,
             };
@@ -26,6 +27,7 @@ namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
                 age = model.age,
                 city = model.city,
                 sex = model.sex,
+                phone_number = model.phone_number,
                 createdAt = model.createdAt,
                 updatedAt = model.updatedAt,
             };

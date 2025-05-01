@@ -26,9 +26,9 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetById(string uid)
         {
-           
-            
- 
+
+
+            var origin = HttpContext.Request.Headers["Origin"].FirstOrDefault();
 
             var DTO = await _authService.GetById(uid);
             return Ok(DTO);

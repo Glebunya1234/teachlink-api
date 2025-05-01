@@ -9,7 +9,7 @@ namespace TeachLink_BackEnd.Core.Mappers.AnnouncementMappers
             new AnnouncementsModelMDB
             {
                 id = dto.id,
-                id_student = dto.id_students.id,
+                id_student = dto.id_students.uid,
                 school_subjects = dto
                     .school_subjects.Select(s => new SchoolSubjectsModelMDB { Subject = s.Subject })
                     .ToList(),

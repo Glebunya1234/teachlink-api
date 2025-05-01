@@ -1,7 +1,7 @@
 ﻿public record SubjectDTO
 {
-    public string id { get; init; }
-    public string subject { get; init; }
-    public DateTime createdAt { get; init; }
-    public DateTime updatedAt { get; init; }
+    public required string id { get; init; }
+    public required string subject { get; init; }
+    public required DateTime createdAt { get; init; }
+    public required DateTime updatedAt { get; init; }
 }

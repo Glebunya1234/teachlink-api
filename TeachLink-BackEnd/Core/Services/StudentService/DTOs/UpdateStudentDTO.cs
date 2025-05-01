@@ -4,4 +4,5 @@
     public string? city { get; init; }
     public int? age { get; init; }
     public string? sex { get; init; }
+    public string? phone_number { get; init; }
 }

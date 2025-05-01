@@ -24,7 +24,7 @@ namespace TeachLink_BackEnd.Infrastructure.Services
         private readonly IBaseMapper<TeachersModelMDB, FullTeacherTileDTO> _getFullMapper =
             getFullMapper;
 
-        public async Task<IEnumerable<TeacherTileDTO>> GetAll(
+        public async Task<PaginationResponse<TeacherTileDTO>> GetAll(
             int offset = 0,
             int limit = 20,
             SortByEnumMDB? sortBy = null,
@@ -46,6 +46,13 @@ namespace TeachLink_BackEnd.Infrastructure.Services
                 maxPrice
             );
 
+            var totalCount = await _teacherRepository.CountAsync(
+                subjects,
+                isOnline,
+                city,
+                minPrice,
+                maxPrice
+            );
             var degreeIds = teachers
                 .Where(t => !string.IsNullOrEmpty(t.degree))
                 .Select(t => t.degree)
@@ -74,8 +81,14 @@ namespace TeachLink_BackEnd.Infrastructure.Services
                     teacher.experience = exp.experience_name;
                 }
             }
-
-            return _getMapper.ToDtoList(teachers);
+            bool hasNextPage = (offset + limit) < totalCount;
+            var teacherDtos = _getMapper.ToDtoList(teachers);
+            return new PaginationResponse<TeacherTileDTO>
+            {
+                Items = teacherDtos,
+                HasNextPage = hasNextPage,
+                TotalCount = totalCount,
+            };
         }
 
         public async Task<FullTeacherTileDTO?> GetById(string id)

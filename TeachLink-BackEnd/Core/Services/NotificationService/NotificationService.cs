@@ -58,8 +58,8 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
             var teachers = await _teacherRepository.GetByIdList(teacherIds);
             var students = await _studentRepository.GetByIdList(studentIds);
 
-            var teacherDict = teachers.ToDictionary(t => t.id, t => t);
-            var studentDict = students.ToDictionary(s => s.id, s => s);
+            var teacherDict = teachers.ToDictionary(t => t.uid, t => t);
+            var studentDict = students.ToDictionary(s => s.uid, s => s);
 
             var enrichedDtos = NotificationHelper.EnrichNotifications(
                 dtoList,

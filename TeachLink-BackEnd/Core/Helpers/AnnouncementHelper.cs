@@ -30,6 +30,7 @@ namespace TeachLink_BackEnd.Core.Helpers
                                 city = student.city,
                                 age = student.age,
                                 sex = student.sex,
+                                phone_number = student.phone_number,
                                 createdAt = student.createdAt,
                                 updatedAt = student.updatedAt,
                             }
@@ -60,6 +61,7 @@ namespace TeachLink_BackEnd.Core.Helpers
                                 city = student.city,
                                 age = student.age,
                                 sex = student.sex,
+                                phone_number = student.phone_number,
                                 createdAt = student.createdAt,
                                 updatedAt = student.updatedAt,
                             }
@@ -86,6 +88,7 @@ namespace TeachLink_BackEnd.Core.Helpers
                             city = student.city,
                             age = student.age,
                             sex = student.sex,
+                            phone_number = student.phone_number,
                             createdAt = student.createdAt,
                             updatedAt = student.updatedAt,
                         }

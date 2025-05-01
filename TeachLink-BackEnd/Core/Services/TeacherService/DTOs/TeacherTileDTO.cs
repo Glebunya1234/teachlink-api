@@ -11,6 +11,7 @@
     public bool online { get; init; }
     public int price { get; init; }
     public bool show_info { get; init; }
+    public required string phone_number { get; init; }
     public string city { get; init; }
     public int age { get; init; }
     public int review_count { get; init; }

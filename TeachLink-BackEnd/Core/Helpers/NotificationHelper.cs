@@ -41,6 +41,7 @@ namespace TeachLink_BackEnd.Core.Helpers
                                 experience = teacher.experience,
                                 online = teacher.online,
                                 price = teacher.price,
+                                phone_number = teacher.phone_number,
                                 school_subjects = teacher
                                     .school_subjects.Select(subject => new SchoolSubjectDTO
                                     {
@@ -60,6 +61,7 @@ namespace TeachLink_BackEnd.Core.Helpers
                                 full_name = student.full_name,
                                 city = student.city,
                                 age = student.age,
+                                phone_number = student.phone_number,
                                 sex = student.sex,
                                 createdAt = student.createdAt,
                                 updatedAt = student.updatedAt,
@@ -95,6 +97,7 @@ namespace TeachLink_BackEnd.Core.Helpers
                             experience = teacher.experience,
                             online = teacher.online,
                             price = teacher.price,
+                            phone_number = teacher.phone_number,
                             school_subjects = teacher
                                 .school_subjects.Select(subject => new SchoolSubjectDTO
                                 {
@@ -115,6 +118,7 @@ namespace TeachLink_BackEnd.Core.Helpers
                             city = student.city,
                             age = student.age,
                             sex = student.sex,
+                            phone_number = student.phone_number,
                             createdAt = student.createdAt,
                             updatedAt = student.updatedAt,
                         }

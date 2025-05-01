@@ -27,14 +27,14 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
         }
 
         [Authorize]
-        [HttpGet("announcements/list/student/{id_student}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AnnouncementDTO))]
+        [HttpGet("announcements/list/student/{uid}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<AnnouncementDTO>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetListById(string id_student)
+        public async Task<IActionResult> GetListById(string uid)
         {
-            var announcementDTO = await _announcementService.GetListById(id_student);
+            var announcementDTO = await _announcementService.GetListById(uid);
 
             return Ok(announcementDTO);
         }

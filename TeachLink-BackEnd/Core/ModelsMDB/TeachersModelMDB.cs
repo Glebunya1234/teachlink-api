@@ -10,14 +10,15 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
     {
         public string uid { get; set; } = null!;
         private string _fullName = null!;
-        private string? _miniDescription ;
-        private string? _description ;
+        private string? _miniDescription;
+        private string? _description;
         private int _yearOfEnd = 1900;
         private int _age = 18;
         private int _price = 100;
 
         public decimal average_rating { get; set; } = 0;
         public int review_count { get; set; } = 0;
+        public string? phone_number { get; set; }
         public string full_name
         {
             get => _fullName;
@@ -25,8 +26,10 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             {
                 if (string.IsNullOrWhiteSpace(value))
                     throw new BadRequestException("Full name must contain at least 1 character.");
-                if (!Regex.IsMatch(value, @"^[a-zA-Zа-яА-Я\s]+$"))
-                    throw new BadRequestException("Full name must contain only letters and spaces.");
+                if (!Regex.IsMatch(value, @"^[a-zA-Zа-яА-ЯёЁіІїЇєЄґҐ\s]+$"))
+                    throw new BadRequestException(
+                        "Full name must contain only letters and spaces."
+                    );
 
                 _fullName = value;
             }
@@ -37,9 +40,10 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             get => _miniDescription;
             set
             {
-                
-                if (!string.IsNullOrWhiteSpace(value) && value.Length > 100)
-                    throw new BadRequestException("Mini description must be 100 characters or less.");
+                if (!string.IsNullOrWhiteSpace(value) && value.Length > 500)
+                    throw new BadRequestException(
+                        "Mini description must be 500 characters or less."
+                    );
                 _miniDescription = value;
             }
         }
@@ -49,8 +53,8 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             get => _description;
             set
             {
-                if (!string.IsNullOrWhiteSpace(value) && value.Length > 500)
-                    throw new BadRequestException("Description must be 500 characters or less.");
+                if (!string.IsNullOrWhiteSpace(value) && value.Length > 10000)
+                    throw new BadRequestException("Description must be 10000 characters or less.");
                 _description = value;
             }
         }
@@ -94,7 +98,7 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             }
         }
 
-        public string? sex { get; set; } 
+        public string? sex { get; set; }
 
         public bool online { get; set; } = false;
 
@@ -105,7 +109,6 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             get => _price;
             set
             {
-              
                 if (value < 100)
                     throw new BadRequestException("Price must be greater than 100.");
                 _price = value;

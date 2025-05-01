@@ -34,6 +34,8 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetById(string uid)
         {
+           
+
             var studentDTO = await _studentsService.GetById(uid);
 
             return Ok(studentDTO);

@@ -13,7 +13,6 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
         private IEnumerable<SchoolSubjectsModelMDB> _school_subjects = null!;
 
         [BsonRequired]
-        [BsonRepresentation(BsonType.ObjectId)]
         [Required]
         public string id_student
         {
@@ -47,8 +46,8 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             {
                 if (string.IsNullOrEmpty(value))
                     throw new BadRequestException("mini_description cannot be empty.");
-                if (value.Length > 200 || value.Length < 20)
-                    throw new BadRequestException("mini_description must be between 20 to 200.");
+                if (value.Length > 500 || value.Length < 20)
+                    throw new BadRequestException("mini_description must be between 20 to 500.");
                 _mini_description = value;
             }
         }
@@ -60,8 +59,8 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             {
                 if (string.IsNullOrEmpty(value))
                     throw new BadRequestException("description cannot be empty.");
-                if (value.Length > 500 || value.Length < 100)
-                    throw new BadRequestException("description must be between 100 to 500.");
+                if (value.Length > 1500 || value.Length < 100)
+                    throw new BadRequestException("description must be between 100 to 1500.");
                 _description = value;
             }
         }

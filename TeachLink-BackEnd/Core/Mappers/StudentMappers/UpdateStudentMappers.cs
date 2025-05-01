@@ -12,6 +12,7 @@ namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
                 age = (int)dto.age,
                 city = dto.city,
                 sex = dto.sex,
+                phone_number = dto.phone_number,
             };
 
         public override UpdateStudentDTO ToDto(StudentsModelMDB model)

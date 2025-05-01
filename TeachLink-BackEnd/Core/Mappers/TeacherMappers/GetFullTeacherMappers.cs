@@ -29,6 +29,7 @@ namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
                 online = dto.online,
                 show_info = dto.show_info,
                 price = dto.price,
+                phone_number = dto.phone_number,
                 createdAt = dto.createdAt,
                 updatedAt = dto.updatedAt,
             };
@@ -55,6 +56,7 @@ namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
                 online = model.online,
                 show_info = model.show_info,
                 price = model.price,
+                phone_number = model.phone_number,
                 average_rating = model.average_rating,
                 review_count = model.review_count,
                 createdAt = model.createdAt,
