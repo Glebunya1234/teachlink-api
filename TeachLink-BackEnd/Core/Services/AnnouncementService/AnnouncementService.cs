@@ -1,7 +1,9 @@
-﻿using TeachLink_BackEnd.Core.Helpers;
+﻿using Supabase.Gotrue.Mfa;
+using TeachLink_BackEnd.Core.Helpers;
 using TeachLink_BackEnd.Core.Mappers.BaseMappers;
 using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
+using TeachLink_BackEnd.Core.Services.TeacherService;
 using TeachLink_BackEnd.Infrastructure.GlobalHendelrs;
 
 namespace TeachLink_BackEnd.Core.Services.StudentService
@@ -30,10 +32,11 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
             await _announcementRepository.Create(announcementModel);
         }
 
-        public async Task<IEnumerable<AnnouncementDTO>> GetAll(int offset, int limit)
+        public async Task<PaginationResponse<AnnouncementDTO>> GetAll(int offset, int limit)
         {
             var result = await _announcementRepository.GetAll(offset, limit);
-
+            var totalCount = await _announcementRepository.CountAsync();
+            bool hasNextPage = (offset + limit) < totalCount;
             var dtoList = _getMapper.ToDtoList(result).ToList();
 
             var studentIds = result
@@ -46,8 +49,12 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
 
             var studentDict = students.ToDictionary(s => s.uid, s => s);
             var enrichedDtos = AnnouncementHelper.EnrichNotifications(dtoList, result, studentDict);
-
-            return enrichedDtos;
+            return new PaginationResponse<AnnouncementDTO>
+            {
+                Items = enrichedDtos,
+                HasNextPage = hasNextPage,
+                TotalCount = totalCount,
+            };
         }
 
         public async Task<IEnumerable<AnnouncementDTO?>> GetListById(string uid)

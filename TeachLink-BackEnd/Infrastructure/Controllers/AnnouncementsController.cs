@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Services.StudentService;
 
 namespace TeachLink_BackEnd.Infrastructure.Controllers
@@ -16,11 +17,17 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
         }
 
         [HttpGet("announcements")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<AnnouncementDTO>))]
+        [ProducesResponseType(
+            StatusCodes.Status200OK,
+            Type = typeof(PaginationResponse<AnnouncementDTO>)
+        )]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAll(int offset, int limit)
+        public async Task<IActionResult> GetAll(
+            [FromQuery] int offset = 0,
+            [FromQuery] int limit = 20
+        )
         {
             var announcementDTO = await _announcementService.GetAll(offset, limit);
             return Ok(announcementDTO);

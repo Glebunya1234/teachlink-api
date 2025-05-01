@@ -44,5 +44,10 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
         {
             await _collection.DeleteOneAsync(a => a.id == id);
         }
+
+        public async Task<int> CountAsync()
+        {
+            return (int)await _collection.CountDocumentsAsync(_ => true);
+        }
     }
 }

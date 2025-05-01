@@ -10,5 +10,6 @@ namespace TeachLink_BackEnd.Core.Repositories
         public Task<AnnouncementsModelMDB?> GetById(string id);
         public Task Update(string id, AnnouncementsModelMDB announcementsModel);
         public Task Delete(string id);
+        public Task<int> CountAsync();
     }
 }
