@@ -9,6 +9,7 @@ namespace TeachLink_BackEnd.Core.Repositories
         Task<IEnumerable<ReviewsModelMDB>> GetAllByTeacherId(string teacherId);
         public Task<ReviewsModelMDB?> GetById(string id_teacher, string id_student);
         public Task<ReviewsModelMDB?> GetById(string id);
+        public Task<int> CountAsync();
         public Task Update(string id, ReviewsModelMDB reviewModel);
     }
 }

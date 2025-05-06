@@ -10,6 +10,8 @@ namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
             {
                 id = dto.id,
                 full_name = dto.full_name,
+                email = dto.email,
+                uid = dto.uid,
                 age = dto.age,
                 city = dto.city,
                 sex = dto.sex,
@@ -23,6 +25,7 @@ namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
             {
                 id = model.id,
                 uid = model.uid,
+                email = model.email,
                 full_name = model.full_name,
                 age = model.age,
                 city = model.city,

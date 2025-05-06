@@ -15,8 +15,6 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
 
         private string _idStudent = null!;
 
-        [BsonRequired]
-        [BsonRepresentation(BsonType.ObjectId)]
         [Required]
         public string id_teacher
         {
@@ -31,8 +29,6 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             }
         }
 
-        [BsonRequired]
-        [BsonRepresentation(BsonType.ObjectId)]
         [Required]
         public string id_student
         {
@@ -59,10 +55,10 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
                 {
                     throw new BadRequestException("reviews_text cannot be empty.");
                 }
-                if (value.Length > 100)
+                if (value.Length > 500)
                 {
                     throw new BadRequestException(
-                        "reviews_text cannot be longer than 100 characters."
+                        "reviews_text cannot be longer than 300 characters."
                     );
                 }
                 _reviewsText = value;

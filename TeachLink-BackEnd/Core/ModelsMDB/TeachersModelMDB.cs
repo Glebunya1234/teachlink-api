@@ -10,11 +10,25 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
     {
         public string uid { get; set; } = null!;
         private string _fullName = null!;
+        private string _email = null!;
         private string? _miniDescription;
         private string? _description;
         private int _yearOfEnd = 1900;
         private int _age = 18;
         private int _price = 100;
+        public string email
+        {
+            get => _email;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new BadRequestException("Email cannot be empty.");
+                if (!Regex.IsMatch(value, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                    throw new BadRequestException("Invalid email format.");
+
+                _email = value;
+            }
+        }
 
         public decimal average_rating { get; set; } = 0;
         public int review_count { get; set; } = 0;

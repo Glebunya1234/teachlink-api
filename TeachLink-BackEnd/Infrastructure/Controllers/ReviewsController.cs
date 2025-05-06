@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Services.StudentService;
 
 namespace TeachLink_BackEnd.Infrastructure.Controllers
@@ -16,7 +17,10 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
         }
 
         [HttpGet("reviews/{id_teacher}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ReviewDTO>))]
+        [ProducesResponseType(
+            StatusCodes.Status200OK,
+            Type = typeof(PaginationResponse<ReviewDTO>)
+        )]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

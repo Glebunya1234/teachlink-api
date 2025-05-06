@@ -9,8 +9,8 @@ namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
             new StudentsModelMDB
             {
                 full_name = dto.full_name,
-                uid = dto.uid
-              
+                email = dto.email,
+                uid = dto.uid,
             };
 
         public override CreateStudentDTO ToDto(StudentsModelMDB model)

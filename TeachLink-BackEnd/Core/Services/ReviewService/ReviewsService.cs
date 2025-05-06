@@ -2,6 +2,7 @@
 using TeachLink_BackEnd.Core.Mappers.BaseMappers;
 using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
+using TeachLink_BackEnd.Core.Services.TeacherService;
 using TeachLink_BackEnd.Infrastructure.GlobalHendelrs;
 
 namespace TeachLink_BackEnd.Core.Services.StudentService
@@ -47,9 +48,16 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
             await _teacherRepository.UpdateById(createReview.id_teacher, teachersModel);
         }
 
-        public async Task<IEnumerable<ReviewDTO>> GetAll(string id_teacher, int offset, int limit)
+        public async Task<PaginationResponse<ReviewDTO>> GetAll(
+            string id_teacher,
+            int offset,
+            int limit
+        )
         {
             var result = await _reviewRepository.GetAll(id_teacher, offset, limit);
+
+            var totalCount = await _reviewRepository.CountAsync();
+            bool hasNextPage = (offset + limit) < totalCount;
 
             var dtoList = _getMapper.ToDtoList(result);
 
@@ -70,7 +78,12 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
                 teachersModel,
                 studentDict
             );
-            return enrichedDtos;
+            return new PaginationResponse<ReviewDTO>
+            {
+                Items = enrichedDtos,
+                HasNextPage = hasNextPage,
+                TotalCount = totalCount,
+            };
         }
 
         public async Task<ReviewDTO?> GetById(string id_teacher, string id_student)

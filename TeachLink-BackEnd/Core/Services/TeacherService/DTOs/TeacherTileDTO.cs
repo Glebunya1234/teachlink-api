@@ -2,7 +2,8 @@
 {
     public required string id { get; init; }
     public required string uid { get; init; }
-    public string full_name { get; init; }
+    public required string full_name { get; init; }
+    public required string email { get; init; }
     public string mini_description { get; init; }
     public IEnumerable<SchoolSubjectDTO> school_subjects { get; init; }
     public string experience { get; init; }

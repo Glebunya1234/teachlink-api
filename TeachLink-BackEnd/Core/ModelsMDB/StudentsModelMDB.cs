@@ -7,6 +7,7 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
     {
         public string uid { get; set; } = null!;
         private string _fullName = null!;
+        private string _email = null!;
         private int _age = 0;
 
         public string full_name
@@ -22,6 +23,19 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
                     );
 
                 _fullName = value;
+            }
+        }
+        public string email
+        {
+            get => _email;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new BadRequestException("Email cannot be empty.");
+                if (!Regex.IsMatch(value, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                    throw new BadRequestException("Invalid email format.");
+
+                _email = value;
             }
         }
         public string? city { get; set; }

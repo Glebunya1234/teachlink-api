@@ -53,5 +53,10 @@ namespace TeachLink_BackEnd.Core.Services.TeacherService
             if (res.ModifiedCount == 0)
                 throw new NotImplementedException();
         }
+
+        public async Task<int> CountAsync()
+        {
+            return (int)await _collection.CountDocumentsAsync(_ => true);
+        }
     }
 }

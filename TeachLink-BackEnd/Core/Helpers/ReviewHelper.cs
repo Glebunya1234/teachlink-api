@@ -27,6 +27,7 @@ namespace TeachLink_BackEnd.Core.Helpers
                             {
                                 id = teacher.id,
                                 uid = teacher.uid,
+                                email = teacher.email,
                                 createdAt = teacher.createdAt,
                                 updatedAt = teacher.updatedAt,
                                 age = teacher.age,
@@ -55,6 +56,7 @@ namespace TeachLink_BackEnd.Core.Helpers
                             {
                                 id = student.id,
                                 uid = student.uid,
+                                email = student.email,
                                 full_name = student.full_name,
                                 city = student.city,
                                 age = student.age,
@@ -83,6 +85,7 @@ namespace TeachLink_BackEnd.Core.Helpers
                         {
                             id = teacher.id,
                             uid = teacher.uid,
+                            email = teacher.email,
                             createdAt = teacher.createdAt,
                             updatedAt = teacher.updatedAt,
                             age = teacher.age,
@@ -111,6 +114,7 @@ namespace TeachLink_BackEnd.Core.Helpers
                         {
                             id = student.id,
                             uid = student.uid,
+                            email = student.email,
                             full_name = student.full_name,
                             city = student.city,
                             age = student.age,

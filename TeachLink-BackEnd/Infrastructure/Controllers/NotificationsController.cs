@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using TeachLink_BackEnd.Core.Helpers;
 using TeachLink_BackEnd.Core.Services.StudentService;
@@ -31,12 +32,12 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             return Ok(notificationDTO);
         }
 
-        [HttpGet("notifications/{id}")]
+        [HttpGet("notifications/id")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NotificationDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetById(string id)
+        public async Task<IActionResult> GetById([Required, FromQuery] string id)
         {
             CheckAuthHelper.GetTokenFromHeader(HttpContext.Request);
 
@@ -59,19 +60,36 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
             return Created();
         }
 
-        [HttpPatch("notifications/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateReviewDTO))]
+        [HttpPatch("notifications/id")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateNotificationDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Update(
-            string id,
-            [FromBody] UpdateNotificationDTO updateNotificationDTO
+            [Required, FromQuery] string id,
+            [Required, FromBody] UpdateNotificationDTO updateNotificationDTO
         )
         {
             CheckAuthHelper.GetTokenFromHeader(HttpContext.Request);
 
             await _notificationService.Update(id, updateNotificationDTO);
+            return Ok();
+        }
+
+
+        [HttpPatch("notifications/ids")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateNotificationListDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateByIds(
+          
+          [Required, FromBody] UpdateNotificationListDTO updateNotificationListDTO
+      )
+        {
+            CheckAuthHelper.GetTokenFromHeader(HttpContext.Request);
+
+            await _notificationService.UpdateMany(updateNotificationListDTO);
             return Ok();
         }
     }

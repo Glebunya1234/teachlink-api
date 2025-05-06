@@ -108,5 +108,18 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
             UpdateHelper.ApplyPatch(updateNotificationDTO, oldmodel);
             await _notificationRepository.Update(id, oldmodel);
         }
+        public async Task UpdateMany(
+           UpdateNotificationListDTO updateNotificationListDTO
+        )
+        {
+            var ids = updateNotificationListDTO.ids;
+            var is_read = updateNotificationListDTO.is_read;
+            if (ids == null || !ids.Any())
+                throw new BadRequestException("Ids list is empty");
+                        
+            var s = await _notificationRepository.GetByIdList(ids)
+               ?? throw new NotFoundException($"Notification with id {ids} was not found");
+            await _notificationRepository.UpdateMany(ids, is_read);
+        }
     }
 }
