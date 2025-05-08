@@ -63,7 +63,7 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
         public async Task<IActionResult> Update(string id, [FromBody] UpdateReviewDTO updateReview)
         {
             await _reviewsService.Update(id, updateReview);
-            return Ok();
+            return Ok(updateReview);
         }
     }
 }
