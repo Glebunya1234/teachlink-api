@@ -1,27 +1,29 @@
-﻿using Supabase;
-using TeachLink_BackEnd.Core.Models;
+﻿using Microsoft.Extensions.Options;
+using MongoDB.Driver;
+using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
 using TeachLink_BackEnd.Infrastructure.Services;
 
 namespace TeachLink_BackEnd.Core.Services.TeacherService
 {
-    public class ExperienceRepository : IExperienceRepository
+    public class ExperienceRepository : MongoService<ExperienceModelMDB>, IExperienceRepository
     {
-        Client _supabase;
+        public ExperienceRepository(IOptions<MongoSettings> options)
+            : base(options, options.Value.ExperiencesCollectionName) { }
 
-        public ExperienceRepository(SupabaseClientFactory supabaseClientFactory)
+        public async Task<IEnumerable<ExperienceModelMDB>> GetAll()
         {
-            _supabase = supabaseClientFactory.CreateClient();
+            return await _collection.Find(_ => true).ToListAsync();
         }
 
-        public async Task<IEnumerable<ExperienceModel>?> GetAll()
+        public async Task<ExperienceModelMDB?> GetById(string id)
         {
-            throw new NotImplementedException();
+            return await _collection.Find(doc => doc.id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<ExperienceModel?> GetById(int id)
+        public async Task<IEnumerable<ExperienceModelMDB>> GetAll(IEnumerable<string> ids)
         {
-            throw new NotImplementedException();
+            return await _collection.Find(exp => ids.Contains(exp.id)).ToListAsync();
         }
     }
 }

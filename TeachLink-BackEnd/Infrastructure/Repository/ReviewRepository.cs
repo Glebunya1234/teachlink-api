@@ -1,37 +1,62 @@
-﻿using Supabase;
-using TeachLink_BackEnd.Core.Models;
+﻿using Microsoft.Extensions.Options;
+using MongoDB.Driver;
+using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
 using TeachLink_BackEnd.Infrastructure.Services;
 
 namespace TeachLink_BackEnd.Core.Services.TeacherService
 {
-    public class ReviewRepository : IReviewRepository
+    public class ReviewRepository : MongoService<ReviewsModelMDB>, IReviewRepository
     {
-        Client _supabase;
+        public ReviewRepository(IOptions<MongoSettings> options)
+            : base(options, options.Value.ReviewsCollectionName) { }
 
-        public ReviewRepository(SupabaseClientFactory supabaseClientFactory)
+        public async Task Create(ReviewsModelMDB reviewsModel)
         {
-            _supabase = supabaseClientFactory.CreateClient();
+            await _collection.InsertOneAsync(reviewsModel);
         }
 
-        public async Task Create(int id_teacher, int id_student, ReviewsModel reviewsModel)
+        public async Task<IEnumerable<ReviewsModelMDB>?> GetAll(
+            string id_teacher,
+            int offset,
+            int limit
+        )
         {
-            throw new NotImplementedException();
+            return await _collection
+                .Find(n => n.id_teacher == id_teacher)
+                .Skip(offset)
+                .Limit(limit)
+                .ToListAsync();
         }
 
-        public async Task<IEnumerable<ReviewsModel>?> GetAll(int id_teacher, int offset, int limit)
+        public async Task<IEnumerable<ReviewsModelMDB>> GetAllByTeacherId(string teacherId)
         {
-            throw new NotImplementedException();
+            var filter = Builders<ReviewsModelMDB>.Filter.Eq(r => r.id_teacher, teacherId);
+            return await _collection.Find(filter).ToListAsync();
         }
 
-        public async Task<ReviewsModel?> GetById(int id_teacher, int id_student)
+        public async Task<ReviewsModelMDB?> GetById(string id_teacher, string id_student)
         {
-            throw new NotImplementedException();
+            return await _collection
+                .Find(r => r.id_teacher == id_teacher && r.id_student == id_student)
+                .FirstOrDefaultAsync();
         }
 
-        public async Task Update(int id_teacher, int id_student, ReviewsModel reviewModel)
+        public async Task<ReviewsModelMDB?> GetById(string id)
         {
-            throw new NotImplementedException();
+            return await _collection.Find(r => r.id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task Update(string id, ReviewsModelMDB reviewModel)
+        {
+            var res = await _collection.ReplaceOneAsync(r => r.id == id, reviewModel);
+            if (res.ModifiedCount == 0)
+                throw new NotImplementedException();
+        }
+
+        public async Task<int> CountAsync()
+        {
+            return (int)await _collection.CountDocumentsAsync(_ => true);
         }
     }
 }

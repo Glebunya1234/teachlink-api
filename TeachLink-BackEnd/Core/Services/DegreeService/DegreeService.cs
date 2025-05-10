@@ -1,25 +1,31 @@
-﻿using TeachLink_BackEnd.Core.Models;
+﻿using TeachLink_BackEnd.Core.Mappers.BaseMappers;
+using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
+using TeachLink_BackEnd.Infrastructure.GlobalHendelrs;
 
 namespace TeachLink_BackEnd.Core.Services.StudentService
 {
-    public class DegreeService
+    public class DegreeService(
+        IDegreeRepository degreeRepository,
+        IBaseMapper<DegreeModelMDB, DegreeDTO> mapper
+    )
     {
-        private readonly IDegreeRepository _degreeRepository;
-
-        public DegreeService(IDegreeRepository degreeRepository)
-        {
-            _degreeRepository = degreeRepository;
-        }
+        private readonly IDegreeRepository _degreeRepository = degreeRepository;
+        private readonly IBaseMapper<DegreeModelMDB, DegreeDTO> _degreeMappers = mapper;
 
         public async Task<IEnumerable<DegreeDTO>> GetAll()
         {
-            throw new NotImplementedException();
+            var degrees = await _degreeRepository.GetAll();
+
+            return _degreeMappers.ToDtoList(degrees);
         }
 
-        public async Task<DegreeDTO?> GetById(int id)
+        public async Task<DegreeDTO?> GetById(string id)
         {
-            throw new NotImplementedException();
+            var degrees =
+                await _degreeRepository.GetById(id)
+                ?? throw new NotFoundException($"\"Degree\" with id {id} was not found");
+            return _degreeMappers.ToDto(degrees);
         }
     }
 }

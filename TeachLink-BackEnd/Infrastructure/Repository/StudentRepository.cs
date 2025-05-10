@@ -1,41 +1,41 @@
-﻿using Supabase;
-using TeachLink_BackEnd.Core.Models;
+﻿using Microsoft.Extensions.Options;
+using MongoDB.Driver;
+using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
 using TeachLink_BackEnd.Infrastructure.Services;
 
 namespace TeachLink_BackEnd.Core.Services.TeacherService
 {
-    public class StudentRepository : IStudentRepository
+    public class StudentRepository : MongoService<StudentsModelMDB>, IStudentRepository
     {
-        private readonly Client _supabase;
+        public StudentRepository(IOptions<MongoSettings> options)
+            : base(options, options.Value.StudentsCollectionName) { }
 
-        public StudentRepository(SupabaseClientFactory supabaseClientFactory)
+        public async Task Create(StudentsModelMDB student)
         {
-            _supabase = supabaseClientFactory.CreateClient();
+            await _collection.InsertOneAsync(student);
         }
 
-        public async Task Create(StudentsModel student)
+        public async Task<IEnumerable<StudentsModelMDB>> GetAll(int offset, int limit)
         {
-            await _supabase.From<StudentsModel>().Insert(student);
+            return await _collection.Find(_ => true).Skip(offset).Limit(limit).ToListAsync();
         }
 
-        public async Task<IEnumerable<StudentsModel>> GetAll(int offset, int limit)
+        public async Task<IEnumerable<StudentsModelMDB>> GetByIdList(IEnumerable<string> ids)
         {
-            var result = await _supabase.From<StudentsModel>().Get();
-
-            return result.Models;
+            return await _collection.Find(stud => ids.Contains(stud.uid)).ToListAsync();
         }
 
-        public async Task<StudentsModel?> GetById(int id)
+        public async Task<StudentsModelMDB?> GetById(string uid)
         {
-            var result = await _supabase.From<StudentsModel>().Where(x => x.id == id).Get();
-
-            return result.Model;
+            return await _collection.Find(s => s.uid == uid).FirstOrDefaultAsync();
         }
 
-        public async Task UpdateById(StudentsModel student)
+        public async Task UpdateById(string id, StudentsModelMDB student)
         {
-            await _supabase.From<StudentsModel>().Update(student);
+            var res = await _collection.ReplaceOneAsync(s => s.uid == id, student);
+            if (res.ModifiedCount == 0)
+                throw new NotImplementedException();
         }
     }
 }

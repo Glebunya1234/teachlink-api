@@ -1,8 +1,6 @@
 ﻿public record CreateStudentDTO
 {
-    public required int id { get; init; }
-    public string full_name { get; init; }
-    public string city { get; init; }
-    public int age { get; init; }
-    public string sex { get; init; }
+    public required string full_name { get; init; }
+    public required string email { get; init; }
+    public required string uid { get; set; }
 }
