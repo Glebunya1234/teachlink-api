@@ -6,6 +6,8 @@
     public required string email { get; init; }
     public string mini_description { get; init; }
     public IEnumerable<SchoolSubjectDTO> school_subjects { get; init; }
+    public string? avatarId { get; set; }
+    public string? avatarUrl { get; set; }
     public string experience { get; init; }
     public string degree { get; init; }
     public string educational_institution { get; init; }

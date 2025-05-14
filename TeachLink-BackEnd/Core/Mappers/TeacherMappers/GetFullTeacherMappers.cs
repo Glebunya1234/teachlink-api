@@ -24,6 +24,8 @@ namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
                 city = dto.city,
                 age = dto.age,
                 sex = dto.sex,
+
+                avatarId = dto.avatarId,
                 average_rating = dto.average_rating,
                 review_count = dto.review_count,
                 year_of_end = dto.year_of_end,
@@ -55,6 +57,10 @@ namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
                 city = model.city,
                 age = model.age,
                 sex = model.sex,
+                avatarUrl = string.IsNullOrEmpty(model.avatarId)
+                    ? null
+                    : $"http://localhost:5204/api/images/{model.avatarId}/avatar",
+                avatarId = model.avatarId,
                 online = model.online,
                 show_info = model.show_info,
                 price = model.price,

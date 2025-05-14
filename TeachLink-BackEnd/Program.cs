@@ -52,15 +52,14 @@ builder.Services.AddSwaggerGen(options =>
 });
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
-        policy.AllowAnyOrigin()    // Разрешает доступ с любого домена
-              .AllowAnyMethod()    // Разрешает все HTTP-методы
-              .AllowAnyHeader());  // Разрешает все заголовки
+    options.AddPolicy(
+        "AllowAll",
+        policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
+    );
 });
 builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection(nameof(MongoSettings)));
 
 builder.Services.AddJwtAuthentication(builder.Configuration);
-
 
 builder.Services.AddScoped<IBaseMapper<DegreeModelMDB, DegreeDTO>, GetDegreeMappers>();
 
@@ -129,10 +128,10 @@ builder.Services.AddScoped<TeachersService>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<ImagesService>();
 
 builder.Services.AddExceptionHandler<HandlerGlobalExeptions>();
 
- 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -142,6 +141,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseExceptionHandler(_ => { });
+
 //app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 app.UseAuthentication();

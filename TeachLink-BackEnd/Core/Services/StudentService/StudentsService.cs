@@ -3,6 +3,7 @@ using TeachLink_BackEnd.Core.Mappers.BaseMappers;
 using TeachLink_BackEnd.Core.ModelsMDB;
 using TeachLink_BackEnd.Core.Repositories;
 using TeachLink_BackEnd.Infrastructure.GlobalHendelrs;
+using TeachLink_BackEnd.Infrastructure.Services;
 
 namespace TeachLink_BackEnd.Core.Services.StudentService
 {
@@ -44,6 +45,7 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
                 await _studentRepository.GetById(id)
                 ?? throw new NotFoundException($"Students with id {id} was not found");
             UpdateHelper.ApplyPatch(student, oldmodel);
+
             await _studentRepository.UpdateById(id, oldmodel);
         }
     }

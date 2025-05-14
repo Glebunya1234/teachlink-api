@@ -10,6 +10,8 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
         private string _email = null!;
         private int _age = 0;
 
+        public string? avatarId { get; set; }
+
         public string full_name
         {
             get => _fullName;

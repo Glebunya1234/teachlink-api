@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using TeachLink_BackEnd.Core.Services.StudentService;
+using TeachLink_BackEnd.Infrastructure.Services;
 
 namespace TeachLink_BackEnd.Infrastructure.Controllers
 {
@@ -10,10 +11,12 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
     public class StudentsController : ControllerBase
     {
         private readonly StudentsService _studentsService;
+        private readonly ImagesService _gridFsService;
 
-        public StudentsController(StudentsService studentsService)
+        public StudentsController(StudentsService studentsService, ImagesService gridFsService)
         {
             _studentsService = studentsService;
+            _gridFsService = gridFsService;
         }
 
         [HttpGet("students")]
@@ -34,8 +37,6 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetById(string uid)
         {
-           
-
             var studentDTO = await _studentsService.GetById(uid);
 
             return Ok(studentDTO);
@@ -49,8 +50,6 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Create([FromBody] CreateStudentDTO createStudentDTO)
         {
-
-
             await _studentsService.Create(createStudentDTO);
             return Ok();
         }

@@ -10,10 +10,12 @@ namespace TeachLink_BackEnd.Infrastructure.Controllers
     public class TeachersController : ControllerBase
     {
         private readonly TeachersService _teachersService;
+        private readonly ImagesService _gridFsService;
 
-        public TeachersController(TeachersService teachersService)
+        public TeachersController(TeachersService teachersService, ImagesService gridFsService)
         {
             _teachersService = teachersService;
+            _gridFsService = gridFsService;
         }
 
         [HttpGet("teachers")]

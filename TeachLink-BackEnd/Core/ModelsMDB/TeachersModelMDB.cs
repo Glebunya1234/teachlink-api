@@ -16,6 +16,8 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
         private int _yearOfEnd = 1900;
         private int _age = 18;
         private int _price = 100;
+        public string? avatarId { get; set; }
+
         public string email
         {
             get => _email;

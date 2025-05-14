@@ -83,6 +83,7 @@ namespace TeachLink_BackEnd.Infrastructure.Services
             }
             bool hasNextPage = (offset + limit) < totalCount;
             var teacherDtos = _getMapper.ToDtoList(teachers);
+
             return new PaginationResponse<TeacherTileDTO>
             {
                 Items = teacherDtos,
@@ -106,8 +107,12 @@ namespace TeachLink_BackEnd.Infrastructure.Services
                 ?? throw new NotFoundException("Experience was not found");
 
             teacher.degree = degree.degree_name;
+
             teacher.experience = experience.experience_name;
-            return _getFullMapper.ToDto(teacher);
+
+            var dto = _getFullMapper.ToDto(teacher);
+
+            return dto;
         }
 
         public async Task Create(CreateTeacherDTO createteacherDto)
@@ -116,23 +121,26 @@ namespace TeachLink_BackEnd.Infrastructure.Services
             await _teacherRepository.Create(model);
         }
 
-        public async Task Update(string id, UpdateTeacherDTO updatteacherDto)
+        public async Task Update(string id, UpdateTeacherDTO updateTeacherDto)
         {
-            var oldmodel =
+            var oldModel =
                 await _teacherRepository.GetById(id)
                 ?? throw new NotFoundException($"Teacher with id {id} was not found");
+
             UpdateHelper.ApplyPatch(
-                updatteacherDto,
-                oldmodel,
-                nameof(updatteacherDto.school_subjects)
+                updateTeacherDto,
+                oldModel,
+                nameof(updateTeacherDto.school_subjects)
             );
 
-            if (updatteacherDto.school_subjects != null)
-                oldmodel.school_subjects = updatteacherDto
+            if (updateTeacherDto.school_subjects != null)
+            {
+                oldModel.school_subjects = updateTeacherDto
                     .school_subjects.Select(s => new SchoolSubjectsModelMDB { Subject = s.Subject })
                     .ToList();
+            }
 
-            await _teacherRepository.UpdateById(id, oldmodel);
+            await _teacherRepository.UpdateById(id, oldModel);
         }
     }
 }

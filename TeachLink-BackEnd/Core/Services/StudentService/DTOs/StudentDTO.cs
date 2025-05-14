@@ -8,6 +8,8 @@
     public int age { get; init; }
     public string sex { get; init; }
     public string phone_number { get; init; }
+    public string? avatarId { get; set; }
+    public string? avatarUrl { get; set; }
     public required DateTime createdAt { get; init; }
     public required DateTime updatedAt { get; init; }
 }

@@ -20,6 +20,8 @@ namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
                 experience = dto.experience,
                 degree = dto.degree,
                 educational_institution = dto.educational_institution,
+                avatarId = dto.avatarId,
+
                 city = dto.city,
                 age = dto.age,
                 online = dto.online,
@@ -45,6 +47,10 @@ namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
                     Subject = s.Subject,
                 }),
                 experience = model.experience,
+                avatarId = model.avatarId,
+                avatarUrl = string.IsNullOrEmpty(model.avatarId)
+                    ? null
+                    : $"http://localhost:5204/api/images/{model.avatarId}/avatar",
                 degree = model.degree,
                 educational_institution = model.educational_institution,
                 city = model.city,

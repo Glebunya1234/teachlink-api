@@ -14,6 +14,7 @@ namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
                 uid = dto.uid,
                 age = dto.age,
                 city = dto.city,
+                avatarId = dto.avatarId,
                 sex = dto.sex,
                 phone_number = dto.phone_number,
                 createdAt = dto.createdAt,
@@ -31,6 +32,10 @@ namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
                 city = model.city,
                 sex = model.sex,
                 phone_number = model.phone_number,
+                avatarId = model.avatarId,
+                avatarUrl = string.IsNullOrEmpty(model.avatarId)
+                    ? null
+                    : $"http://localhost:5204/api/images/{model.avatarId}/avatar",
                 createdAt = model.createdAt,
                 updatedAt = model.updatedAt,
             };
