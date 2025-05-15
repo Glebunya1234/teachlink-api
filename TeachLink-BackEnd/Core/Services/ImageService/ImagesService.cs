@@ -69,6 +69,41 @@ namespace TeachLink_BackEnd.Infrastructure.Services
             return stream;
         }
 
+        public async Task RemoveUserAvatarAsync(DeleteImagesDTO deleteImagesDTO)
+        {
+            if (deleteImagesDTO.for_teacher)
+            {
+                var teacher = await _teachersService.GetById(deleteImagesDTO.uid);
+                if (string.IsNullOrEmpty(teacher.avatarId))
+                    throw new NotFoundException($"Avatar with uid {deleteImagesDTO.uid} not found");
+                if (teacher == null)
+                    throw new NotFoundException(
+                        $"Teacher with uid {deleteImagesDTO.uid} not found"
+                    );
+
+                await _teachersService.Update(
+                    deleteImagesDTO.uid,
+                    new UpdateTeacherDTO { avatarId = null }
+                );
+                await DeleteFileAsync(teacher.avatarId);
+            }
+            else
+            {
+                var student = await _studentsService.GetById(deleteImagesDTO.uid);
+                if (string.IsNullOrEmpty(student.avatarId))
+                    throw new NotFoundException($"Avatar with uid {deleteImagesDTO.uid} not found");
+                if (student == null)
+                    throw new NotFoundException(
+                        $"Student with uid {deleteImagesDTO.uid} not found"
+                    );
+                await _studentsService.Update(
+                    deleteImagesDTO.uid,
+                    new UpdateStudentDTO { avatarId = "" }
+                );
+                await DeleteFileAsync(student.avatarId);
+            }
+        }
+
         public async Task DeleteFileAsync(string avatarId)
         {
             var objectId = new ObjectId(avatarId);

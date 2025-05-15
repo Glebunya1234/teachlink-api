@@ -6,11 +6,13 @@ using TeachLink_BackEnd.Core.Mappers.ExperienceMappers;
 using TeachLink_BackEnd.Core.Mappers.NotificationMappers;
 using TeachLink_BackEnd.Core.Mappers.StudentMappers;
 using TeachLink_BackEnd.Core.ModelsMDB;
+using TeachLink_BackEnd.Core.Processors;
 using TeachLink_BackEnd.Core.Repositories;
 using TeachLink_BackEnd.Core.Services.StudentService;
 using TeachLink_BackEnd.Core.Services.TeacherService;
 using TeachLink_BackEnd.Infrastructure;
 using TeachLink_BackEnd.Infrastructure.GlobalHendelrs;
+using TeachLink_BackEnd.Infrastructure.Processors;
 using TeachLink_BackEnd.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -129,6 +131,9 @@ builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<ImagesService>();
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IUrlProcessor, UrlProcessor>();
 
 builder.Services.AddExceptionHandler<HandlerGlobalExeptions>();
 

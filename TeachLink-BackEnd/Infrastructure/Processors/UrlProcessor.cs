@@ -10,7 +10,7 @@ namespace TeachLink_BackEnd.Infrastructure.Processors
         private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
         private readonly LinkGenerator _linkGenerator = linkGenerator;
 
-        public string GetMediaUrl(string blobName)
+        public string GetImagesUrl(string avatarId)
         {
             var httpContext = _httpContextAccessor.HttpContext;
 
@@ -19,9 +19,9 @@ namespace TeachLink_BackEnd.Infrastructure.Processors
 
             return _linkGenerator.GetUriByAction(
                     httpContext,
-                    action: "GetMedia",
-                    controller: "Media",
-                    values: new { fileName = blobName }
+                    action: "GetAvatar",
+                    controller: "Images",
+                    values: new { avatar_id = avatarId }
                 ) ?? throw new Exception("Could not generate media URL.");
         }
     }

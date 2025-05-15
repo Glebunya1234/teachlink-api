@@ -1,10 +1,18 @@
 ﻿using TeachLink_BackEnd.Core.Mappers.BaseMappers;
 using TeachLink_BackEnd.Core.ModelsMDB;
+using TeachLink_BackEnd.Core.Processors;
 
 namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
 {
     public class GetStudentMappers : BaseMapper<StudentsModelMDB, StudentDTO>
     {
+        private readonly IUrlProcessor _urlProcessor;
+
+        public GetStudentMappers(IUrlProcessor urlProcessor)
+        {
+            _urlProcessor = urlProcessor;
+        }
+
         public override StudentsModelMDB ToModel(StudentDTO dto) =>
             new StudentsModelMDB
             {
@@ -35,7 +43,7 @@ namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
                 avatarId = model.avatarId,
                 avatarUrl = string.IsNullOrEmpty(model.avatarId)
                     ? null
-                    : $"http://localhost:5204/api/images/{model.avatarId}/avatar",
+                    : _urlProcessor.GetImagesUrl(model.avatarId),
                 createdAt = model.createdAt,
                 updatedAt = model.updatedAt,
             };

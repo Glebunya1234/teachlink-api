@@ -1,10 +1,18 @@
 ﻿using TeachLink_BackEnd.Core.Mappers.BaseMappers;
 using TeachLink_BackEnd.Core.ModelsMDB;
+using TeachLink_BackEnd.Core.Processors;
 
 namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
 {
     public class GetFullTeacherMappers : BaseMapper<TeachersModelMDB, FullTeacherTileDTO>
     {
+        private readonly IUrlProcessor _urlProcessor;
+
+        public GetFullTeacherMappers(IUrlProcessor urlProcessor)
+        {
+            _urlProcessor = urlProcessor;
+        }
+
         public override TeachersModelMDB ToModel(FullTeacherTileDTO dto) =>
             new TeachersModelMDB
             {
@@ -24,7 +32,6 @@ namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
                 city = dto.city,
                 age = dto.age,
                 sex = dto.sex,
-
                 avatarId = dto.avatarId,
                 average_rating = dto.average_rating,
                 review_count = dto.review_count,
@@ -59,7 +66,7 @@ namespace TeachLink_BackEnd.Core.Mappers.StudentMappers
                 sex = model.sex,
                 avatarUrl = string.IsNullOrEmpty(model.avatarId)
                     ? null
-                    : $"http://localhost:5204/api/images/{model.avatarId}/avatar",
+                    : _urlProcessor.GetImagesUrl(model.avatarId),
                 avatarId = model.avatarId,
                 online = model.online,
                 show_info = model.show_info,

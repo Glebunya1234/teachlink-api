@@ -2,6 +2,6 @@
 {
     public interface IUrlProcessor
     {
-        string GetMediaUrl(string blobName);
+        string GetImagesUrl(string blobName);
     }
 }
