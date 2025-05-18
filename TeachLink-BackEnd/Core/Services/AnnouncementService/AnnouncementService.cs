@@ -2,6 +2,7 @@
 using TeachLink_BackEnd.Core.Helpers;
 using TeachLink_BackEnd.Core.Mappers.BaseMappers;
 using TeachLink_BackEnd.Core.ModelsMDB;
+using TeachLink_BackEnd.Core.Processors;
 using TeachLink_BackEnd.Core.Repositories;
 using TeachLink_BackEnd.Core.Services.TeacherService;
 using TeachLink_BackEnd.Infrastructure.GlobalHendelrs;
@@ -12,7 +13,8 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
         IAnnouncementRepository announcementRepository,
         IStudentRepository studentRepository,
         IBaseMapper<AnnouncementsModelMDB, CreateAnnouncementDTO> createMapper,
-        IBaseMapper<AnnouncementsModelMDB, AnnouncementDTO> getMapper
+        IBaseMapper<AnnouncementsModelMDB, AnnouncementDTO> getMapper,
+        IUrlProcessor urlProcessor
     )
     {
         private readonly IAnnouncementRepository _announcementRepository = announcementRepository;
@@ -48,7 +50,12 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
             var students = await _studentRepository.GetByIdList(studentIds);
 
             var studentDict = students.ToDictionary(s => s.uid, s => s);
-            var enrichedDtos = AnnouncementHelper.EnrichNotifications(dtoList, result, studentDict);
+            var enrichedDtos = AnnouncementHelper.EnrichNotifications(
+                dtoList,
+                result,
+                studentDict,
+                urlProcessor
+            );
             return new PaginationResponse<AnnouncementDTO>
             {
                 Items = enrichedDtos,
@@ -65,7 +72,12 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
 
             var students = await _studentRepository.GetById(uid);
 
-            var enrichedDtos = AnnouncementHelper.EnrichNotifications(dtoList, result, students);
+            var enrichedDtos = AnnouncementHelper.EnrichNotifications(
+                dtoList,
+                result,
+                students,
+                urlProcessor
+            );
             return enrichedDtos;
         }
 
@@ -82,7 +94,12 @@ namespace TeachLink_BackEnd.Core.Services.StudentService
                     $"Student with id {result.id_student} was not found"
                 );
 
-            var enrichedDto = AnnouncementHelper.EnrichNotification(dto, result, students);
+            var enrichedDto = AnnouncementHelper.EnrichNotification(
+                dto,
+                result,
+                students,
+                urlProcessor
+            );
             return enrichedDto;
         }
 

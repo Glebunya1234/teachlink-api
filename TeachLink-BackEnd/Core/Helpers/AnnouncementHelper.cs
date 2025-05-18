@@ -1,4 +1,5 @@
 ﻿using TeachLink_BackEnd.Core.ModelsMDB;
+using TeachLink_BackEnd.Core.Processors;
 
 namespace TeachLink_BackEnd.Core.Helpers
 {
@@ -7,7 +8,8 @@ namespace TeachLink_BackEnd.Core.Helpers
         public static IEnumerable<AnnouncementDTO> EnrichNotifications(
             IEnumerable<AnnouncementDTO> dtoList,
             IEnumerable<AnnouncementsModelMDB> results,
-            Dictionary<string, StudentsModelMDB> studentDict
+            Dictionary<string, StudentsModelMDB> studentDict,
+            IUrlProcessor urlProcessor
         )
         {
             return dtoList.Select(dto =>
@@ -28,6 +30,9 @@ namespace TeachLink_BackEnd.Core.Helpers
                                 uid = student.uid,
                                 email = student.email,
                                 full_name = student.full_name,
+                                avatarUrl = string.IsNullOrEmpty(student.avatarId)
+                                    ? null
+                                    : urlProcessor.GetImagesUrl(student.avatarId),
                                 city = student.city,
                                 age = student.age,
                                 sex = student.sex,
@@ -43,7 +48,8 @@ namespace TeachLink_BackEnd.Core.Helpers
         public static IEnumerable<AnnouncementDTO> EnrichNotifications(
             IEnumerable<AnnouncementDTO> dtoList,
             IEnumerable<AnnouncementsModelMDB> results,
-            StudentsModelMDB student
+            StudentsModelMDB student,
+            IUrlProcessor urlProcessor
         )
         {
             return dtoList.Select(dto =>
@@ -62,6 +68,9 @@ namespace TeachLink_BackEnd.Core.Helpers
                                 full_name = student.full_name,
                                 city = student.city,
                                 age = student.age,
+                                avatarUrl = string.IsNullOrEmpty(student.avatarId)
+                                    ? null
+                                    : urlProcessor.GetImagesUrl(student.avatarId),
                                 sex = student.sex,
                                 phone_number = student.phone_number,
                                 createdAt = student.createdAt,
@@ -75,7 +84,8 @@ namespace TeachLink_BackEnd.Core.Helpers
         public static AnnouncementDTO EnrichNotification(
             AnnouncementDTO dto,
             AnnouncementsModelMDB result,
-            StudentsModelMDB student
+            StudentsModelMDB student,
+            IUrlProcessor urlProcessor
         )
         {
             return dto with
@@ -89,6 +99,9 @@ namespace TeachLink_BackEnd.Core.Helpers
                             email = student.email,
                             full_name = student.full_name,
                             city = student.city,
+                            avatarUrl = string.IsNullOrEmpty(student.avatarId)
+                                ? null
+                                : urlProcessor.GetImagesUrl(student.avatarId),
                             age = student.age,
                             sex = student.sex,
                             phone_number = student.phone_number,

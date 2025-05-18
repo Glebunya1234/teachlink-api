@@ -83,7 +83,7 @@ namespace TeachLink_BackEnd.Infrastructure.Services
 
                 await _teachersService.Update(
                     deleteImagesDTO.uid,
-                    new UpdateTeacherDTO { avatarId = null }
+                    new UpdateTeacherDTO { avatarId = "" }
                 );
                 await DeleteFileAsync(teacher.avatarId);
             }

@@ -12,6 +12,7 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
         private string _fullName = null!;
         private string _email = null!;
         private string? _miniDescription;
+        private decimal _averageRating = 0;
         private string? _description;
         private int _yearOfEnd = 1900;
         private int _age = 18;
@@ -32,7 +33,11 @@ namespace TeachLink_BackEnd.Core.ModelsMDB
             }
         }
 
-        public decimal average_rating { get; set; } = 0;
+        public decimal average_rating
+        {
+            get => _averageRating;
+            set => _averageRating = Math.Round(value, 1);
+        }
         public int review_count { get; set; } = 0;
         public string? phone_number { get; set; }
         public string full_name
