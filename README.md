@@ -2,7 +2,7 @@
   <tr>
     <td width='1200px' height='120px'>
       <p align="center">
-        <img src="assets/TeachLinkAPI.png" width='750px' alt="LogoBot">
+        <img src="TeachLink-BackEnd/assets/TeachLinkAPI.png" width='750px' alt="LogoBot">
       </p>
     </td>
   </tr>
@@ -44,7 +44,7 @@
 </tr>
   <tr>
     <td>
-      <p align="center"><img src="assets/swagger.png" alt="Screen1"></p>
+      <p align="center"><img src="TeachLink-BackEnd/assets/swagger.png" alt="Screen1"></p>
     </td>
 </table>
 
