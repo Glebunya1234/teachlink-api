@@ -6,12 +6,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>TeachLink_BackEnd</RootNamespace>
     <UserSecretsId>fd96853c-e490-4256-b6cb-51d0b3dcb23b</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="9.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
     <PackageReference Include="MongoDB.Driver" Version="3.3.0" />
     <PackageReference Include="Supabase" Version="1.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="7.3.1" />
