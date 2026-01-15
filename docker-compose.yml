@@ -1,0 +1,60 @@
+services:
+  teachlink-backend:
+    container_name: teachlink-backend
+    image: tlback
+    build:
+      context: ./backend
+      dockerfile: TeachLink-BackEnd/Dockerfile
+     
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+      - Authentication__JwtSecret=${Authentication__JwtSecret}
+      - MongoSettings__ConnectionString=${MongoSettings__ConnectionString}
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - Supabase__SupabaseKey=${Supabase__SupabaseKey}
+      - Supabase__SupabaseUrl=${Supabase__SupabaseUrl}
+
+    ports:
+      - "8080:8080"
+    depends_on:
+      tlmongo-db:
+        condition: service_healthy
+ 
+  tlmongo-db:
+    container_name: tlmongo-db
+    image: mongo
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongodb-data:/data/db 
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    healthcheck:
+      test: ["CMD", "mongosh", "--username", "${MONGO_INITDB_ROOT_USERNAME}", "--password", "${MONGO_INITDB_ROOT_PASSWORD}", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+ 
+  teachlink-frontend:
+    container_name: teachlink-frontend
+    image: tlfront
+    build:
+      context: ../TeachLink-FrontEnd/teachlink
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+        - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+    depends_on:
+      - teachlink-backend
+
+volumes:
+  mongodb-data:

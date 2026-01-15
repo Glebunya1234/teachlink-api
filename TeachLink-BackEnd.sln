@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeachLink-BackEnd", "TeachL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeachLink-UnitTests", "TeachLink-UnitTests\TeachLink-UnitTests.csproj", "{4D919B03-D00B-4086-BB18-7C57D42D17FA}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{A167351A-05A2-49C2-863A-28623BBF9660}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{4D919B03-D00B-4086-BB18-7C57D42D17FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D919B03-D00B-4086-BB18-7C57D42D17FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D919B03-D00B-4086-BB18-7C57D42D17FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A167351A-05A2-49C2-863A-28623BBF9660}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A167351A-05A2-49C2-863A-28623BBF9660}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A167351A-05A2-49C2-863A-28623BBF9660}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A167351A-05A2-49C2-863A-28623BBF9660}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
